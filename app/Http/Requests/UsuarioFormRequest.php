@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UsuarioFormRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $id_usuario = $this->route('usuario') ?? 'NULL';
+        return [
+            'name' => 'required|string|max:50',
+            'ci' => 'required|string|max:20|unique:users,ci,' . $id_usuario . ',id',
+            'password' => 'required|string|min:8',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'El campo nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser una cadena de texto.',
+            'name.max' => 'El nombre no puede tener más de 50 caracteres.',
+            'ci.required' => 'El campo CI es obligatorio.',
+            'ci.string' => 'El CI debe ser una cadena de texto.',
+            'ci.max' => 'El CI no puede tener más de 20 caracteres.',
+            'ci.unique' => 'El CI ya existe en la base de datos.',
+            'password.required' => 'El campo contraseña es obligatorio.',
+            'password.string' => 'La contraseña debe ser una cadena de texto.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+        ];
+    }
+}
