@@ -4,16 +4,14 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: 'Poppins', 'Arial', 'Helvetica Neue', sans-serif;
+    font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
     font-size: 0.9rem;
     /* font-family: 'Nunito Sans', 'Arial', 'Helvetica Neue', sans-serif; */
 }
 
-
 /* body * {
     border: 2px solid red;
 } */
-
 
 table tr {
     line-height: 1;
@@ -25,8 +23,6 @@ table tr {
     padding: 0, 0;
     /* Espaciado en el eje Y (vertical) */
 }
-
-
 
 .form-group {
     margin-bottom: 1rem;
@@ -43,7 +39,7 @@ a {
 }
 
 .card {
-    border: 0.40rem solid white;
+    border: 0.4rem solid white;
 }
 
 .card-transparent {
@@ -70,9 +66,7 @@ input.form-check-input:focus {
     outline: none;
     box-shadow: 0 0 7px rgba(77, 106, 71, 0.5);
     border-color: rgba(77, 106, 71, 1);
-
 }
-
 
 /* ///// */
 .bg-green-hover:hover {
@@ -96,20 +90,23 @@ input.form-check-input:focus {
 }
 
 .bg-gradient-green {
-    background: linear-gradient(135deg,
-            rgba(77, 106, 71, 1) 0%,
-            rgba(212, 228, 217, 1) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(77, 106, 71, 1) 0%,
+        rgba(212, 228, 217, 1) 100%
+    );
 }
 
 .bg-gradient-green-reverse {
-    background: linear-gradient(135deg,
-            rgba(212, 228, 217, 1) 0%,
-            rgba(77, 106, 71, 1) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(212, 228, 217, 1) 0%,
+        rgba(77, 106, 71, 1) 100%
+    );
 }
 
-
 .bg-green {
-    background-color: rgba(77, 106, 71, 1)
+    background-color: rgba(77, 106, 71, 1);
 }
 
 .bg-green-medium {

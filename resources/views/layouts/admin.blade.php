@@ -33,10 +33,10 @@
                     <li class="nav-item my-2">
                         <span class="text-green-light ps-2">Gestión de Inventario</span>
                         <div class="card-transparent mt-2">
-                            <a href="{{ route('productos.index') }}" class="nav-link text-white bg-green-hover">
-                                <i class="bi bi-cart-fill"></i> Productos</a>
                             <a href="{{ route('categorias.index') }}" class="nav-link text-white bg-green-hover">
                                 <i class="bi bi-tags-fill"></i> Categorías</a>
+                            <a href="{{ route('productos.index') }}" class="nav-link text-white bg-green-hover">
+                                <i class="bi bi-cart-fill"></i> Productos</a>
 
                         </div>
                     </li>
@@ -56,6 +56,15 @@
                                 <i class="bi bi-building-fill"></i> Unidades</a>
                             <a href="{{ route('salidas.index') }}" class="nav-link text-white bg-green-hover">
                                 <i class="bi bi-file-earmark-minus-fill"></i> Registrar Salida</a>
+                        </div>
+                    </li>
+                    <li class="nav-item my-2">
+                        <span class="text-green-light ps-2">Reportes</span>
+                        <div class="card-transparent mt-2">
+                            <a href="{{ route('saldo') }}" class="nav-link text-white bg-green-hover">
+                                <i class="bi bi-building-fill"></i> Saldos de Almacén</a>
+                            <a href="{{ route('movimientos') }}" class="nav-link text-white bg-green-hover">
+                                <i class="bi bi-file-earmark-minus-fill"></i> Movimiento de Almacén</a>
                         </div>
                     </li>
                     <li class="nav-item my-2">

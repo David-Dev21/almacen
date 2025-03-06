@@ -30,6 +30,7 @@
                             <th>Unidad</th>
                             <th>Stock</th>
                             <th>Estado</th>
+                            <th>Categoria</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                                         <span class="badge text-bg-danger">Inactivo</span>
                                     @endif
                                 </td>
+                                <td>{{ $item->id_categoria }}</td>
                                 <td>
                                     <a href="{{ route('productos.edit', $item->id_producto) }}" class="btn btn-labeled btn-warning btn-small">
                                         <span class="btn-label"><i class="bi bi-pen-fill"></i></span>Editar

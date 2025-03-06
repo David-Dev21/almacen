@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group col-2">
                         <label for="txtLote">Lote:</label>
-                        <input type="text" class="form-control" name="lote">
+                        <input type="text" class="form-control" name="lote" value="{{ $siguienteLote }}" readonly>
                     </div>
                 </div>
                 <div class="row">

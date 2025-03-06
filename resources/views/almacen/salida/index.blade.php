@@ -29,7 +29,6 @@
                             <th>Fecha y Hora</th>
                             <th>N° de Hoja de Ruta</th>
                             <th>N° de Pedido</th>
-                            <th>Estado</th>
                             <th>Total</th>
                             <th>Opciones</th>
                         </tr>
@@ -41,7 +40,6 @@
                                 <td>{{ $item->fecha_hora }}</td>
                                 <td>{{ $item->n_hoja_ruta }}</td>
                                 <td>{{ $item->n_pedido }}</td>
-                                <td>{{ $item->estado }}</td>
                                 <td>{{ $item->total }}</td>
                                 <td>
                                     <a href="{{ route('salidas.show', $item->id_salida) }}" class="btn btn-warning btn-labeled btn-small">

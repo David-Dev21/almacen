@@ -133,4 +133,39 @@ class ProductoController extends Controller
             return back()->with(['error' => 'Error al eliminar el producto']);
         }
     }
+
+    public function generarCodigo($id_categoria)
+    {
+        // Encontrar la categoría por ID
+        $categoria = Categoria::find($id_categoria);
+        if (!$categoria) {
+            return response()->json(['codigo' => ''], 404);
+        }
+
+        // Obtener el código de la categoría
+        $categoriaCodigo = $categoria->codigo;
+
+        // Buscar el último producto de la categoría ordenado por su código en orden descendente
+        $ultimoProducto = Producto::where('id_categoria', $id_categoria)
+            ->orderByRaw('CAST(SUBSTRING_INDEX(codigo, "-", -1) AS UNSIGNED) DESC')
+            ->first();
+
+        // Definir el nuevo número como 1 por defecto
+        $nuevoNumero = 1;
+
+        // Si hay un último producto, extraer el número y sumar 1
+        if ($ultimoProducto) {
+            $ultimoCodigo = $ultimoProducto->codigo;
+            $partesCodigo = explode('-', $ultimoCodigo);
+            if (count($partesCodigo) == 2 && is_numeric($partesCodigo[1])) {
+                $nuevoNumero = intval($partesCodigo[1]) + 1;
+            }
+        }
+
+        // Generar el nuevo código con el número incrementado
+        $codigo = $categoriaCodigo . '-' . str_pad($nuevoNumero, 5, '0', STR_PAD_LEFT);
+
+        // Retornar el código generado en una respuesta JSON
+        return response()->json(['codigo' => $codigo]);
+    }
 }

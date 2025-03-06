@@ -37,7 +37,7 @@ class SalidaController extends Controller
     {
         // Utilizando modelos para obtener los datos
         $unidades = Unidad::all()->where('estado', '=', '1');
-        $productos = DB::select("select p.id_producto,concat(di.lote, ' - ',p.descripcion) AS producto_lote, p.stock, di.lote, di.cantidad_disponible, di.costo_u from productos p inner join detalle_ingresos di on p.id_producto = di.id_producto where p.stock > 0 and di.cantidad_disponible > 0 and p.estado = 1;");
+        $productos = DB::select("select p.id_producto,concat(di.lote, ' | ',p.descripcion ,' | ',di.cantidad_disponible) AS producto_lote, p.stock, di.lote, di.cantidad_disponible, di.costo_u from productos p inner join detalle_ingresos di on p.id_producto = di.id_producto where p.stock > 0 and di.cantidad_disponible > 0 and p.estado = 1;");
         return view('almacen.salida.create', compact("unidades", "productos"));
     }
 
@@ -85,6 +85,7 @@ class SalidaController extends Controller
                     // Restar la cantidad del detalle de ingreso
                     DB::table('detalle_ingresos')
                         ->where('id_producto', $detalle_ingreso->id_producto)
+                        ->where('lote', $detalle_ingreso->lote)
                         ->decrement('cantidad_disponible', $cantidad[$cont]);
 
                     // Calcular el total
@@ -121,10 +122,8 @@ class SalidaController extends Controller
             ->first();
 
         // Obtener los detalles de los productos del salida
-        $detalles = DB::table('detalle_salidas as d')
-            ->join('productos as p', 'd.id_producto', '=', 'p.id_producto')
-            ->select('p.codigo', 'p.descripcion as producto', 'p.unidad', 'd.cantidad', 'd.costo_u', 'd.lote')
-            ->where('d.id_salida', '=', $id)
+        $detalles = DB::table('vista_detalle_salidas_con_categorias')
+            ->where('id_salida', $id)
             ->get();
 
         // Devolver la vista con los datos del salida y los detalles

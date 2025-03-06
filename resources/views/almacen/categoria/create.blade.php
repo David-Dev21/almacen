@@ -12,14 +12,14 @@
             <form action="{{ route('categorias.store') }}" method="POST">
                 @csrf
                 <div class="row">
-                    <div class="form-group col-6">
-                        <label for="inputCodigo" class="form-label">Código</label>
-                        <input type="text" class="form-control" name="codigo" id="inputCodigo" value="{{ old('codigo') }}">
+                    <div class="form-group col-md-6">
+                        <label for="inputCodigo">Código</label>
+                        <input type="text" class="form-control" name="codigo" id="inputCodigo" value="{{ old('codigo') }}" placeholder="">
                         @if ($errors->has('codigo'))
                             <div class="text-danger">{{ $errors->first('codigo') }}</div>
                         @endif
                     </div>
-                    <div class="form-group col-5">
+                    <div class="form-group col-6 col-md-5">
                         <label>Estado</label>
                         <div class="d-flex flex-row mt-1 justify-content-between">
                             <div class="form-check">
@@ -37,9 +37,9 @@
                             <div class="text-danger">{{ $errors->first('estado') }}</div>
                         @endif
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-md-12">
                         <label for="inputDescripcion">Descripción</label>
-                        <textarea class="form-control" type="text" rows="3" name="descripcion" id="inputDescripcion">{{ old('descripcion') }}</textarea>
+                        <textarea class="form-control" type="text" rows="3" name="descripcion" id="inputDescripcion" placeholder="">{{ old('descripcion') }}</textarea>
                         @if ($errors->has('descripcion'))
                             <div class="text-danger">{{ $errors->first('descripcion') }}</div>
                         @endif

@@ -19,7 +19,7 @@
             @endif
             <div class="card-body d-flex flex-column" style="height: calc(100vh - 80px);">
                 <div class="row">
-                    <div class="form-group col-3">
+                    <div class="form-group col-md-6">
                         <label for="selectUnidad">Unidad:</label>
                         <select class="form-select" name="id_unidad" id="selectUnidad">
                             <option></option>
@@ -28,17 +28,17 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-md-3">
                         <label for="n_hoja_ruta">N° de Hoja de Ruta:</label>
                         <input type="text" class="form-control" name="n_hoja_ruta">
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-md-3">
                         <label for="n_pedido">N° de Pedido:</label>
                         <input type="text" class="form-control" name="n_pedido">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-3">
+                    <div class="form-group col-md-6">
                         <label for="selectProducto">Lote - Producto:</label>
                         <select class="form-select" name="selectProducto" id="selectProducto">
                             <option></option>
@@ -49,20 +49,20 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-2">
+                    <div class="form-group col-md-1">
                         <label for="txtCantidad">Cantidad:</label>
                         <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min="1"
                             max="{{ $item->cantidad_disponible }}" placeholder="0">
                     </div>
-                    <div class="form-group col-2">
+                    <div class="form-group col-md-1">
                         <label for="txtStock">Stock:</label>
                         <input type="number" class="form-control" name="stock" id="txtStock" disabled>
                     </div>
-                    <div class="form-group col-2">
+                    <div class="form-group col-md-2">
                         <label for="txtCostoU">Costo:</label>
                         <input type="number" class="form-control" name="costo_u" id="txtCostoU" disabled>
                     </div>
-                    <div class="form-group col-3 d-flex justify-content-end">
+                    <div class="form-group col-md-2 d-flex justify-content-end">
                         <button type="button" id="btnAgregar" class="btn btn-primary btn-labeled mt-auto">
                             <span class="btn-label"><i class="bi bi-cart-plus-fill"></i></span>Agregar</button>
                     </div>
@@ -204,6 +204,9 @@
 
             function limpiar() {
                 $('#txtCantidad').val("");
+                $('#txtCostoU').val("");
+                $('#txtStock').val("");
+                $('#selectProducto').val("").trigger('change');
             }
 
             function eliminar(index, idProducto, cantidad) {
