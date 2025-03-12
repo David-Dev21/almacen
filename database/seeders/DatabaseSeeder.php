@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         // Crear un usuario específico
         DB::table('users')->insert([
-            'name' => 'Ruben David',
-            'ci' => '9911191',
-            'password' => Hash::make('rubendavid'),
+            'name' => 'Ruben David Mamani Ali',
+            'ci' => 'Admin',
+            'password' => Hash::make('12345678'),
             'created_at' => now(),
             'updated_at' => now()
         ]);

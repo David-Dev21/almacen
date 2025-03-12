@@ -2,18 +2,17 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
-    // server: {
-    //     host: '192.168.0.105', // Usa tu dirección IP local
-    //     port: 5173,           // Puerto predeterminado de Vite
-    //     strictPort: true,     // Asegura que el puerto no cambie
-    // },
     plugins: [
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
+                'resources/js/app.js', // Asegúrate de que este archivo exista y sea tu punto de entrada
             ],
-            refresh: true,
+            refresh: true, // Esto permite recargar el navegador en modo desarrollo cuando hay cambios
         }),
     ],
+    build: {
+        outDir: 'public/build', // Carpeta de salida para los archivos compilados
+        manifest: true, // Activa la generación de un archivo manifest.json, necesario para el trabajo con Vite y Laravel
+    },
 });
