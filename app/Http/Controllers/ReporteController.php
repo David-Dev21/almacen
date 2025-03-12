@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReporteController extends Controller
 {
+    public function __construct() {}
 
     public function movimientoAlmacen(Request $request)
     {
