@@ -5,7 +5,7 @@
             <div class="col-md-4 my-1">
                 <div class="card-dashboard shadow-lg p-2">
                     <div class="card-body d-flex justify-content-between">
-                        <i class="bi bi-cart fs-1 text-primary my-auto px-2"></i>
+                        <i class="bi bi-cart fs-1 my-auto px-2"></i>
                         <div class="d-flex flex-column my-auto w-100">
                             <span class="text-center fs-5">Productos Totales</span>
                             <span class="small text-muted text-center">{{ $fecha }}</span>
@@ -94,13 +94,28 @@
     </section>
 @endsection
 @push('scripts')
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('welcomeShown') === false)
+                Swal.fire({
+                    title: 'Bienvenido al Sistema de Almacén',
+                    text: '{{ Auth::user()->name }}',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#0b5ed7'
+                }).then(() => {
+                    @php
+                        session(['welcomeShown' => true]);
+                    @endphp
+                });
+            @endif
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('myChart').getContext('2d');
             const productosPorCategoriaArray = {!! json_encode($productosPorCategoria->pluck('productos_count', 'descripcion')->toArray()) !!};
-
-            console.log('productosPorCategoriaArray:', productosPorCategoriaArray); // Depuración
-
             const data = {
                 labels: Object.keys(productosPorCategoriaArray),
                 datasets: [{

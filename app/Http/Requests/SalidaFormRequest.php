@@ -44,10 +44,6 @@ class SalidaFormRequest extends FormRequest
             ],
             'id_unidad' => ['required', 'exists:unidades,id_unidad'],
 
-            // Validaciones para la tabla DetalleSalidas
-            'id_producto' => 'required|array',
-            'cantidad' => 'required|array',
-
         ];
     }
     public function messages()
@@ -64,10 +60,6 @@ class SalidaFormRequest extends FormRequest
             'n_pedido.unique' => 'El número de pedido ya existe para esta unidad.',
             'id_unidad.required' => 'La unidad es obligatoria.',
             'id_unidad.exists' => 'La unidad seleccionada no es válida.',
-
-            // Mensajes para la tabla DetalleSalidas
-            'id_producto' => 'Selecione un producto.',
-            'cantidad.required' => 'La cantidad es obligatoria.',
         ];
     }
 }

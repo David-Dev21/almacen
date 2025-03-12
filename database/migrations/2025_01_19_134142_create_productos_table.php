@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('descripcion', 255)->notNullable();
             $table->integer('stock')->default(0)->check('stock >= 0')->notNullable();
             $table->string('unidad', 20)->notNullable();
-            $table->string('imagen', 20)->nullable();
             $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
             $table->unsignedInteger('id_categoria');
             $table->timestamps();

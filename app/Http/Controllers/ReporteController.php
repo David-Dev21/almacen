@@ -9,57 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class ReporteController extends Controller
 {
-    private function obtenerDatosSalida($id)
-    {
-        return DB::table('vista_salidas')
-            ->where('id_salida', '=', $id)
-            ->first();
-    }
-
-    private function obtenerDetallesSalida($id)
-    {
-        return DB::table('vista_detalle_salidas_con_categorias')
-            ->where('id_salida', $id)
-            ->get();
-    }
-
-    public function generarSalidaPDF(Request $request, $id)
-    {
-        // Obtener datos
-        $salida = $this->obtenerDatosSalida($id);
-        $detalles = $this->obtenerDetallesSalida($id);
-
-        // Obtener categorías únicas de los detalles
-        $categorias = $detalles->pluck('categoria')->unique();
-
-        // Ruta del logo
-        $logoPath = public_path('img/logo-para-pdf.jpg');
-
-        // Datos para la vista
-        $data = [
-            'logoPath' => $logoPath,
-            'fecha' => Carbon::parse($salida->fecha_hora)->format('d/m/Y'),
-            'salida' => $salida,
-            'detalles' => $detalles,
-            'categorias' => $categorias,
-            'mostrarCostos' => $request->input('mostrarCostos', false), // Obtener el parámetro mostrarCostos
-        ];
-
-        // Generar el PDF
-        $pdf = Pdf::loadView('almacen.reporte.salida', $data);
-
-        // Configurar el tamaño del papel a "oficio" (legal) y la orientación a vertical ("portrait")
-        $pdf->setPaper('letter', 'portrait')
-            ->setOption('margin-top', 0) // Margen superior en mm
-            ->setOption('margin-bottom', 10) // Margen inferior en mm
-            ->setOption('margin-left', 10) // Margen izquierdo en mm
-            ->setOption('margin-right', 10) // Margen derecho en mm
-            ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
-            ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
-
-        // Mostrar el PDF en el navegador
-        return $pdf->stream('reporte_salida_' . $id . '.pdf');
-    }
 
     public function movimientoAlmacen(Request $request)
     {

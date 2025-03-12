@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UsuarioFormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -68,5 +71,35 @@ class UsuarioController extends Controller
             Log::error("Error al desactivar el usuario: " . $e->getMessage());
             return back()->with(['error' => 'Error al desactivar el usuario']);
         }
+    }
+
+    public function showChangePasswordForm()
+    {
+        return view('usuarios.change-password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        // Validar los datos
+        $request->validate([
+            'current_password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Obtener el usuario autenticado
+        $usuario = auth()->user();
+
+        // Verificar la contraseña actual
+        if (!Hash::check($request->current_password, $usuario->password)) {
+            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+        }
+
+        // Actualizar la contraseña directamente en la base de datos
+        DB::table('users')
+            ->where('id', $usuario->id)
+            ->update(['password' => bcrypt($request->new_password)]);
+
+        // Redirigir con éxito
+        return redirect()->route('usuarios.change-password')->with('success', 'Contraseña actualizada correctamente.');
     }
 }

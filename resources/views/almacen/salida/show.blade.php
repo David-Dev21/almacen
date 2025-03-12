@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('salidas.index') }}">Salidas</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('salidas.index') }}" class="link">Salidas</a></li>
     <li class="breadcrumb-item active">Detalles de la Salida</li>
 @endsection
 @section('contenido')
@@ -15,18 +15,18 @@
         <!-- Cuerpo del card -->
         <div class="card-body d-flex flex-column" style="height: calc(100vh - 120px);">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="d-flex">
                         <strong>Destino:</strong><span class="ms-2">{{ $salida->nombre_unidad }}</span>
                     </div>
                     <div class="d-flex">
-                        <strong>Hoja de Ruta:</strong><span class="ms-2">{{ $salida->n_hoja_ruta }}</span>
+                        <strong>Nº Hoja de Ruta:</strong><span class="ms-2">{{ $salida->n_hoja_ruta }}</span>
                     </div>
                     <div class="d-flex">
-                        <strong>Pedido:</strong><span class="ms-2">{{ $salida->n_pedido }}</span>
+                        <strong>Nº Pedido:</strong><span class="ms-2">{{ $salida->n_pedido }}</span>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="d-flex">
                         <strong>Nº Egreso:</strong><span class="ms-2">{{ $salida->id_salida }}</span>
                     </div>
@@ -37,13 +37,13 @@
                         <strong>Fecha:</strong><span class="ms-2">{{ $salida->fecha_hora }}</span>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 d-flex justify-content-between">
                     <a href="{{ route('reporte-salida', ['id' => $salida->id_salida, 'mostrarCostos' => true]) }}" target="_blank"
-                        class="btn btn-labeled btn-danger my-1">
+                        class="btn btn-labeled btn-danger my-auto">
                         <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Con Valorada
                     </a>
                     <a href="{{ route('reporte-salida', ['id' => $salida->id_salida, 'mostrarCostos' => false]) }}" target="_blank"
-                        class="btn btn-labeled btn-danger my-1">
+                        class="btn btn-labeled btn-danger my-auto">
                         <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Sin Valorada
                     </a>
                 </div>
@@ -52,25 +52,22 @@
             <div class="table-responsive overflow-auto flex-grow-1 mt-3">
                 <table class="table table-hover table-bordered align-middle" id="tableDetalles">
                     <thead class="table-secondary">
-                        <tr class="text-center">
-                            <th>Codigo</th>
+                        <tr class="text-center align-middle">
+                            <th>Código</th>
                             <th>Producto</th>
                             <th>Unidad</th>
                             <th>Lote</th>
                             <th>Cantidad</th>
-                            <th>Costo Unitario</th>
-                            <th>Costo Total</th>
+                            <th>Costo <br> Unitario</th>
+                            <th>Costo <br> Total</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         @php
                             $categoriaActual = null;
                             $totalCantidad = 0;
                             $totalCostoUnitario = 0;
-                            $totalCostoTotal = 0;
                         @endphp
-
                         @foreach ($detalles as $item)
                             @if ($categoriaActual !== $item->categoria)
                                 @php
@@ -78,23 +75,26 @@
                                     $codigoCategoria = $item->codigo_categoria;
                                 @endphp
                                 <tr>
-                                    <td class="ps-4"><strong>{{ $codigoCategoria }}</strong></td>
-                                    <td colspan="6" class="ps-4"><strong>{{ $categoriaActual }}</strong></td>
+                                    <td class="ps-2">
+                                        <p class="my-1 fw-bold">{{ $codigoCategoria }}</p>
+                                    </td>
+                                    <td colspan="6" class="ps-2 fw-bold">{{ $categoriaActual }}</td>
                                 </tr>
                             @endif
                             <tr>
-                                <td class="ps-4">{{ $item->codigo_producto }}</td>
-                                <td class="ps-4">{{ $item->producto }}</td>
-                                <td>{{ $item->unidad }}</td>
-                                <td>{{ $item->lote }}</td>
+                                <td class="ps-2">{{ $item->codigo_producto }}</td>
+                                <td class="ps-2">{{ $item->producto }}</td>
+                                <td class="ps-2">{{ $item->unidad }}</td>
+                                <td class="ps-2">{{ $item->lote }}</td>
                                 <td class="text-end pe-4">{{ $item->cantidad }}</td>
                                 <td class="text-end pe-4">{{ number_format($item->costo_u, 2) }}</td>
-                                <td class="text-end pe-4">{{ number_format($item->cantidad * $item->costo_u, 2) }}</td>
+                                <td class="text-end pe-4">
+                                    <p class="my-1">{{ number_format($item->cantidad * $item->costo_u, 2) }}</p>
+                                </td>
                             </tr>
                             @php
                                 $totalCantidad += $item->cantidad;
                                 $totalCostoUnitario += $item->costo_u;
-                                $totalCostoTotal += $item->cantidad * $item->costo_u;
                             @endphp
                         @endforeach
                     </tbody>
@@ -102,8 +102,8 @@
                         <tr>
                             <th colspan="4" class="text-center">TOTAL GENERAL</th>
                             <th class="text-end pe-4">{{ $totalCantidad }}</th>
-                            <th class="text-end pe-4">{{ number_format($totalCostoUnitario, 2) }}</th>
-                            <th class="text-end pe-4">{{ number_format($totalCostoTotal, 2) }}</th>
+                            <th class="text-end pe-4">Bs: {{ number_format($totalCostoUnitario, 2) }}</th>
+                            <th class="text-end pe-4">Bs: {{ number_format($salida->total, 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>

@@ -3,70 +3,76 @@
     <li class="breadcrumb-item active">Saldo Almacén</li>
 @endsection
 @section('contenido')
-    <section class="card shadow-lg w-100 d-flex flex-column" style="height: calc(100vh - 60px);">
+    <section class="card shadow-lg w-100 d-flex flex-column">
         <div class="card-header bg-gradient-green">
-            <h4 class="text-white my-auto">Saldo Almacén</h4>
+            <h4 class="text-white m-0">Saldo Almacén</h4>
         </div>
         <div class="card-body">
             <!-- Formulario de Filtro -->
-            <form action="{{ route('saldo') }}" method="GET" class="row mb-2">
+            <form action="{{ route('saldo') }}" method="GET">
                 @csrf
                 <!-- Fecha Final -->
-                <div class="col-md-4">
-                    <div class="flatpickr">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="flatpickr">
+                            <div class="form-floating">
+                                <input type="text" class="form-control @error('fecha_fin') is-invalid @enderror" id="dateFechaFin" name="fecha_fin"
+                                    placeholder="fecha_fin" value="{{ old('fecha_fin', request('fecha_fin')) }}" data-input>
+                                <label for="dateFechaFin">Fecha Fin</label>
+                                @error('fecha_fin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Categoría -->
+                    <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="date" class="form-control @error('fecha_fin') is-invalid @enderror" id="dateFechaFin" name="fecha_fin"
-                                placeholder="" value="{{ old('fecha_fin', request('fecha_fin')) }}" data-input>
-                            <label for="dateFechaFin">Fecha Fin</label>
-                            @error('fecha_fin')
+                            <select class="form-select @error('id_categoria') is-invalid @enderror" id="selectCategoria" name="id_categoria">
+                                <option value="">Todas las Categorías</option>
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{ $categoria->id_categoria }}"
+                                        {{ old('id_categoria', request('id_categoria')) == $categoria->id_categoria ? 'selected' : '' }}>
+                                        {{ $categoria->descripcion }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <label for="selectCategoria">Categoría</label>
+                            @error('id_categoria')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                </div>
-                <!-- Categoría -->
-                <div class="col-md-4">
-                    <div class="form-floating">
-                        <select class="form-control @error('id_categoria') is-invalid @enderror" id="selectCategoria" name="id_categoria">
-                            <option value="">Todas las Categorías</option>
-                            @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id_categoria }}"
-                                    {{ old('id_categoria', request('id_categoria')) == $categoria->id_categoria ? 'selected' : '' }}>
-                                    {{ $categoria->descripcion }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <label for="selectCategoria">Categoría</label>
-                        @error('id_categoria')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <!-- Botón Filtrar -->
+                    <div class="col-md-4 d-flex align-items-center justify-content-around">
+                        <button type="submit" class="btn btn-primary btn-labeled">
+                            <span class="btn-label"><i class="bi bi-filter-square-fill"></i></span>Filtrar
+                        </button>
+                        <a href="{{ route('saldo.imprimir', ['fecha_fin' => request('fecha_fin'), 'categoria_id' => request('categoria_id')]) }}"
+                            target="_blank" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Imprimir
+                        </a>
                     </div>
-                </div>
-                <!-- Botón Filtrar -->
-                <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <button type="submit" class="btn btn-primary w-50">Filtrar</button>
-                    <a href="{{ route('saldo.imprimir', ['fecha_fin' => request('fecha_fin'), 'categoria_id' => request('categoria_id')]) }}"
-                        target="_blank" class="btn btn-secondary w-50 ms-2">Imprimir Reporte</a>
                 </div>
             </form>
 
             <!-- Resultados -->
-            <div class="table-responsive overflow-auto flex-grow-1">
-                @if (isset($resultados))
-                    <table class="table table-hover table-bordered align-middle">
+            <div class="table-responsive overflow-auto mt-3">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-secondary">
+                        <tr class="text-center align-middle">
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Unidad</th>
+                            <th>Lote</th>
+                            <th>Cantidad</th>
+                            <th>Valor</th>
+                            <th>Cantidad <br> Total</th>
+                            <th>Valor <br> Total</th>
+                        </tr>
+                    </thead>
+                    @if (isset($resultados))
                         @if (isset($resultados['totales_por_producto']) && isset($resultados['totales_por_categoria']) && count($resultados['totales_por_producto']) > 0)
-                            <thead class="table-secondary">
-                                <tr class="text-center align-middle sticky-top">
-                                    <th>Código</th>
-                                    <th>Producto</th>
-                                    <th>Unidad</th>
-                                    <th>Lote</th>
-                                    <th>Cantidad</th>
-                                    <th>Valor</th>
-                                    <th>Cantidad <br> Total</th>
-                                    <th>Valor <br> Total</th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 @php
                                     $categoriaActual = null;
@@ -92,13 +98,14 @@
                                         $totalCategoria = collect($resultados['totales_por_categoria'])->firstWhere('categoria', $categoriaActual);
                                         $codigoCategoria = collect($resultados['totales_por_categoria'])->firstWhere('categoria', $categoriaActual);
                                     @endphp
-                                    <tr>
-                                        <td class="ps-4"><strong>{{ $codigoCategoria ? $codigoCategoria->codigo_categoria : '' }}</strong>
+                                    <tr class="fw-bold">
+                                        <td class="ps-2">
+                                            <p class="my-1">{{ $codigoCategoria ? $codigoCategoria->codigo_categoria : '' }}</p>
                                         </td>
-                                        <td colspan="5" class="ps-4"><strong>{{ $categoriaActual }}</strong></td>
-                                        <td class="text-end pe-4"><strong>{{ $totalCategoria ? $totalCategoria->total_cantidad_actual : '0' }}</strong>
+                                        <td colspan="5" class="ps-2">{{ $categoriaActual }}</td>
+                                        <td class="text-end pe-4">{{ $totalCategoria ? $totalCategoria->total_cantidad_actual : '0' }}
                                         </td>
-                                        <td class="text-end pe-4"><strong>{{ $totalCategoria ? $totalCategoria->total_valor_actual : '0.00' }}</strong>
+                                        <td class="text-end pe-4">{{ $totalCategoria ? $totalCategoria->total_valor_actual : '0.00' }}
                                         </td>
                                     </tr>
                                 @endif
@@ -110,8 +117,10 @@
                                 @endphp
 
                                 <tr>
-                                    <td class="ps-4">{{ $detalle->codigo_producto }}</td>
-                                    <td class="ps-4">{{ $detalle->producto }}</td>
+                                    <td class="ps-2">
+                                        <p class="my-1">{{ $detalle->codigo_producto }}</p>
+                                    </td>
+                                    <td class="ps-2">{{ $detalle->producto }}</td>
                                     <td class="ps-4">{{ $detalle->unidad }}</td>
                                     <td class="ps-4">{{ $detalle->lote }}</td>
                                     <td class="text-end pe-4">{{ $detalle->cantidad_actual }}</td>
@@ -128,37 +137,36 @@
                                 </tr>
                             @endforeach
                         @endif
-                        </tbody>
-                        <tfoot class="table-secondary">
-                            @if (!empty($resultados['total_general']))
-                                <tr class="fw-bold text-center">
-                                    <td colspan="6">TOTAL GENERAL</td>
-                                    <td>{{ $resultados['total_general']->total_cantidad_actual }}</td>
-                                    <td>{{ number_format($resultados['total_general']->total_valor_actual, 2) }}</td>
-                                </tr>
-                            @endif
-                        </tfoot>
-                    </table>
-                @endif
+                    @endif
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold">
+                            <th colspan="6" class="text-center">TOTAL GENERAL</th>
+                            <th class="text-end pe-4">{{ $resultados['total_general']->total_cantidad_actual ?? '0' }} </th>
+                            <th class="text-end pe-4">Bs: {{ number_format($resultados['total_general']->total_valor_actual ?? 0, 2) }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </section>
 @endsection
 @push('scripts')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script>
-        flatpickr("#dateFechaFin", {
-            dateFormat: "Y-m-d",
-            locale: "es", // Idioma en español
-        });
         document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#dateFechaFin", {
+                dateFormat: "Y-m-d",
+                locale: "es", // Idioma en español
+                minDate: "2025-01-01",
+                maxDate: "today" // Disable future dates
+            });
             @if (request()->has('fecha_fin') && (!isset($resultados) || count($resultados['detalles']) === 0))
                 Swal.fire({
                     icon: 'info',
                     title: 'Sin resultados',
-                    text: 'No se encontraron movimientos para la fecha seleccionada.',
-                    confirmButtonText: 'Aceptar'
+                    text: 'No se encontraron saldos para la fecha seleccionada.',
+                    confirmButtonColor: '#0b5ed7'
                 });
             @endif
         });

@@ -13,7 +13,17 @@ class Categoria extends Model
 
     protected $fillable = ['codigo', 'descripcion', 'estado'];
 
-    public $timestamps = true; // Ensure timestamps are enabled
+    public $timestamps = true;
+
+    public function setCodigoAttribute($value)
+    {
+        $this->attributes['codigo'] = strtoupper($value);
+    }
+
+    public function setDescripcionAttribute($value)
+    {
+        $this->attributes['descripcion'] = strtoupper($value);
+    }
 
     public function productos()
     {

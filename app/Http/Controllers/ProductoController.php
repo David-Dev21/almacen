@@ -7,7 +7,6 @@ use App\Models\Categoria;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class ProductoController extends Controller
 {
@@ -20,13 +19,15 @@ class ProductoController extends Controller
         // Obtener y limpiar el texto de búsqueda
         $buscar = trim($request->get('buscar'));
         // Consulta para recuperar productos junto con sus categorías
-        $productos = Producto::with('categoria')
-            ->where('descripcion', 'LIKE', '%' . $buscar . '%')
+        $productos = Producto::with('categoria') // Ensure category is loaded
+            ->where(function ($query) use ($buscar) {
+                $query->where('descripcion', 'LIKE', '%' . $buscar . '%')
+                    ->orWhere('codigo', 'LIKE', '%' . $buscar . '%');
+            })
             ->orderBy('id_producto', 'desc')
-            ->paginate(8);
+            ->paginate(10);
 
         $categorias = Categoria::where('estado', '=', '1')->get();
-        // Retornar la vista con los productos y el texto de búsqueda
         return view('almacen.producto.index', compact('productos', 'buscar', 'categorias'));
     }
 
@@ -42,23 +43,8 @@ class ProductoController extends Controller
     {
         try {
             $validated = $request->validated();
+            $validated['estado'] = 1;
             $producto = new Producto($validated);
-
-            // Manejo de la imagen
-            if ($request->hasFile('imagen')) {
-                $imagen = $request->file('imagen');
-                $nombreImagen = Str::slug($request->descripcion) . '.' . $imagen->getClientOriginalExtension();
-                $ruta = public_path('imagenes/productos/');
-
-                // Crear el directorio si no existe
-                if (!file_exists($ruta)) {
-                    mkdir($ruta, 0777, true);
-                }
-
-                // Mover la imagen al directorio
-                $imagen->move($ruta, $nombreImagen);
-                $producto->imagen = $nombreImagen;
-            }
 
             // Guardar el nuevo producto en la base de datos
             $producto->save();
@@ -68,7 +54,7 @@ class ProductoController extends Controller
         } catch (\Exception $e) {
             // Registrar el error y mostrar un mensaje
             Log::error("Error al crear el producto: " . $e->getMessage());
-            return back()->with(['error' => 'Error al crear el producto']);
+            return redirect()->route('productos.index')->with(['error' => 'Error al crear el producto']);
         }
     }
 
@@ -89,22 +75,6 @@ class ProductoController extends Controller
             $validated = $request->validated();
             $producto->fill($validated);
 
-            // Manejo de la imagen
-            if ($request->hasFile('imagen')) {
-                $imagen = $request->file('imagen');
-                $nombreImagen = Str::slug($request->descripcion) . '.' . $imagen->getClientOriginalExtension();
-                $ruta = public_path('imagenes/productos/');
-
-                // Crear el directorio si no existe
-                if (!file_exists($ruta)) {
-                    mkdir($ruta, 0777, true);
-                }
-
-                // Mover la imagen al directorio
-                $imagen->move($ruta, $nombreImagen);
-                $producto->imagen = $nombreImagen;
-            }
-
             // Guardar los cambios en la base de datos
             $producto->save();
 
@@ -113,24 +83,7 @@ class ProductoController extends Controller
         } catch (\Exception $e) {
             // Registrar el error y mostrar un mensaje
             Log::error("Error al actualizar el producto: " . $e->getMessage());
-            return back()->with(['error' => 'Error al actualizar el producto']);
-        }
-    }
-
-    // Método para eliminar (desactivar) un producto
-    public function destroy(string $id)
-    {
-        try {
-            //Encontrar por su ID
-            $producto = Producto::findOrFail($id);
-            $producto->estado = 0;
-            $producto->save();
-            // Redirigir a la lista
-            return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
-        } catch (\Exception $e) {
-            // Registrar el error y mostrar un mensaje
-            Log::error("Error al eliminar el producto: " . $e->getMessage());
-            return back()->with(['error' => 'Error al eliminar el producto']);
+            return redirect()->route('productos.index')->with(['error' => 'Error al actualizar el producto']);
         }
     }
 
@@ -167,5 +120,19 @@ class ProductoController extends Controller
 
         // Retornar el código generado en una respuesta JSON
         return response()->json(['codigo' => $codigo]);
+    }
+
+    public function toggleEstado(Request $request, $id)
+    {
+        try {
+            $producto = Producto::findOrFail($id);
+            $producto->estado = $request->estado;
+            $producto->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error("Error al cambiar el estado del producto: " . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Error al cambiar el estado del producto']);
+        }
     }
 }

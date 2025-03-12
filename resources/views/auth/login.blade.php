@@ -8,10 +8,11 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-                            <div class="row my-3">
-                                <div class="col-12">
-                                    <input type="text" class="form-control-lg w-100 @error('ci') is-invalid @enderror" name="ci"
-                                        placeholder="Carnet de Identidad" value="{{ old('ci') }}" required autocomplete="ci" autofocus>
+                            <div class="row">
+                                <div class="form-floating col-12">
+                                    <input type="text" class="form-control w-100 fs-5 @error('ci') is-invalid @enderror" name="ci" id="txtCi"
+                                        value="{{ old('ci') }}" autocomplete="ci" placeholder="">
+                                    <label for="txtCi" class="ms-2 fs-6">Usuario</label>
 
                                     @error('ci')
                                         <span class="invalid-feedback" role="alert">
@@ -22,9 +23,10 @@
                             </div>
 
                             <div class="row my-3">
-                                <div class="col-12">
-                                    <input type="password" class="form-control-lg w-100 @error('password') is-invalid @enderror" name="password"
-                                        placeholder="Contraseña" required>
+                                <div class="form-floating col-12">
+                                    <input type="password" class="form-control w-100 fs-5 @error('password') is-invalid @enderror" name="password"
+                                        id="txtPassword" placeholder="">
+                                    <label for="txtPassword" class="ms-2 fs-6">Contraseña</label>
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">

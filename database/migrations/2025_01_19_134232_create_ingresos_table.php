@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ingresos', function (Blueprint $table) {
             $table->increments('id_ingreso');
             $table->string('n_factura', 30)->notNullable();
+            $table->string('n_pedido', 30)->notNullable();
             $table->timestamp('fecha_hora')->notNullable();
             $table->decimal('total', 10, 2)->check('total >= 0')->notNullable();
             $table->enum('estado', ['completado', 'cancelado', 'pendiente'])->notNullable();

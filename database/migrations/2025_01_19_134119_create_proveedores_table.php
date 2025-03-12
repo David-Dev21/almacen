@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('direccion', 100)->nullable();
             $table->string('telefono', 20)->nullable();
             $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
-            $table->string('email', 30)->unique()->nullable();
             $table->timestamps();
         });
     }

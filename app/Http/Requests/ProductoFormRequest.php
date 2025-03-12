@@ -25,11 +25,10 @@ class ProductoFormRequest extends FormRequest
             'codigo' => 'required|string|max:30|unique:productos,codigo,' . $this->route('producto') . ',id_producto',
             'descripcion' => 'required|string|max:255',
             'unidad' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'estado' => 'required',
             'id_categoria' => 'required|exists:categorias,id_categoria',
         ];
     }
+
     public function messages(): array
     {
         return [
@@ -41,10 +40,6 @@ class ProductoFormRequest extends FormRequest
             'descripcion.string' => 'La descripción debe ser una cadena de texto.',
             'descripcion.max' => 'La descripción no puede tener más de 255 caracteres.',
             'unidad.required' => 'Seleccione una unidad.',
-            'imagen.image' => 'El archivo debe ser una imagen.',
-            'imagen.mimes' => 'La imagen debe tener una de las siguientes extensiones: jpeg, png, jpg, gif, svg.',
-            'imagen.max' => 'La imagen no puede superar los 2048 KB.',
-            'estado.required' => 'Elija un estado.',
             'id_categoria.required' => 'Seleccione una categoria.',
             'id_categoria.exists' => 'La categoría seleccionada no es válida.'
         ];

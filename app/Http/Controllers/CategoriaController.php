@@ -14,9 +14,12 @@ class CategoriaController extends Controller
     public function index(Request $request)
     {
         $buscar = trim($request->get('buscar'));
-        $categorias = Categoria::where('descripcion', 'LIKE', '%' . $buscar . '%')
+        $categorias = Categoria::where(function ($query) use ($buscar) {
+            $query->where('descripcion', 'LIKE', '%' . $buscar . '%')
+                ->orWhere('codigo', 'LIKE', '%' . $buscar . '%');
+        })
             ->orderBy('id_categoria', 'desc')
-            ->paginate(8);
+            ->paginate(10);
         return view('almacen.categoria.index', compact('categorias', 'buscar'));
     }
 
@@ -29,13 +32,13 @@ class CategoriaController extends Controller
     {
         try {
             $validated = $request->validated();
+            $validated['estado'] = 1;
             Categoria::create($validated);
 
             return redirect()->route('categorias.index')->with('success', 'Categoría creada correctamente.');
         } catch (\Exception $e) {
             Log::error("Error al guardar la categoría: " . $e->getMessage());
-
-            return back()->with(['error' => 'Error al guardar la categoría']);
+            return redirect()->route('categorias.index')->with(['error' => 'Error al guardar la categoría']);
         }
     }
 
@@ -55,21 +58,22 @@ class CategoriaController extends Controller
             return redirect()->route('categorias.index')->with('success', 'Categoría actualizada correctamente.');
         } catch (\Exception $e) {
             Log::error("Error al actualizar la categoría: " . $e->getMessage());
-            return back()->with(['error' => 'Error al actualizar la categoría']);
+            return redirect()->route('categorias.index')->with(['error' => 'Error al actualizar la categoría']);
         }
     }
 
-    public function destroy($id)
+
+    public function toggleEstado(Request $request, $id)
     {
         try {
             $categoria = Categoria::findOrFail($id);
-            $categoria->estado = 0;
+            $categoria->estado = $request->estado;
             $categoria->save();
 
-            return redirect()->route('categorias.index')->with('success', 'Categoría desactivada correctamente');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            Log::error("Error al desactivar la Categoría: " . $e->getMessage());
-            return back()->with(['error' => 'Error al desactivar la Categoría']);
+            Log::error("Error al cambiar el estado de la categoría: " . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Error al cambiar el estado de la categoría']);
         }
     }
 }

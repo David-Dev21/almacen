@@ -7,17 +7,12 @@
     <title>Almacén</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    @vite('resources/css/app.css')
 </head>
 
 <body>
     <div class="container-fluid vh-100">
         <div class="row h-100">
-            <!-- Sidebar -->
             <aside class="d-flex flex-column bg-green text-white col-2 p-2">
                 <div class="d-flex justify-content-center align-items-center">
                     <img src="{{ asset('img/logo-policia.jpg') }}" alt="Logo" width="40" height="40" class="rounded-circle">
@@ -67,13 +62,6 @@
                                 <i class="bi bi-file-earmark-minus-fill"></i> Movimiento de Almacén</a>
                         </div>
                     </li>
-                    <li class="nav-item my-2">
-                        <div class="card-transparent">
-                            <a href="{{ route('usuarios.index') }}" class="nav-link text-white text-start bg-green-hover">
-                                <i class="bi bi-people-fill me-2"></i>Usuarios
-                            </a>
-                        </div>
-                    </li>
                 </ul>
                 <div class="btn-group dropup">
                     <button class="btn text-white dropdown-toggle w-100 bg-green-hover" type="button" id="userDropdown" data-bs-toggle="dropdown"
@@ -81,11 +69,9 @@
                         <i class="bi bi-person-fill"></i> {{ Auth::user()->name }}
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">{{ Auth::user()->name }}</a></li>
-                        <li><a class="dropdown-item" href="#"></a></li>
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                        {{-- <li><a class="dropdown-item" href="{{ route('usuarios.change-password') }}">Cambiar Contraseña</a></li>
+                        <li> --}}
+                        <hr class="dropdown-divider">
                         </li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST">
@@ -102,7 +88,8 @@
                 <div class="w-100">
                     <nav class="bg-green-light rounded shadow-lg">
                         <ol class="breadcrumb p-1 my-1 fw-bold">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="bi bi-house-fill me-2"></i>Inicio</a>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="link"><i
+                                        class="bi bi-house-fill me-2"></i>Inicio</a>
                             </li>
                             @yield('breadcrumb')
                         </ol>
@@ -113,22 +100,21 @@
                     @yield('contenido')
                 </div>
                 <!-- contenido -->
-
                 <!-- Footer -->
                 <footer class="text-center mt-auto">
-                    <span class="text-muted">&copy; 2025 Your Brand. All rights reserved.</span>
+                    <span class="text-muted">&copy; 2025 | Desarrollado por
+                        <a href="https://www.linkedin.com/in/david-mamani-a3b745352/" target="_blank" class="link">
+                            RubenDavidMA
+                        </a>
+                        <a href="https://github.com/David-Dev21" target="_blank" class="link">
+                            <i class="bi bi-github"></i>
+                        </a></span>
                 </footer>
             </main>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Antes de cerrar el body -->
+    @vite('resources/js/app.js')
     @stack('scripts')
 </body>
 

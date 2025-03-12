@@ -123,11 +123,11 @@
         <tr>
             <th>Almacén:</th>
             <td>ALMACÉN COMANDO DEPARTAMENTAL</td>
-            <th>N.º Pedido:</th>
+            <th>Nº Pedido:</th>
             <td>{{ $salida->n_pedido }}</td>
         </tr>
         <tr>
-            <th>N.º Egreso:</th>
+            <th>Nº Egreso:</th>
             <td>{{ $salida->id_salida }}</td>
             <th>Fecha:</th>
             <td>{{ $fecha }}</td>

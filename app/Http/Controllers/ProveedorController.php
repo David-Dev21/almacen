@@ -16,7 +16,7 @@ class ProveedorController extends Controller
         $buscar = trim($request->get('buscar'));
         $proveedores = Proveedor::where('nombre', 'LIKE', '%' . $buscar . '%')
             ->orderBy('id_proveedor', 'desc')
-            ->paginate(5);
+            ->paginate(10);
         return view('almacen.proveedor.index', compact('proveedores', 'buscar'));
     }
 
@@ -29,12 +29,12 @@ class ProveedorController extends Controller
     {
         try {
             $validated = $request->validated();
+            $validated['estado'] = 1;
             Proveedor::create($validated);
             return redirect()->route('proveedores.index')->with('success', 'Proveedor guardado correctamente');
         } catch (\Exception $e) {
             Log::error("Error al guardar el Proveedor: " . $e->getMessage());
-            return back()
-                ->with(['error' => 'Error al guardar la proveedor']);
+            return redirect()->route('proveedores.index')->with(['error' => 'Error al guardar el Proveedor']);
         }
     }
 
@@ -53,20 +53,20 @@ class ProveedorController extends Controller
             return redirect()->route('proveedores.index')->with('success', 'Proveedor actualizado correctamente');
         } catch (\Exception $e) {
             Log::error("Error al actualizar el Proveedor: " . $e->getMessage());
-            return back()->with(['error' => 'Error al actualizar el Proveedor']);
+            return redirect()->route('proveedores.index')->with(['error' => 'Error al actualizar el Proveedor']);
         }
     }
 
-    public function destroy($id)
+    public function toggleEstado(Request $request, $id)
     {
         try {
             $proveedor = Proveedor::findOrFail($id);
-            $proveedor->estado = 0;
+            $proveedor->estado = $request->estado;
             $proveedor->save();
-            return redirect()->route('proveedores.index')->with('success', 'Proveedor eliminado correctamente');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            Log::error("Error al eliminar el Proveedor: " . $e->getMessage());
-            return back()->with(['msg' => 'Error al eliminar el Proveedor']);
+            Log::error("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Error al cambiar el estado del proveedor']);
         }
     }
 }

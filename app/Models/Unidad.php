@@ -13,6 +13,18 @@ class Unidad extends Model
 
     protected $fillable = ['jefe', 'nombre', 'direccion', 'telefono', 'estado'];
 
+    public function setJefeAttribute($value)
+    {
+        $this->attributes['jefe'] = strtoupper($value);
+    }
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+    public function setDireccionAttribute($value)
+    {
+        $this->attributes['direccion'] = strtoupper($value);
+    }
     public function salidas()
     {
         return $this->hasMany(Salida::class, 'id_unidad');

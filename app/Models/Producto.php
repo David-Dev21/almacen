@@ -11,7 +11,21 @@ class Producto extends Model
     protected $table = 'productos';
     protected $primaryKey = 'id_producto';
 
-    protected $fillable = ['codigo', 'descripcion', 'stock', 'unidad', 'imagen', 'estado', 'id_categoria'];
+    protected $fillable = ['codigo', 'descripcion', 'stock', 'unidad', 'estado', 'id_categoria'];
+
+    public function setCodigoAttribute($value)
+    {
+        $this->attributes['codigo'] = strtoupper($value);
+    }
+
+    public function setDescripcionAttribute($value)
+    {
+        $this->attributes['descripcion'] = strtoupper($value);
+    }
+    public function setUnidadAttribute($value)
+    {
+        $this->attributes['unidad'] = strtoupper($value);
+    }
 
     public function categoria()
     {
@@ -22,6 +36,7 @@ class Producto extends Model
     {
         return $this->hasMany(DetalleIngreso::class, 'id_producto');
     }
+
     public function detalleSalidas()
     {
         return $this->hasMany(DetalleSalida::class, 'id_producto');

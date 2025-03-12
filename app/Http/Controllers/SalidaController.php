@@ -11,34 +11,48 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalidaController extends Controller
 {
     public function __construct() {}
-    // public function __construct()
-    // {
-    //     $this->middleware('auth'); // Ensure the user is authenticated
-    // }
 
-    //
     public function index(Request $request)
     {
         $buscar = trim($request->get('buscar'));
-
-        // Utilizando la vista creada en la base de datos
         $salidas = DB::table('vista_salidas')
-            ->where('n_hoja_ruta', 'LIKE', '%' . $buscar . '%')
-            ->paginate(8);
-
+            ->where(function ($query) use ($buscar) {
+                $query->where('n_hoja_ruta', 'LIKE', '%' . $buscar . '%')
+                    ->orWhere('n_pedido', 'LIKE', '%' . $buscar . '%');
+            })
+            ->paginate(10);
         return view('almacen.salida.index', compact('salidas', 'buscar'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        // Utilizando modelos para obtener los datos
         $unidades = Unidad::all()->where('estado', '=', '1');
-        $productos = DB::select("select p.id_producto,concat(di.lote, ' | ',p.descripcion ,' | ',di.cantidad_disponible) AS producto_lote, p.stock, di.lote, di.cantidad_disponible, di.costo_u from productos p inner join detalle_ingresos di on p.id_producto = di.id_producto where p.stock > 0 and di.cantidad_disponible > 0 and p.estado = 1;");
-        return view('almacen.salida.create', compact("unidades", "productos"));
+        // Obtener productos con su stock total
+        $productos = DB::select("SELECT p.id_producto, p.descripcion, p.unidad, SUM(di.cantidad_disponible) AS stock_total
+                                 FROM productos p
+                                 INNER JOIN detalle_ingresos di ON p.id_producto = di.id_producto
+                                 WHERE p.stock > 0 AND di.cantidad_disponible > 0 AND p.estado = 1
+                                 GROUP BY p.id_producto, p.descripcion, p.unidad");
+        $productosOld = [];
+        if (old('id_producto')) {
+            foreach (old('id_producto') as $index => $idProducto) {
+                $producto = collect($productos)->firstWhere('id_producto', $idProducto);
+                $productosOld[$index] = [
+                    'id_producto' => $idProducto,
+                    'producto' => $producto->descripcion ?? '',
+                    'unidad' => old('unidad')[$index] ?? '',
+                    'lote' => old('lote')[$index] ?? '',
+                    'cantidad' => old('cantidad')[$index] ?? '',
+                    'costo_u' => old('costo_u')[$index] ?? ''
+                ];
+            }
+        }
+        return view('almacen.salida.create', compact("unidades", "productos", "productosOld"));
     }
 
     public function store(SalidaFormRequest $request)
@@ -61,40 +75,29 @@ class SalidaController extends Controller
             // Obtener los datos de los productos
             $id_producto = $request->input('id_producto', []);
             $cantidad = $request->input('cantidad', []);
+            $lote = $request->input('lote', []);
+            $costo_u = $request->input('costo_u', []);
             $total = 0;
 
             // Iterar sobre los productos y guardar los detalles de salida
             for ($cont = 0; $cont < count($id_producto); $cont++) {
-                // Obtener el detalle del ingreso correspondiente al producto con suficiente cantidad disponible
-                $detalle_ingreso = DB::table('detalle_ingresos')
+                // Crear detalle de salida
+                $detalle = new DetalleSalida();
+                $detalle->id_salida = $salida->id_salida;
+                $detalle->id_producto = $id_producto[$cont];
+                $detalle->cantidad = $cantidad[$cont];
+                $detalle->costo_u = $costo_u[$cont];
+                $detalle->lote = $lote[$cont];
+                $detalle->save();
+
+                // Restar la cantidad del detalle de ingreso
+                DB::table('detalle_ingresos')
                     ->where('id_producto', $id_producto[$cont])
-                    ->where('cantidad_disponible', '>=', $cantidad[$cont])
-                    ->select('id_producto', 'costo_u', 'lote')
-                    ->first();
+                    ->where('lote', $lote[$cont])
+                    ->decrement('cantidad_disponible', $cantidad[$cont]);
 
-                if ($detalle_ingreso) {
-                    // Crear detalle de salida
-                    $detalle = new DetalleSalida();
-                    $detalle->id_salida = $salida->id_salida;
-                    $detalle->id_producto = $id_producto[$cont];
-                    $detalle->cantidad = $cantidad[$cont];
-                    $detalle->costo_u = $detalle_ingreso->costo_u; // Usar el costo del detalle_ingreso
-                    $detalle->lote = $detalle_ingreso->lote;
-                    $detalle->save();
-
-                    // Restar la cantidad del detalle de ingreso
-                    DB::table('detalle_ingresos')
-                        ->where('id_producto', $detalle_ingreso->id_producto)
-                        ->where('lote', $detalle_ingreso->lote)
-                        ->decrement('cantidad_disponible', $cantidad[$cont]);
-
-                    // Calcular el total
-                    $total += $cantidad[$cont] * $detalle_ingreso->costo_u;
-                } else {
-                    // Manejar el caso en que no hay suficiente cantidad disponible
-                    DB::rollBack();
-                    return back()->with(['error' => 'No hay suficiente cantidad disponible para el producto especificado.']);
-                }
+                // Calcular el total
+                $total += $cantidad[$cont] * $costo_u[$cont];
             }
 
             // Actualizar el total del salida
@@ -109,7 +112,7 @@ class SalidaController extends Controller
             // Registrar el error y mostrar un mensaje
             DB::rollBack();
             Log::error("Error al registrar la salida: " . $e->getMessage());
-            return back()->with(['error' => 'Error al registrar la salida']);
+            return redirect()->route('salidas.index')->with(['error' => 'Error al registrar la salida']);
         }
     }
 
@@ -121,38 +124,55 @@ class SalidaController extends Controller
             ->where('id_salida', '=', $id)
             ->first();
 
-        // Obtener los detalles de los productos del salida
-        $detalles = DB::table('vista_detalle_salidas_con_categorias')
-            ->where('id_salida', $id)
-            ->get();
+        $detalles = DB::select('CALL detalle_salidas_con_categorias(?)', [$id]);
 
         // Devolver la vista con los datos del salida y los detalles
         return view('almacen.salida.show', compact("salida", "detalles"));
     }
 
-    public function edit(string $id) {}
-
-    public function update(Request $request, string $id)
+    public function getLotesDisponibles($idProducto)
     {
-        //
+        $lotes = DB::table('detalle_ingresos')
+            ->join('ingresos', 'detalle_ingresos.id_ingreso', '=', 'ingresos.id_ingreso')
+            ->where('detalle_ingresos.id_producto', $idProducto)
+            ->where('detalle_ingresos.cantidad_disponible', '>', 0)
+            ->orderBy('ingresos.fecha_hora', 'asc')
+            ->select('detalle_ingresos.*')
+            ->get();
+
+        return response()->json($lotes);
     }
 
-    public function destroy($id)
+
+    public function imprimirSalidaPDF(Request $request, $id)
     {
-        try {
-            // Obtener el salida por ID
-            $salida = Salida::findOrFail($id);
+        $salida = DB::table('vista_salidas')
+            ->where('id_salida', '=', $id)
+            ->first();
 
-            // Marcar el estado del salida como 0 (Cancelado)
-            $salida->estado = 0;
-            $salida->save();
+        $detalles = collect(DB::select('CALL detalle_salidas_con_categorias(?)', [$id]));
+        $categorias = $detalles->pluck('categoria')->unique();
+        $logoPath = public_path('img/logo-para-pdf.jpg');
+        $data = [
+            'logoPath' => $logoPath,
+            'fecha' => Carbon::parse($salida->fecha_hora)->format('d/m/Y'),
+            'salida' => $salida,
+            'detalles' => $detalles,
+            'categorias' => $categorias,
+            'mostrarCostos' => $request->input('mostrarCostos', false),
+        ];
 
-            // Redirigir después de actualizar el estado
-            return redirect()->route('salidas.index')->with('success', 'Salida cancelada exitosamente');
-        } catch (\Exception $e) {
-            // Registrar el error y mostrar un mensaje
-            Log::error("Error al cancelar la salida: " . $e->getMessage());
-            return back()->with(['error' => 'Error al cancelar la salida']);
-        }
+        $pdf = Pdf::loadView('almacen.reporte.salida_pdf', $data);
+
+        $pdf->setPaper('letter', 'portrait')
+            ->setOption('margin-top', 0) // Margen superior en mm
+            ->setOption('margin-bottom', 10) // Margen inferior en mm
+            ->setOption('margin-left', 10) // Margen izquierdo en mm
+            ->setOption('margin-right', 10) // Margen derecho en mm
+            ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
+            ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
+
+        // Mostrar el PDF en el navegador
+        return $pdf->stream('reporte_salida_' . $id . '.pdf');
     }
 }

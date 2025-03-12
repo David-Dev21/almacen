@@ -94,6 +94,7 @@
             </td>
             <td width="60%" class="text-center-top">
                 <h2>MOVIMIENTO DE ALMACENES</h2>
+                <span>Montos expresados en Bolivianos</span><br>
                 <span> Del: {{ $fecha_inicio }} Al: {{ $fecha_fin }}</span>
             </td>
             <td width="20%"> <!-- Pie de página -->

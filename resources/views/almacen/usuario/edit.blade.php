@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('usuarios.index') }}">Usuarios</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('usuarios.index') }}" class="link">Usuarios</a></li>
     <li class="breadcrumb-item active">Editar Usuario</li>
 @endsection
 @section('contenido')

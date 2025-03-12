@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('productos.index') }}">Productos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('productos.index') }}" class="link">Productos</a></li>
     <li class="breadcrumb-item active">Crear Producto</li>
 @endsection
 @section('contenido')
@@ -8,13 +8,13 @@
         <div class="card-header bg-gradient-green">
             <h3 class="text-white m-0">Crear Producto</h3>
         </div>
-        <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data" class="form-control">
-            @csrf
-            <div class="card-body">
+        <div class="card-body">
+            <form id="productoForm" action="{{ route('productos.store') }}" method="POST">
+                @csrf
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label for="selectCategoria">Categoría:</label>
-                        <select class="form-select" name="id_categoria" id="selectCategoria">
+                        <select class="form-control @error('id_categoria') is-invalid @enderror" name="id_categoria" id="selectCategoria">
                             <option value=""></option>
                             @foreach ($categorias as $cat)
                                 <option value="{{ $cat->id_categoria }}" {{ old('id_categoria') == $cat->id_categoria ? 'selected' : '' }}>
@@ -22,82 +22,80 @@
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('id_categoria'))
-                            <div class="text-danger">{{ $errors->first('id_categoria') }}</div>
-                        @endif
+                        @error('id_categoria')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputCodigo">Código:</label>
-                        <input type="text" class="form-control" name="codigo" id="inputCodigo" value="{{ old('codigo') }}" readonly>
-                        @if ($errors->has('codigo'))
-                            <div class="text-danger">{{ $errors->first('codigo') }}</div>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Estado:</label>
-                        <div class="d-flex flex-row mt-1 justify-content-between">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="inputEstadoActivo" value="1"
-                                    {{ old('estado') == '1' ? 'checked' : '' }} checked>
-                                <label class="form-check-label" for="inputEstadoActivo">Activo</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="inputEstadoInactivo" value="0"
-                                    {{ old('estado') == '0' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="inputEstadoInactivo">Inactivo</label>
-                            </div>
-                        </div>
-                        @if ($errors->has('estado'))
-                            <div class="text-danger">{{ $errors->first('estado') }}</div>
-                        @endif
+                    <div class="form-group col-md-4">
+                        <label for="txtCodigo">Código:</label>
+                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="txtCodigo"
+                            value="{{ old('codigo') }}" readonly>
+                        @error('codigo')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputDescripcion">Descripción:</label>
-                        <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3">{{ old('descripcion') }}</textarea>
-                        @if ($errors->has('descripcion'))
-                            <div class="text-danger">{{ $errors->first('descripcion') }}</div>
-                        @endif
+                        <label for="txtDescripcion">Descripción:</label>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion" rows="3">{{ old('descripcion') }}</textarea>
+                        @error('descripcion')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label for="selectUnidad">Unidad:</label>
-                        <select class="form-select" name="unidad" id="selectUnidad">
+                        <select class="form-control @error('unidad') is-invalid @enderror" name="unidad" id="selectUnidad">
                             <option value=""></option>
-                            <option value="Pieza" {{ old('unidad') == 'Pieza' ? 'selected' : '' }}>Pieza</option>
-                            <option value="Rollo" {{ old('unidad') == 'Rollo' ? 'selected' : '' }}>Rollo</option>
-                            <option value="Paquete" {{ old('unidad') == 'Paquete' ? 'selected' : '' }}>Paquete</option>
+                            <option value="Pieza" {{ old('unidad') == 'Pieza' ? 'selected' : '' }}>PIEZA</option>
+                            <option value="Paquete" {{ old('unidad') == 'Paquete' ? 'selected' : '' }}>PAQUETE</option>
+                            <option value="Caja" {{ old('unidad') == 'Caja' ? 'selected' : '' }}>CAJA</option>
+                            <option value="Rollo" {{ old('unidad') == 'Rollo' ? 'selected' : '' }}>ROLLO</option>
+                            <option value="Juego" {{ old('unidad') == 'Juego' ? 'selected' : '' }}>JUEGO</option>
+                            <option value="Bolsa" {{ old('unidad') == 'Bolsa' ? 'selected' : '' }}>BOLSA</option>
+                            <option value="Unidad" {{ old('unidad') == 'Unidad' ? 'selected' : '' }}>UNIDAD</option>
+                            <option value="Botella" {{ old('unidad') == 'Botella' ? 'selected' : '' }}>BOTELLA</option>
                         </select>
-                        @if ($errors->has('unidad'))
-                            <div class="text-danger">{{ $errors->first('unidad') }}</div>
-                        @endif
+                        @error('unidad')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    {{-- <div class="form-group col-md-6">
-                        <label for="fileImagen">Seleccionar Imagen:</label>
-                        <input type="file" class="form-control " name="imagen" id="fileImagen">
-                        @if ($errors->has('imagen'))
-                            <div class="text-danger">{{ $errors->first('imagen') }}</div>
-                        @endif
-                    </div> --}}
                 </div>
                 <div class="mt-3 d-flex justify-content-between">
-                    <button type="reset" class="btn btn-secondary btn-labeled" onclick="history.back()">
-                        <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</button>
-                    <button type="submit" class="btn btn-success btn-labeled">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <a href="{{ route('productos.index') }}" class="btn btn-danger btn-labeled">
+                        <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar
+                    </a>
+                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
-            </div>
+        </div>
         </form>
     </section>
 
     @push('scripts')
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
         <script>
             $(document).ready(function() {
-                $('#selectUnidad').select2({
-                    tags: true,
-                    allowClear: true
+                let selectCategoria = new TomSelect('#selectCategoria', {
+                    create: false,
+                    render: {
+                        no_results: function(data) {
+                            return '<div class="no-results">No se encontraron resultados</div>';
+                        }
+                    }
+                });
+
+                let selectUnidad = new TomSelect('#selectUnidad', {
+                    create: true,
+                    render: {
+                        no_results: function(data) {
+                            return '<div class="no-results">No se encontraron resultados</div>';
+                        },
+                        option_create: function(data) {
+                            return '<div class="create">Agregar: <strong>' + data.input + '</strong></div>';
+                        }
+                    }
                 });
 
                 $('#selectCategoria').on('change', function() {
@@ -112,14 +110,42 @@
                                 return response.json();
                             })
                             .then(data => {
-                                document.getElementById('inputCodigo').value = data.codigo;
+                                document.getElementById('txtCodigo').value = data.codigo;
                             })
                             .catch(error => console.error('Error:', error));
                     } else {
-                        document.getElementById('inputCodigo').value = '';
+                        document.getElementById('txtCodigo').value = '';
                     }
                 });
             });
+
+            function confirmSubmit() {
+                const codigo = document.getElementById('txtCodigo').value;
+                const descripcion = document.getElementById('txtDescripcion').value;
+                const categoria = document.getElementById('selectCategoria').selectedOptions[0].text;
+                const unidad = document.getElementById('selectUnidad').selectedOptions[0].text;
+
+                Swal.fire({
+                    title: '¿Está seguro de guardar?',
+                    html: `<p><strong>Código:</strong> ${codigo}</p>
+                           <p><strong>Descripción:</strong> ${descripcion}</p>
+                           <p><strong>Categoría:</strong> ${categoria}</p>
+                           <p><strong>Unidad:</strong> ${unidad}</p>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#157347',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, guardar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('productoForm').submit();
+                    }
+                });
+            }
         </script>
     @endpush
 @endsection

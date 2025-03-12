@@ -26,7 +26,6 @@ class CategoriaFormRequest extends FormRequest
             'buscar' => 'nullable|string|max:255',
             'codigo' => 'required|string|max:30|unique:categorias,codigo,' . $id_categoria . ',id_categoria',
             'descripcion' => 'required|string|max:255',
-            'estado' => 'required',
         ];
     }
 
@@ -41,7 +40,6 @@ class CategoriaFormRequest extends FormRequest
             'descripcion.required' => 'El campo descripción es obligatorio.',
             'descripcion.string' => 'La descripción debe ser una cadena de texto.',
             'descripcion.max' => 'La descripción no puede tener más de 255 caracteres.',
-            'estado.required' => 'Elija un estado.',
         ];
     }
 }

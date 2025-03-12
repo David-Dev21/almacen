@@ -16,7 +16,7 @@ class UnidadController extends Controller
         $buscar = trim($request->get('buscar'));
         $unidades = Unidad::where('nombre', 'LIKE', '%' . $buscar . '%')
             ->orderBy('id_unidad', 'desc')
-            ->paginate(5);
+            ->paginate(10);
         return view('almacen.unidad.index', compact('unidades', 'buscar'));
     }
 
@@ -29,11 +29,12 @@ class UnidadController extends Controller
     {
         try {
             $validated = $request->validated();
+            $validated['estado'] = 1;
             Unidad::create($validated);
-            return redirect()->route('unidades.index')->with('success', 'Unidad guardado correctamente');
+            return redirect()->route('unidades.index')->with('success', 'Unidad creada correctamente.');
         } catch (\Exception $e) {
-            Log::error("Error al guardar la Unidad:" . $e->getMessage());
-            return back()->with(['error' => 'Error al guardar la Unidad']);
+            Log::error("Error al guardar la unidad: " . $e->getMessage());
+            return redirect()->route('unidades.index')->with(['error' => 'Error al guardar la unidad']);
         }
     }
 
@@ -49,23 +50,23 @@ class UnidadController extends Controller
             $unidad = Unidad::findOrFail($id);
             $validated = $request->validated();
             $unidad->update($validated);
-            return redirect()->route('unidades.index')->with('success', 'Unidad actualizado correctamente');
+            return redirect()->route('unidades.index')->with('success', 'Unidad actualizada correctamente.');
         } catch (\Exception $e) {
-            Log::error("Error al actualizar la Unidad: " . $e->getMessage());
-            return back()->with(['error' => 'Error al actualizar la Unidad']);
+            Log::error("Error al actualizar la unidad: " . $e->getMessage());
+            return redirect()->route('unidades.index')->with(['error' => 'Error al actualizar la unidad']);
         }
     }
 
-    public function destroy($id)
+    public function toggleEstado(Request $request, $id)
     {
         try {
             $unidad = Unidad::findOrFail($id);
-            $unidad->estado = 0;
+            $unidad->estado = $request->estado;
             $unidad->save();
-            return redirect()->route('unidades.index')->with('success', 'Unidad eliminado correctamente');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            Log::error("Error al eliminar la Unidad: " . $e->getMessage());
-            return back()->with(['error' => 'Error al eliminar la Unidad']);
+            Log::error("Error al cambiar el estado de la unidad: " . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Error al cambiar el estado de la unidad']);
         }
     }
 }

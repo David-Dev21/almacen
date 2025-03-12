@@ -30,12 +30,15 @@ class IngresoFormRequest extends FormRequest
                     ->where('id_proveedor', $this->input('id_proveedor'))
                     ->ignore($this->route('ingresos.edit')) // Ignora el ID si se está editando
             ],
+            'n_pedido' => [
+                'required',
+                'string',
+                'max:30',
+                Rule::unique('ingresos')
+                    ->where('id_proveedor', $this->input('id_proveedor'))
+                    ->ignore($this->route('ingresos.edit')) // Ignora el ID si se está editando
+            ],
             'id_proveedor' => ['required', 'exists:proveedores,id_proveedor'],
-            // Validaciones para la tabla DetalleIngresos
-            'lote' => 'required|string|max:20',
-            'id_producto' => 'required|array',
-            'cantidad_original' => 'required|array',
-            'costo_u' => 'required|array',
         ];
     }
 
@@ -50,11 +53,10 @@ class IngresoFormRequest extends FormRequest
             'n_factura.unique' => 'El número de factura ya existe para este proveedor.',
             'id_proveedor.required' => 'El proveedor es obligatorio.',
             'id_proveedor.exists' => 'El proveedor seleccionado no es válido.',
-
-            // Mensajes para la tabla DetalleIngresos
-            'lote.required' => 'El lote es obligatorio.',
-            'lote.string' => 'El lote debe ser una cadena de texto.',
-            'lote.max' => 'El lote no puede tener más de 20 caracteres.',
+            'n_pedido.required' => 'El número de pedido es obligatorio.',
+            'n_pedido.string' => 'El número de pedido debe ser una cadena de texto.',
+            'n_pedido.max' => 'El número de pedido no puede tener más de 30 caracteres.',
+            'n_pedido.unique' => 'El número de pedido ya existe para esta unidad.',
         ];
     }
 }

@@ -25,7 +25,6 @@ class UsuarioFormRequest extends FormRequest
         return [
             'name' => 'required|string|max:50',
             'ci' => 'required|string|max:20|unique:users,ci,' . $id_usuario . ',id',
-            'password' => 'required|string|min:8',
         ];
     }
 
@@ -39,9 +38,6 @@ class UsuarioFormRequest extends FormRequest
             'ci.string' => 'El CI debe ser una cadena de texto.',
             'ci.max' => 'El CI no puede tener más de 20 caracteres.',
             'ci.unique' => 'El CI ya existe en la base de datos.',
-            'password.required' => 'El campo contraseña es obligatorio.',
-            'password.string' => 'La contraseña debe ser una cadena de texto.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ];
     }
 }

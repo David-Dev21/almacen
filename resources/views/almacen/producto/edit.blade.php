@@ -5,103 +5,97 @@
 @endsection
 @section('contenido')
     <section class="card shadow-lg col-md-8 mb-auto">
-        <div class="card-header d-flex justify-content-between bg-gradient-green">
-            <h3 class="text-white my-auto">Editar Producto</h3>
-            <button class="btn btn-labeled btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $producto->id_producto }}">
-                <span class="btn-label"><i class="bi bi-trash-fill"></i></span>Eliminar
-            </button>
-            @include('almacen.producto.destroy-modal', ['producto' => $producto])
+        <div class="card-header bg-gradient-green">
+            <h3 class="text-white m-0">Editar Producto</h3>
         </div>
-        <form action="{{ route('productos.update', $producto->id_producto) }}" method="POST" enctype="multipart/form-data" class="form-control">
-            @csrf
-            @method('PUT')
-            <div class="card-body">
+        <div class="card-body">
+            <form id="productoForm" action="{{ route('productos.update', $producto->id_producto) }}" method="POST">
+                @csrf
+                @method('PUT')
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label for="selectCategoria">Categoría:</label>
-                        <select class="form-select" name="id_categoria" id="selectCategoria">
+                        <select class="form-control @error('id_categoria') is-invalid @enderror" name="id_categoria" id="selectCategoria">
                             @foreach ($categorias as $cat)
                                 <option value="{{ $cat->id_categoria }}" {{ $producto->id_categoria == $cat->id_categoria ? 'selected' : '' }}>
                                     {{ $cat->descripcion }}
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('id_categoria'))
-                            <div class="text-danger">{{ $errors->first('id_categoria') }}</div>
-                        @endif
+                        @error('id_categoria')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputCodigo">Código:</label>
-                        <input type="text" class="form-control" name="codigo" id="inputCodigo" value="{{ $producto->codigo }}" readonly>
-                        @if ($errors->has('codigo'))
-                            <div class="text-danger">{{ $errors->first('codigo') }}</div>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label>Estado:</label>
-                        <div class="d-flex flex-row mt-1 justify-content-between">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="inputEstadoActivo" value="1"
-                                    {{ $producto->estado == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="inputEstadoActivo">Activo</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="inputEstadoInactivo" value="0"
-                                    {{ $producto->estado == 0 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="inputEstadoInactivo">Inactivo</label>
-                            </div>
-                        </div>
-                        @if ($errors->has('estado'))
-                            <div class="text-danger">{{ $errors->first('estado') }}</div>
-                        @endif
+                    <div class="form-group col-md-4">
+                        <label for="txtCodigo">Código:</label>
+                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="txtCodigo"
+                            value="{{ $producto->codigo }}" readonly>
+                        @error('codigo')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputDescripcion">Descripción:</label>
-                        <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3">{{ $producto->descripcion }}</textarea>
-                        @if ($errors->has('descripcion'))
-                            <div class="text-danger">{{ $errors->first('descripcion') }}</div>
-                        @endif
+                        <label for="txtDescripcion">Descripción:</label>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion" rows="3">{{ $producto->descripcion }}</textarea>
+                        @error('descripcion')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label for="selectUnidad">Unidad:</label>
-                        <select class="form-select" name="unidad" id="selectUnidad">
-                            <option value=""></option>
+                        <select class="form-control @error('unidad') is-invalid @enderror" name="unidad" id="selectUnidad">
+                            <option value="{{ $producto->unidad }}" selected>{{ $producto->unidad }}</option>
                             <option value="Pieza" {{ $producto->unidad == 'Pieza' ? 'selected' : '' }}>Pieza</option>
-                            <option value="Rollo" {{ $producto->unidad == 'Rollo' ? 'selected' : '' }}>Rollo</option>
                             <option value="Paquete" {{ $producto->unidad == 'Paquete' ? 'selected' : '' }}>Paquete</option>
+                            <option value="Caja" {{ $producto->unidad == 'Caja' ? 'selected' : '' }}>Caja</option>
+                            <option value="Rollo" {{ $producto->unidad == 'Rollo' ? 'selected' : '' }}>Rollo</option>
+                            <option value="Juego" {{ $producto->unidad == 'Juego' ? 'selected' : '' }}>Juego</option>
+                            <option value="Bolsa" {{ $producto->unidad == 'Bolsa' ? 'selected' : '' }}>Bolsa</option>
+                            <option value="Unidad" {{ $producto->unidad == 'Unidad' ? 'selected' : '' }}>Unidad</option>
+                            <option value="Botella" {{ $producto->unidad == 'Botella' ? 'selected' : '' }}>Botella</option>
                         </select>
-                        @if ($errors->has('unidad'))
-                            <div class="text-danger">{{ $errors->first('unidad') }}</div>
-                        @endif
+                        @error('unidad')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    {{-- <div class="form-group col-md-6">
-                        <label for="fileImagen">Seleccionar Imagen:</label>
-                        <input type="file" class="form-control " name="imagen" id="fileImagen">
-                        @if ($errors->has('imagen'))
-                            <div class="text-danger">{{ $errors->first('imagen') }}</div>
-                        @endif
-                    </div> --}}
                 </div>
                 <div class="mt-3 d-flex justify-content-between">
-                    <button type="reset" class="btn btn-secondary btn-labeled" onclick="history.back()">
-                        <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</button>
-                    <button type="submit" class="btn btn-success btn-labeled">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <a href="{{ route('productos.index') }}" class="btn btn-danger btn-labeled">
+                        <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar
+                    </a>
+                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </section>
 
     @push('scripts')
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
         <script>
             $(document).ready(function() {
-                $('#selectUnidad').select2({
-                    tags: true,
-                    allowClear: true
+                let selectCategoria = new TomSelect('#selectCategoria', {
+                    create: false,
+                    render: {
+                        no_results: function(data) {
+                            return '<div class="no-results">No se encontraron resultados</div>';
+                        }
+                    }
+                });
+
+                let selectUnidad = new TomSelect('#selectUnidad', {
+                    create: true,
+                    render: {
+                        no_results: function(data) {
+                            return '<div class="no-results">No se encontraron resultados</div>';
+                        },
+                        option_create: function(data) {
+                            return '<div class="create">Agregar: <strong>' + data.input + '</strong></div>';
+                        }
+                    }
                 });
 
                 $('#selectCategoria').on('change', function() {
@@ -116,14 +110,42 @@
                                 return response.json();
                             })
                             .then(data => {
-                                document.getElementById('inputCodigo').value = data.codigo;
+                                document.getElementById('txtCodigo').value = data.codigo;
                             })
                             .catch(error => console.error('Error:', error));
                     } else {
-                        document.getElementById('inputCodigo').value = '';
+                        document.getElementById('txtCodigo').value = '';
                     }
                 });
             });
+
+            function confirmSubmit() {
+                const codigo = document.getElementById('txtCodigo').value;
+                const descripcion = document.getElementById('txtDescripcion').value;
+                const categoria = document.getElementById('selectCategoria').selectedOptions[0].text;
+                const unidad = document.getElementById('selectUnidad').selectedOptions[0].text;
+
+                Swal.fire({
+                    title: '¿Está seguro de actualizar?',
+                    html: `<p><strong>Código:</strong> ${codigo}</p>
+                           <p><strong>Descripción:</strong> ${descripcion}</p>
+                           <p><strong>Categoría:</strong> ${categoria}</p>
+                           <p><strong>Unidad:</strong> ${unidad}</p>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#157347',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, guardar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('productoForm').submit();
+                    }
+                });
+            }
         </script>
     @endpush
 @endsection

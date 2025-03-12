@@ -10,8 +10,9 @@
                 <form action="{{ route('salidas.index') }}" method="get">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" name="buscar" placeholder="Buscar" value="{{ $buscar }}">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <input type="text" class="form-control" name="buscar" value="{{ $buscar }}" data-bs-toggle="tooltip"
+                            title="Ingrese el nro. de hoja o nro. de pedido de ruta de la salida que desea buscar" autocomplete="off"> <button
+                            class="btn btn-primary" type="submit">Buscar</button>
                     </div>
                 </form>
             </div>
@@ -25,6 +26,7 @@
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-secondary">
                         <tr class="text-center">
+                            <th>#</th>
                             <th>Unidad</th>
                             <th>Fecha y Hora</th>
                             <th>N° de Hoja de Ruta</th>
@@ -35,15 +37,16 @@
                     </thead>
                     <tbody>
                         @foreach ($salidas as $item)
-                            <tr class="text-center">
-                                <td>{{ $item->nombre_unidad }}</td>
-                                <td>{{ $item->fecha_hora }}</td>
-                                <td>{{ $item->n_hoja_ruta }}</td>
-                                <td>{{ $item->n_pedido }}</td>
-                                <td>{{ $item->total }}</td>
-                                <td>
-                                    <a href="{{ route('salidas.show', $item->id_salida) }}" class="btn btn-warning btn-labeled btn-small">
-                                        <span class="btn-label"><i class="bi bi-eye-fill"></i></span>Ver
+                            <tr>
+                                <td class="text-center">{{ $item->id_salida }}</td>
+                                <td class="ps-2">{{ $item->nombre_unidad }}</td>
+                                <td class="ps-2">{{ $item->fecha_hora }}</td>
+                                <td class="ps-2">{{ $item->n_hoja_ruta }}</td>
+                                <td class="ps-2">{{ $item->n_pedido }}</td>
+                                <td class="text-end pe-2">{{ $item->total }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('salidas.show', $item->id_salida) }}" class="btn btn-primary btn-labeled btn-small my-1">
+                                        <span class="btn-label"><i class="bi bi-eye-fill"></i></span>Detalles
                                     </a>
                                 </td>
                             </tr>

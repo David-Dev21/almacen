@@ -10,7 +10,8 @@
                 <form action="{{ route('ingresos.index') }}" method="get">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" name="buscar" placeholder="Buscar" value="{{ $buscar }}">
+                        <input type="text" class="form-control" name="buscar" value="{{ $buscar }}" data-bs-toggle="tooltip"
+                            title="Ingrese el nro. de factura o nro. de pedido del ingreso que desea buscar" autocomplete="off">
                         <button class="btn btn-primary" type="submit">Buscar</button>
                     </div>
                 </form>
@@ -26,29 +27,27 @@
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-secondary">
                         <tr class="text-center">
-                            <th>Id</th>
+                            <th>#</th>
                             <th>Proveedor</th>
-                            <th>Usuario</th>
-                            <th>Nro de Factura</th>
+                            <th>Nº de Factura</th>
+                            <th>Nº de Pedido</th>
                             <th>Fecha y Hora</th>
-                            <th>Estado</th>
                             <th>Total</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($ingresos as $item)
-                            <tr class="text-center">
-                                <td>{{ $item->id_ingreso }}</td>
-                                <td>{{ $item->nombre_proveedor }}</td>
-                                <td>{{ $item->nombre_usuario }}</td>
-                                <td>{{ $item->n_factura }}</td>
-                                <td>{{ $item->fecha_hora }}</td>
-                                <td>{{ $item->estado }}</td>
-                                <td>{{ $item->total }}</td>
-                                <td>
-                                    <a href="{{ route('ingresos.show', $item->id_ingreso) }}" class="btn btn-warning btn-labeled btn-small">
-                                        <span class="btn-label"><i class="bi bi-eye-fill"></i></span>Ver
+                            <tr>
+                                <td class="text-center">{{ $item->id_ingreso }}</td>
+                                <td class="ps-2">{{ $item->nombre_proveedor }}</td>
+                                <td class="ps-2">{{ $item->n_factura }}</td>
+                                <td class="ps-2">{{ $item->n_pedido }}</td>
+                                <td class="ps-2">{{ $item->fecha_hora }}</td>
+                                <td class="text-end pe-2">{{ $item->total }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('ingresos.show', $item->id_ingreso) }}" class="btn btn-primary btn-labeled btn-small my-1">
+                                        <span class="btn-label"><i class="bi bi-eye-fill"></i></span>Detalles
                                     </a>
                                 </td>
                             </tr>

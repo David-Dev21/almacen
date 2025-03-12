@@ -5,11 +5,17 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@popperjs/core": "^2.11.6",
         "axios": "^1.1.2",
-        "bootstrap": "5.3",
         "laravel-vite-plugin": "^0.7.2",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "bootstrap": "5.3.3",
+        "chart.js": "^4.4.8",
+        "flatpickr": "^4.6.13",
+        "jquery": "3.7.1",
+        "sweetalert2": "11.17.2",
+        "tom-select": "2.4.3"
     }
 }

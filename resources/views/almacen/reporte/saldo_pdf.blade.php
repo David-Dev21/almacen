@@ -94,6 +94,7 @@
             </td>
             <td width="60%" class="text-center-top">
                 <h2>SALDO DE ALMACÉN</h2>
+                <span>Montos expresados en Bolivianos</span><br>
                 <span> Al: {{ $fecha_fin }}</span>
             </td>
             <td width="20%"> <!-- Pie de página -->
