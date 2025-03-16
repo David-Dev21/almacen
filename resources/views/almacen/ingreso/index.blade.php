@@ -6,7 +6,7 @@
     <section class="card shadow-lg w-100">
         <div class="card-header bg-gradient-green">
             <div class="d-flex flex-row justify-content-between">
-                <h4 class="text-white my-auto">LISTADO DE INGRESOS</h4>
+                <h4 class="text-white my-auto fw-bold">LISTADO DE INGRESOS</h4>
                 <form action="{{ route('ingresos.index') }}" method="get">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -19,13 +19,13 @@
         </div>
 
         <div class="card-body">
-            <a href="{{ route('ingresos.create') }}" class="btn btn-labeled btn-success">
-                <span class="btn-label"><i class="bi bi-plus-circle-fill"></i></span>Nuevo Ingreso
+            <a href="{{ route('ingresos.create') }}" class="btn btn-labeled btn-success fw-bold">
+                <span class="btn-label"><i class="bi bi-plus-lg"></i></span>Registrar Ingreso
             </a>
 
             <div class="table-responsive mt-3">
                 <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-secondary">
+                    <thead>
                         <tr class="text-center">
                             <th>#</th>
                             <th>Proveedor</th>
@@ -66,5 +66,4 @@
         var successMessage = "{{ session('success') }}";
         var errorMessage = "{{ session('error') }}";
     </script>
-    <script src="{{ asset('js/notifications.js') }}"></script>
 @endpush

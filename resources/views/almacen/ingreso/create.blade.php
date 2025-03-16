@@ -71,22 +71,22 @@
                 </div>
                 <div class="table-responsive overflow-auto">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-secondary table-sm">
-                            <tr class="text-center">
+                        <thead>
+                            <tr class="text-center align-middle">
                                 <th>Opciones</th>
                                 <th>Producto</th>
                                 <th>Unidad</th>
                                 <th>Lote</th>
                                 <th>Cantidad</th>
-                                <th>Costo Unidad</th>
-                                <th>Sub Total</th>
+                                <th>Costo <br> Unidad</th>
+                                <th>Costo <br> Total</th>
                             </tr>
                         </thead>
                         <tbody id="tableBodyDetalles" class="align-middle">
                             @if (!empty($productosOld))
                                 @foreach ($productosOld as $index => $producto)
-                                    <tr class="text-center" id="filaSalida{{ $index }}">
-                                        <td>
+                                    <tr id="filaSalida{{ $index }}">
+                                        <td class="text-center">
                                             <button type="button" class="btn btn-danger btn-small" onclick="eliminar({{ $index }})"><i
                                                     class="bi bi-x-circle-fill"></i> Quitar</button>
                                         </td>
@@ -100,34 +100,35 @@
                                         <td>
                                             <input type="hidden" name="lote[]" value="{{ $producto['lote'] }}">{{ $producto['lote'] }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <input type="hidden" name="cantidad[]" value="{{ $producto['cantidad'] }}">{{ $producto['cantidad'] }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <input type="hidden" name="costo_u[]" value="{{ number_format($producto['costo_u'], 2, '.', '') }}">
                                             {{ number_format($producto['costo_u'], 2, '.', '') }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             {{ number_format($producto['cantidad'] * $producto['costo_u'], 2, '.', '') }}
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
                         </tbody>
-                        <tfoot>
-                            <tr class="text-center">
-                                <th colspan="4">TOTAL GENERAL</th>
-                                <th>
+                        <tfoot id="tableFooter">
+                            <tr>
+                                <th colspan="4" class="text-center">TOTAL GENERAL</th>
+                                <th class="text-end">
                                     <span id="totalCantidad">0</span>
                                 </th>
-                                <th>
+                                <th class="text-end">
                                     <span id="totalCostoUnidad">Bs. 0.00</span>
                                 </th>
-                                <th>
+                                <th class="text-end">
                                     <span id="totalCosto">Bs. 0.00</span>
                                 </th>
                             </tr>
                         </tfoot>
+
                     </table>
                 </div>
                 <div class="mt-auto d-flex justify-content-between align-items-end">
@@ -175,6 +176,7 @@
             var subTotal = [];
 
             $('#btnGuardar').hide();
+            $('#tableFooter').hide();
 
             function agregar() {
                 var idProducto = $('#selectProducto').val();
@@ -210,8 +212,8 @@
                 subTotal[cont] = (cantidad * costo_u);
                 total = total + subTotal[cont];
                 var fila =
-                    '<tr class="text-center" id="filaIngreso' + cont + '">' +
-                    '<td>' +
+                    '<tr id="filaIngreso' + cont + '">' +
+                    '<td class="text-center">' +
                     '<button type="button" class="btn btn-danger btn-small" onclick="eliminar(' + cont +
                     ')"><i class="bi bi-x-circle-fill"></i> Quitar</button>' +
                     '</td>' +
@@ -224,13 +226,13 @@
                     '<td>' +
                     '<input type="hidden" name="lote[]" value="' + lote + '">' + lote +
                     '</td>' +
-                    '<td>' +
+                    '<td class="text-end">' +
                     '<input type="hidden" name="cantidad[]" value="' + cantidad + '">' + cantidad +
                     '</td>' +
-                    '<td>' +
+                    '<td class="text-end">' +
                     '<input type="hidden" name="costo_u[]" value="' + costo_u + '">' + costo_u.toFixed(2) +
                     '</td>' +
-                    '<td>' +
+                    '<td class="text-end">' +
                     subTotal[cont].toFixed(2) +
                     '</td>' +
                     '</tr>';
@@ -245,8 +247,10 @@
             function evaluar() {
                 if (total > 0) {
                     $('#btnGuardar').show();
+                    $('#tableFooter').show();
                 } else {
                     $('#btnGuardar').hide();
+                    $('#tableFooter').hide();
                 }
             }
 

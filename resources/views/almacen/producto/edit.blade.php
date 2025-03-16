@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('productos.index') }}">Productos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('productos.index') }}" class="link">Productos</a></li>
     <li class="breadcrumb-item active">Editar Producto</li>
 @endsection
 @section('contenido')
     <section class="card shadow-lg col-md-8 mb-auto">
         <div class="card-header bg-gradient-green">
-            <h3 class="text-white m-0">Editar Producto</h3>
+            <h3 class="text-white m-0 fw-bold">Editar Producto</h3>
         </div>
         <div class="card-body">
             <form id="productoForm" action="{{ route('productos.update', $producto->id_producto) }}" method="POST">

@@ -67,22 +67,22 @@
                 <!-- Tabla Responsiva -->
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-secondary table-sm">
-                            <tr class="text-center">
+                        <thead>
+                            <tr class="text-center align-middle">
                                 <th>Opciones</th>
                                 <th>Producto</th>
                                 <th>Unidad</th>
                                 <th>Lote</th>
                                 <th>Cantidad</th>
-                                <th>Costo Unidad</th>
-                                <th>CostoTotal</th>
+                                <th>Costo <br> Unidad</th>
+                                <th>Costo <br> Total</th>
                             </tr>
                         </thead>
                         <tbody id="tableBodyDetalles" class="align-middle">
                             @if (!empty($productosOld))
                                 @foreach ($productosOld as $index => $producto)
-                                    <tr class="text-center" id="filaSalida{{ $index }}">
-                                        <td>
+                                    <tr id="filaSalida{{ $index }}">
+                                        <td class="text-center">
                                             <button type="button" class="btn btn-danger btn-small" onclick="eliminar({{ $index }})"><i
                                                     class="bi bi-x-circle-fill"></i>Quitar</button>
                                         </td>
@@ -96,30 +96,30 @@
                                         <td>
                                             <input type="hidden" name="lote[]" value="{{ $producto['lote'] }}">{{ $producto['lote'] }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <input type="hidden" name="cantidad[]" value="{{ $producto['cantidad'] }}">{{ $producto['cantidad'] }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <input type="hidden" name="costo_u[]" value="{{ number_format($producto['costo_u'], 2, '.', '') }}">
                                             {{ number_format($producto['costo_u'], 2, '.', '') }}
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             {{ number_format($producto['cantidad'] * $producto['costo_u'], 2, '.', '') }}
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
                         </tbody>
-                        <tfoot>
-                            <tr class="text-center">
-                                <th colspan="4">TOTAL GENERAL</th>
-                                <th>
+                        <tfoot id="tableFooter">
+                            <tr>
+                                <th colspan="4" class="text-center">TOTAL GENERAL</th>
+                                <th class="text-end">
                                     <span id="totalCantidad">0</span>
                                 </th>
-                                <th>
+                                <th class="text-end">
                                     <span id="totalCostoUnidad">Bs. 0.00</span>
                                 </th>
-                                <th>
+                                <th class="text-end">
                                     <span id="totalCosto">Bs. 0.00</span>
                                 </th>
                             </tr>
@@ -174,6 +174,7 @@
             var subTotal = [];
 
             $('#btnGuardar').hide();
+            $('#tableFooter').hide();
             $('#selectProducto').on('change', mostrarValores);
 
             function mostrarValores() {
@@ -238,8 +239,8 @@
 
                         var cantidad_a_deducir = Math.min(cantidad_restante, lote.cantidad_disponible);
                         subTotalProducto += cantidad_a_deducir * lote.costo_u;
-                        lotesHtml += '<tr class="text-center" id="filaSalida' + cont + '">' +
-                            '<td>' +
+                        lotesHtml += '<tr id="filaSalida' + cont + '">' +
+                            '<td class="text-center">' +
                             '<button type="button" class="btn btn-danger btn-small" onclick="eliminar(' + cont +
                             ')"><i class="bi bi-x-circle-fill"></i>Quitar</button>' +
                             '</td>' +
@@ -252,18 +253,19 @@
                             '<td>' +
                             '<input type="hidden" name="lote[]" value="' + lote.lote + '">' + lote.lote +
                             '</td>' +
-                            '<td>' +
+                            '<td class="text-end">' +
                             '<input type="hidden" name="cantidad[]" value="' + cantidad_a_deducir + '">' + cantidad_a_deducir +
                             '</td>' +
-                            '<td>' +
+                            '<td class="text-end">' +
                             '<input type="hidden" name="costo_u[]" value="' + lote.costo_u + '">' + lote.costo_u +
                             '</td>' +
-                            '<td>' +
+                            '<td class="text-end">' +
                             (cantidad_a_deducir * lote.costo_u).toFixed(2) +
                             '</td>' +
                             '</tr>';
 
                         cantidad_restante -= cantidad_a_deducir;
+                        cont++;
                     });
 
                     $('#tableBodyDetalles').append(lotesHtml);
@@ -276,8 +278,10 @@
             function evaluar() {
                 if (total > 0) {
                     $('#btnGuardar').show();
+                    $('#tableFooter').show();
                 } else {
                     $('#btnGuardar').hide();
+                    $('#tableFooter').hide();
                 }
             }
 

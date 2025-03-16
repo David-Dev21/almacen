@@ -6,7 +6,7 @@
     <section class="card shadow-lg w-100">
         <div class="card-header bg-gradient-green">
             <div class="d-flex flex-row justify-content-between">
-                <h4 class="text-white my-auto">LISTADO DE UNIDADES</h4>
+                <h4 class="text-white my-auto fw-bold">LISTADO DE UNIDADES</h4>
                 <form action="{{ route('unidades.index') }}" method="get">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -18,12 +18,12 @@
             </div>
         </div>
         <div class="card-body">
-            <a href="{{ route('unidades.create') }}" class="btn btn-labeled btn-success">
-                <span class="btn-label"><i class="bi bi-plus-circle-fill"></i></span>Crear Unidad
+            <a href="{{ route('unidades.create') }}" class="btn btn-labeled btn-success fw-bold">
+                <span class="btn-label"><i class="bi bi-plus-lg"></i></span>Crear Unidad
             </a>
             <div class="table-responsive mt-3">
                 <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-secondary">
+                    <thead>
                         <tr class="text-center">
                             <th>#</th>
                             <th>Jefe</th>
@@ -67,7 +67,6 @@
     </section>
 @endsection
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var successMessage = "{{ session('success') }}";
         var errorMessage = "{{ session('error') }}";
@@ -117,5 +116,4 @@
                 });
         }
     </script>
-    <script src="{{ asset('js/notifications.js') }}"></script>
 @endpush

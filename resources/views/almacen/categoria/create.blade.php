@@ -4,28 +4,33 @@
     <li class="breadcrumb-item active">Crear Categoría</li>
 @endsection
 @section('contenido')
-    <section class="card shadow-lg col-md-6 mb-auto">
+    <section class="card shadow-lg col-md-8 mb-auto">
         <div class="card-header bg-gradient-green">
-            <h3 class="text-white m-0">Crear Categoría</h3>
+            <h3 class="text-white m-0 fw-bold">Crear Categoría</h3>
         </div>
         <div class="card-body">
             <form id="categoriaForm" action="{{ route('categorias.store') }}" method="POST">
                 @csrf
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-6 col-md-3 my-auto">
                         <label for="txtCodigo">Código:</label>
                         <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="txtCodigo"
-                            value="{{ old('codigo') }}" data-toggle="tooltip" data-bs-placement="right"
-                            title="Este campo se utilizará para generar los códigos de los productos. Por favor, elija cuidadosamente.<br>Una vez guardado no se podrá editar este campo.<br>Ejemplo: MC"
-                            autocomplete="off">
+                            value="{{ old('codigo') }}" autocomplete="off" placeholder="ME">
                         @error('codigo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+                    <div class="col-md-9 mt-2 mt-md-0">
+                        <div class="alert alert-warning" role="alert">
+                            El campo Código se utilizará para generar los códigos de los productos. Por favor, elija cuidadosamente.<br>Una vez guardado
+                            no se
+                            podrá editar este campo.<br>Ejemplo: <strong>M</strong>aterial de <strong>E</strong>scritorio Código: <strong>ME</strong>
+                        </div>
+                    </div>
                     <div class="form-group col-md-12">
                         <label for="txtDescripcion">Descripción:</label>
-                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion" rows="3">{{ old('descripcion') }}</textarea>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion" rows="3"
+                            placeholder="Material de Escritorio">{{ old('descripcion') }}</textarea>
                         @error('descripcion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -44,15 +49,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip({
-                template: '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner bg-info text-white"></div></div>',
-                html: true
-            });
-        });
-
         function confirmSubmit() {
             const codigo = document.getElementById('txtCodigo').value;
             const descripcion = document.getElementById('txtDescripcion').value;

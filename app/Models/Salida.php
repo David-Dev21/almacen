@@ -11,7 +11,7 @@ class Salida extends Model
     protected $table = 'salidas';
     protected $primaryKey = 'id_salida';
 
-    protected $fillable = ['n_hoja_ruta', 'n_pedido', 'fecha_hora', 'total', 'estado', 'id_unidad', 'id_usuario'];
+    protected $fillable = ['n_hoja_ruta', 'n_pedido', 'fecha_hora', 'total', 'id_unidad', 'id_usuario'];
 
     public function unidad()
     {

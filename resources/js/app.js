@@ -1,13 +1,15 @@
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Este ya incluye Popper
+import 'bootstrap';
+import "./notifications.js";
 import Swal from 'sweetalert2';
 import TomSelect from 'tom-select';
-import 'tom-select/dist/css/tom-select.css'; // También importa el CSS
+import 'tom-select/dist/css/tom-select.css'; 
 import Chart from 'chart.js/auto';
-// Importar Flatpickr y el archivo CSS
 import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css"; // Estilo de Flatpickr
-import { Spanish } from "flatpickr/dist/l10n/es.js"; // Localización en español
+import "flatpickr/dist/flatpickr.min.css";
+import { Spanish } from "flatpickr/dist/l10n/es.js"; 
+import { Tooltip } from 'bootstrap';
 
 window.flatpickr = flatpickr;
 flatpickr.localize(Spanish);
@@ -15,3 +17,7 @@ window.Chart = Chart;
 window.Swal = Swal;
 window.TomSelect = TomSelect;
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+tooltipTriggerList.forEach((tooltipTriggerEl) => {
+  new Tooltip(tooltipTriggerEl);
+});

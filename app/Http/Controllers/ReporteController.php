@@ -93,7 +93,7 @@ class ReporteController extends Controller
     public function saldoAlmacen(Request $request)
     {
         $resultados = [];
-        $categorias = DB::table('Categorias')->get();
+        $categorias = DB::table('categorias')->get();
 
         if ($request->isMethod('get') && $request->has(['fecha_fin'])) {
             // Validar las fechas
@@ -106,9 +106,9 @@ class ReporteController extends Controller
             $id_categoria = $request->input('id_categoria', null);
 
             // Llamar a los procedimientos almacenados
-            $resultados['detalles'] = DB::select('CALL ObtenerSaldoPorLotes(?, ?)', [$id_categoria, $fecha_fin]);
-            $resultados['totales_por_producto'] = DB::select('CALL ObtenerTotalesPorProducto(?, ?)', [$id_categoria, $fecha_fin]);
-            $totalesPorCategoria = DB::select('CALL ObtenerTotalesPorCategoria(?, ?)', [$id_categoria, $fecha_fin]);
+            $resultados['detalles'] = DB::select('CALL obtenerSaldoPorLote(?, ?)', [$id_categoria, $fecha_fin]);
+            $resultados['totales_por_producto'] = DB::select('CALL obtenerTotalesPorProducto(?, ?)', [$id_categoria, $fecha_fin]);
+            $totalesPorCategoria = DB::select('CALL obtenerTotalesPorCategoria(?, ?)', [$id_categoria, $fecha_fin]);
 
             // Usar array_pop() para separar el total general (última fila)
             $totalGeneral = array_pop($totalesPorCategoria); // Obtener la última fila como total general
@@ -134,9 +134,9 @@ class ReporteController extends Controller
         $id_categoria = $request->input('id_categoria', null);
 
         // Llamar a los procedimientos almacenados
-        $resultados['detalles'] = DB::select('CALL ObtenerSaldoPorLotes(?, ?)', [$id_categoria, $fecha_fin]);
-        $resultados['totales_por_producto'] = DB::select('CALL ObtenerTotalesPorProducto(?, ?)', [$id_categoria, $fecha_fin]);
-        $totalesPorCategoria = DB::select('CALL ObtenerTotalesPorCategoria(?, ?)', [$id_categoria, $fecha_fin]);
+        $resultados['detalles'] = DB::select('CALL obtenerSaldoPorLote(?, ?)', [$id_categoria, $fecha_fin]);
+        $resultados['totales_por_producto'] = DB::select('CALL obtenerTotalesPorProducto(?, ?)', [$id_categoria, $fecha_fin]);
+        $totalesPorCategoria = DB::select('CALL obtenerTotalesPorCategoria(?, ?)', [$id_categoria, $fecha_fin]);
 
         // Usar array_pop() para separar el total general (última fila)
         $totalGeneral = array_pop($totalesPorCategoria); // Obtener la última fila como total general
