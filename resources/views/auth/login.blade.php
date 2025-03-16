@@ -11,7 +11,7 @@
                             <div class="row">
                                 <div class="form-floating col-12">
                                     <input type="text" class="form-control w-100 fs-5 @error('ci') is-invalid @enderror" name="ci" id="txtCi"
-                                        value="{{ old('ci') }}" autocomplete="ci" placeholder="">
+                                        value="{{ old('ci') }}" autocomplete="off" placeholder="">
                                     <label for="txtCi" class="ms-2 fs-6">Usuario</label>
 
                                     @error('ci')
@@ -63,5 +63,4 @@
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection

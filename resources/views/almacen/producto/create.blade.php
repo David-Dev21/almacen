@@ -6,7 +6,7 @@
 @section('contenido')
     <section class="card shadow-lg col-md-8 mb-auto">
         <div class="card-header bg-gradient-green">
-            <h3 class="text-white m-0">Crear Producto</h3>
+            <h3 class="text-white m-0 fw-bold">Crear Producto</h3>
         </div>
         <div class="card-body">
             <form id="productoForm" action="{{ route('productos.store') }}" method="POST">

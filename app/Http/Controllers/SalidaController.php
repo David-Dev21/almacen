@@ -67,7 +67,6 @@ class SalidaController extends Controller
             $salida->id_usuario = Auth::id(); // Obtener el ID del usuario autenticado
             $salida->n_hoja_ruta = $validated['n_hoja_ruta'];
             $salida->n_pedido = $validated['n_pedido'];
-            $salida->estado = 'completado';
             $salida->fecha_hora = Carbon::now('America/La_Paz')->toDateTimeString();
             $salida->total = 0;
             $salida->save();
@@ -124,7 +123,7 @@ class SalidaController extends Controller
             ->where('id_salida', '=', $id)
             ->first();
 
-        $detalles = DB::select('CALL detalle_salidas_con_categorias(?)', [$id]);
+        $detalles = DB::select('CALL obtenerDetalleSalida(?)', [$id]);
 
         // Devolver la vista con los datos del salida y los detalles
         return view('almacen.salida.show', compact("salida", "detalles"));
@@ -150,7 +149,7 @@ class SalidaController extends Controller
             ->where('id_salida', '=', $id)
             ->first();
 
-        $detalles = collect(DB::select('CALL detalle_salidas_con_categorias(?)', [$id]));
+        $detalles = collect(DB::select('CALL obtenerDetalleSalida(?)', [$id]));
         $categorias = $detalles->pluck('categoria')->unique();
         $logoPath = public_path('img/logo-para-pdf.jpg');
         $data = [

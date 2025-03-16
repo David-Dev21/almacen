@@ -25,7 +25,7 @@ return new class extends Migration
                 ->on('proveedores')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('id_usuario')->references('id')
                 ->on('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->unique(['n_factura', 'id_proveedor']);
+            $table->unique(['n_factura', 'id_proveedor', 'n_pedido']);
         });
     }
 

@@ -33,4 +33,8 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    'vite' => [
+        'manifest_path' => public_path('build/manifest.json'),
+    ],
+
 ];

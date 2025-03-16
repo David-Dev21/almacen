@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
-    // Constructor del controlador
     public function __construct() {}
 
-    // Método para listar los productos
     public function index(Request $request)
     {
         // Obtener y limpiar el texto de búsqueda

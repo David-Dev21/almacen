@@ -6,7 +6,7 @@
 @section('contenido')
     <section class="card shadow-lg col-md-8 mb-auto">
         <div class="card-header bg-gradient-green">
-            <h3 class="text-white m-0">Crear Proveedor</h3>
+            <h3 class="text-white m-0 fw-bold">Crear Proveedor</h3>
         </div>
         <div class="card-body">
             <form id="proveedorForm" action="{{ route('proveedores.store') }}" method="POST">
@@ -21,8 +21,8 @@
                         @enderror
                     </div>
                     <div class="form-group col-sm-5">
-                        <label for="txtNit">N° de Nit: <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('nit') is-invalid @enderror" name="nit" id="txtNit"
+                        <label for="numberNit">N° de Nit: <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control @error('nit') is-invalid @enderror" name="nit" id="numberNit"
                             value="{{ old('nit') }}">
                         @error('nit')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -37,8 +37,8 @@
                         @enderror
                     </div>
                     <div class="form-group col-sm-5">
-                        <label for="txtTelefono">Teléfono:</label>
-                        <input type="text"class="form-control @error('telefono') is-invalid @enderror" name="telefono" id="txtTelefono"
+                        <label for="numberTelefono">Teléfono:</label>
+                        <input type="number"class="form-control @error('telefono') is-invalid @enderror" name="telefono" id="numberTelefono"
                             value="{{ old('telefono') }}">
                         @error('telefono')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -66,10 +66,10 @@
         <script>
             function confirmSubmit() {
                 const razonSocial = document.getElementById('txtRazonSocial').value;
-                const nit = document.getElementById('txtNit').value;
+                const nit = document.getElementById('numberNit').value;
                 const nombre = document.getElementById('txtNombre').value;
                 const direccion = document.getElementById('txtDireccion').value;
-                const telefono = document.getElementById('txtTelefono').value;
+                const telefono = document.getElementById('numberTelefono').value;
 
                 Swal.fire({
                     title: '¿Está seguro de guardar?',

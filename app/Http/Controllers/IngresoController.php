@@ -80,7 +80,6 @@ class IngresoController extends Controller
             $ingreso->id_usuario = Auth::id(); // Obtener el ID del usuario autenticado
             $ingreso->n_factura = $validated['n_factura'];
             $ingreso->n_pedido = $validated['n_pedido'];
-            $ingreso->estado = 'completado';
             $ingreso->fecha_hora = Carbon::now('America/La_Paz')->toDateTimeString();
             $ingreso->total = 0; // Inicializa total a 0, lo calculamos después
             $ingreso->save();
@@ -133,7 +132,7 @@ class IngresoController extends Controller
             ->where('id_ingreso', '=', $id)
             ->first();
 
-        $detalles = DB::select('CALL detalle_ingresos_con_categorias(?)', [$id]);
+        $detalles = DB::select('CALL obtenerDetalleIngreso(?)', [$id]);
 
         // Devolver la vista con los datos del ingreso y los detalles
         return view('almacen.ingreso.show', compact("ingreso", "detalles"));

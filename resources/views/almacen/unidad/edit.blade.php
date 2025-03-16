@@ -6,7 +6,7 @@
 @section('contenido')
     <section class="card shadow-lg col-sm-8 mb-auto">
         <div class="card-header bg-gradient-green">
-            <h3 class="text-white m-0">Editar Unidad</h3>
+            <h3 class="text-white m-0 fw-bold">Editar Unidad</h3>
         </div>
         <div class="card-body">
             <form id="unidadForm" action="{{ route('unidades.update', $unidad->id_unidad) }}" method="POST">
@@ -30,8 +30,8 @@
                         @enderror
                     </div>
                     <div class="form-group col-sm-5">
-                        <label for="txtTelefono">Teléfono:</label>
-                        <input class="form-control @error('telefono') is-invalid @enderror" type="text" name="telefono" id="txtTelefono"
+                        <label for="numbertelefono">Teléfono:</label>
+                        <input class="form-control @error('telefono') is-invalid @enderror" type="number" name="telefono" id="numbertelefono"
                             value="{{ $unidad->telefono }}">
                         @error('telefono')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -62,7 +62,7 @@
             const nombre = document.getElementById('txtNombre').value;
             const jefe = document.getElementById('txtJefe').value;
             const direccion = document.getElementById('txtDireccion').value;
-            const telefono = document.getElementById('txtTelefono').value;
+            const telefono = document.getElementById('numbertelefono').value;
 
             Swal.fire({
                 title: '¿Está seguro de actualizar?',

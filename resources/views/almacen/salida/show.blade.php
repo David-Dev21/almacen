@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('salidas.index') }}" class="link">Salidas</a></li>
-    <li class="breadcrumb-item active">Detalles de la Salida</li>
+    <li class="breadcrumb-item active">Detalles Salida</li>
 @endsection
 @section('contenido')
     <section class="card shadow-lg w-100">
         <div class="card-header bg-gradient-green">
             <div class="row">
                 <div class="col-6">
-                    <h5 class="card-title text-white my-auto">Detalles de la Salida</h5>
+                    <h5 class="card-title text-white my-auto fw-bold">DETALLES DE LA SALIDA</h5>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
             <!-- Tabla Responsiva -->
             <div class="table-responsive overflow-auto flex-grow-1 mt-3">
                 <table class="table table-hover table-bordered align-middle" id="tableDetalles">
-                    <thead class="table-secondary">
+                    <thead>
                         <tr class="text-center align-middle">
                             <th>Código</th>
                             <th>Producto</th>

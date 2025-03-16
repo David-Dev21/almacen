@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Reporte Movimiento</li>
+    <li class="breadcrumb-item active">Movimiento Almacén</li>
 @endsection
 @section('contenido')
     <section class="card shadow-lg w-100 d-flex flex-column">
         <div class="card-header bg-gradient-green">
-            <h4 class="text-white my-auto">Movimientos de Inventario</h4>
+            <h4 class="text-white my-auto fw-bold">MOVIMIENTO DE ALMACÉN</h4>
         </div>
         <div class="card-body">
             <form action="{{ route('movimientos') }}" method="GET">
                 @csrf
-                <div class="row gap-3">
+                <div class="row">
                     <!-- Fecha Inicial -->
                     <div class="col-md-4">
                         <div class="flatpickr">
@@ -38,21 +38,22 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Botón Filtrar -->
-                    <div class="col-md-3 d-flex align-items-center justify-content-around">
+                    <div class="col-md-4 d-flex align-items-center justify-content-around">
                         <button type="submit" class="btn btn-primary btn-labeled">
-                            <span class="btn-label"><i class="bi bi-filter-square-fill"></i></span>Filtrar
+                            <span class="btn-label"><i class="bi bi-search"></i></span>Buscar
                         </button>
-                        <a href="{{ route('movimientos.imprimir', ['fecha_inicio' => request('fecha_inicio'), 'fecha_fin' => request('fecha_fin')]) }}"
-                            target="_blank" class="btn btn-labeled btn-danger">
-                            <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Imprimir
-                        </a>
+                        @if ($totalGeneral->Saldo_Final ?? 0 > 0)
+                            <a href="{{ route('movimientos.imprimir', ['fecha_inicio' => request('fecha_inicio'), 'fecha_fin' => request('fecha_fin')]) }}"
+                                target="_blank" class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Imprimir
+                            </a>
+                        @endif
                     </div>
                 </div>
             </form>
             <div class="table-responsive overflow-auto mt-3">
-                <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-secondary">
+                <table class="table table-hover align-middle">
+                    <thead>
                         <tr class="text-center align-middle">
                             <th rowspan="2">Código</th>
                             <th rowspan="2">Producto</th>
@@ -96,19 +97,21 @@
                             @endforeach
                         @endif
                     </tbody>
-                    <tfoot>
-                        <tr class="fw-bold text-center">
-                            <th colspan="4">TOTAL GENERAL</th>
-                            <th class="text-end pe-2">{{ $totalGeneral->Saldo_Inicial ?? 0 }}</th>
-                            <th class="text-end pe-2">{{ number_format($totalGeneral->Costo_Inicial ?? 0, 2) }}</th>
-                            <th class="text-end pe-2">{{ $totalGeneral->Ingresos_Cantidad ?? 0 }}</th>
-                            <th class="text-end pe-2">{{ number_format($totalGeneral->Ingresos_Costo ?? 0, 2) }}</th>
-                            <th class="text-end pe-2">{{ $totalGeneral->Salidas_Cantidad ?? 0 }}</th>
-                            <th class="text-end pe-2">{{ number_format($totalGeneral->Salidas_Costo ?? 0, 2) }}</th>
-                            <th class="text-end pe-2">{{ $totalGeneral->Saldo_Final ?? 0 }}</th>
-                            <th class="text-end pe-2">{{ number_format($totalGeneral->Costo_Final ?? 0, 2) }}</th>
-                        </tr>
-                    </tfoot>
+                    @if (isset($productos) && count($productos) > 0)
+                        <tfoot>
+                            <tr class="fw-bold text-center">
+                                <th colspan="4">TOTAL GENERAL</th>
+                                <th class="text-end pe-2">{{ $totalGeneral->Saldo_Inicial ?? 0 }}</th>
+                                <th class="text-end pe-2">{{ number_format($totalGeneral->Costo_Inicial ?? 0, 2) }}</th>
+                                <th class="text-end pe-2">{{ $totalGeneral->Ingresos_Cantidad ?? 0 }}</th>
+                                <th class="text-end pe-2">{{ number_format($totalGeneral->Ingresos_Costo ?? 0, 2) }}</th>
+                                <th class="text-end pe-2">{{ $totalGeneral->Salidas_Cantidad ?? 0 }}</th>
+                                <th class="text-end pe-2">{{ number_format($totalGeneral->Salidas_Costo ?? 0, 2) }}</th>
+                                <th class="text-end pe-2">{{ $totalGeneral->Saldo_Final ?? 0 }}</th>
+                                <th class="text-end pe-2">{{ number_format($totalGeneral->Costo_Final ?? 0, 2) }}</th>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>

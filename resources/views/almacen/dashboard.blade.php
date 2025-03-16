@@ -1,93 +1,115 @@
 @extends('layouts.admin')
 @section('contenido')
-    <section class="w-100">
-        <div class="row">
+    <section class="w-100 d-flex flex-column">
+        <div class="row flex-grow-1">
             <div class="col-md-4 my-1">
-                <div class="card-dashboard shadow-lg p-2">
-                    <div class="card-body d-flex justify-content-between">
-                        <i class="bi bi-cart fs-1 my-auto px-2"></i>
-                        <div class="d-flex flex-column my-auto w-100">
-                            <span class="text-center fs-5">Productos Totales</span>
-                            <span class="small text-muted text-center">{{ $fecha }}</span>
+                <div class="card-dashboard card-hover shadow-lg p-2 h-100">
+                    <a href="{{ route('productos.index') }}" class="link h-100">
+                        <div class="card-body d-flex justify-content-between h-100">
+                            <i class="bi bi-cart fs-1 my-auto px-2"></i>
+                            <div class="d-flex flex-column my-auto w-100">
+                                <span class="text-center fs-5">Productos Totales</span>
+                                <span class="small text-muted text-center">{{ $fecha }}</span>
+                            </div>
+                            <span class="fs-1 my-auto px-2">{{ $totalProductos }} </span>
                         </div>
-                        <span class="fs-1 my-auto px-2">{{ $totalProductos }} </span>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-4 my-1">
-                <div class="card-dashboard shadow p-2">
-                    <div class="card-body d-flex justify-content-between">
-                        <i class="bi bi-cart-plus fs-1 my-auto px-2"></i>
-                        <div class="d-flex flex-column my-auto w-100">
-                            <span class="text-center fs-5">Ingresos Totales</span>
-                            <span class="small text-muted text-center">{{ $fecha }}</span>
+                <div class="card-dashboard shadow p-2 h-100">
+                    <a href="{{ route('ingresos.index') }}" class="link h-100">
+                        <div class="card-body d-flex justify-content-between h-100">
+                            <i class="bi bi-cart-plus fs-1 my-auto px-2"></i>
+                            <div class="d-flex flex-column my-auto w-100">
+                                <span class="text-center fs-5">Ingresos Totales</span>
+                                <span class="small text-muted text-center">{{ $fecha }}</span>
+                            </div>
+                            <span class="fs-1 my-auto px-2">{{ $totalIngresos }} </span>
                         </div>
-                        <span class="fs-1 my-auto px-2">{{ $totalIngresos }} </span>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-4 my-1">
-                <div class="card-dashboard shadow p-2">
-                    <div class="card-body d-flex justify-content-between">
-                        <i class="bi bi-cart-dash fs-1 my-auto px-2"></i>
-                        <div class="d-flex flex-column my-auto w-100">
-                            <span class="text-center fs-5">Salidas Totales</span>
-                            <span class="small text-muted text-center">{{ $fecha }}</span>
+                <div class="card-dashboard shadow p-2 h-100">
+                    <a href="{{ route('salidas.index') }}" class="link h-100">
+                        <div class="card-body d-flex justify-content-between h-100">
+                            <i class="bi bi-cart-dash fs-1 my-auto px-2"></i>
+                            <div class="d-flex flex-column my-auto w-100">
+                                <span class="text-center fs-5">Salidas Totales</span>
+                                <span class="small text-muted text-center">{{ $fecha }}</span>
+                            </div>
+                            <span class="fs-1 my-auto px-2">{{ $totalSalidas }} </span>
                         </div>
-                        <span class="fs-1 my-auto px-2">{{ $totalSalidas }} </span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row flex-grow-1">
             <div class="col-md-8 my-1">
-                <div class="card-dashboard shadow">
-                    <div class="card-body d-flex flex-column pt-1">
-                        <span class="text-center">Salidas por Mes</span>
-                        <canvas id="salidasPorMesChart" class="w-100 h-100"></canvas>
-                    </div>
+                <div class="card-dashboard shadow h-100">
+                    <a href="{{ route('salidas.index') }}" class="link h-100">
+                        <div class="card-body d-flex flex-column pt-1 h-100">
+                            <span class="text-center">Salidas por Mes</span>
+                            <canvas id="salidasPorMesChart" class="w-100 h-100"></canvas>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-4 my-1">
-                <div class="card-dashboard shadow">
-                    <div class="card-body d-flex flex-column py-2">
-                        <span class="text-center">Productos por Categoría</span>
-                        <canvas id="myChart"></canvas>
-                    </div>
+                <div class="card-dashboard shadow h-100">
+                    <a href="{{ route('categorias.index') }}" class="link h-100">
+                        <div class="card-body d-flex flex-column py-2 h-100">
+                            <span class="text-center">Productos por Categoría</span>
+                            <canvas id="myChart" class="h-100"></canvas>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row flex-grow-1">
             <div class="col-md-6 my-1">
-                <div class="card-dashboard shadow p-2">
-                    <div class="card-body d-flex justify-content-between">
+                <div class="card-dashboard shadow p-2 h-100">
+                    @if ($ultimoIngreso)
+                        <a href="{{ route('ingresos.show', $ultimoIngreso->id_ingreso) }}" class="link h-100">
+                        @else
+                            <a href="#" class="link h-100">
+                    @endif
+                    <div class="card-body d-flex justify-content-between h-100">
                         <i class="bi bi-box-arrow-in-down fs-1 my-auto px-2"></i>
                         <div class="d-flex flex-column my-auto w-100">
                             <span class="text-center fs-5">Último Ingreso</span>
                             @if ($ultimoIngreso)
                                 <span class="small text-muted text-center">{{ $ultimoIngreso->fecha_hora }}</span>
-                                <span class="fs-6 text-center">{{ $ultimoIngreso->total }}</span>
+                                <span class="fs-6 text-center">Bs: {{ number_format($ultimoIngreso->total, 2) }}</span>
                             @else
                                 <span class="small text-muted text-center">No hay datos disponibles</span>
                             @endif
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
             <div class="col-md-6 my-1">
-                <div class="card-dashboard shadow p-2">
-                    <div class="card-body d-flex justify-content-between">
+                <div class="card-dashboard shadow p-2 h-100">
+                    @if ($ultimaSalida)
+                        <a href="{{ route('salidas.show', $ultimaSalida->id_salida) }}" class="link h-100">
+                        @else
+                            <a href="#" class="link h-100">
+                    @endif
+                    <div class="card-body d-flex justify-content-between h-100">
                         <i class="bi bi-box-arrow-up fs-1 my-auto px-2"></i>
                         <div class="d-flex flex-column my-auto w-100">
                             <span class="text-center fs-5">Última Salida</span>
                             @if ($ultimaSalida)
                                 <span class="small text-muted text-center">{{ $ultimaSalida->fecha_hora }}</span>
-                                <span class="fs-6 text-center">{{ $ultimaSalida->total }}</span>
+                                <span class="fs-6 text-center">Bs: {{ number_format($ultimaSalida->total, 2) }}</span>
                             @else
                                 <span class="small text-muted text-center">No hay datos disponibles</span>
                             @endif
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>

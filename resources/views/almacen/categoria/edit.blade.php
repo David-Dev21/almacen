@@ -6,7 +6,7 @@
 @section('contenido')
     <section class="card shadow-lg col-md-6 mb-auto">
         <div class="card-header d-flex justify-content-between bg-gradient-green">
-            <h3 class="text-white m-0">Editar Categoría</h3>
+            <h3 class="text-white m-0 fw-bold">Editar Categoría</h3>
         </div>
         <div class="card-body">
             <form id="categoriaForm" action="{{ route('categorias.update', $categoria->id_categoria) }}" method="POST">

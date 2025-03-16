@@ -13,6 +13,14 @@ export default defineConfig({
     ],
     build: {
         outDir: 'public/build', // Carpeta de salida para los archivos compilados
-        manifest: true, // Activa la generación de un archivo manifest.json, necesario para el trabajo con Vite y Laravel
+        manifest: 'manifest.json', // Nombre explícito del archivo manifest
+        emptyOutDir: true, // Limpia la carpeta /public/build/ antes de generar nuevos archivos
+        rollupOptions: {
+            output: {
+                entryFileNames: `[name].[hash].js`,       // Archivos JS directamente en /public/build/
+                chunkFileNames: `[name].[hash].js`,      // Chunks JS directamente en /public/build/
+                assetFileNames: `[name].[hash].[ext]`,  // Archivos CSS, imágenes, etc., directamente en /public/build/
+            },
+        },
     },
 });

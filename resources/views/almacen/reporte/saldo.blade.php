@@ -5,14 +5,14 @@
 @section('contenido')
     <section class="card shadow-lg w-100 d-flex flex-column">
         <div class="card-header bg-gradient-green">
-            <h4 class="text-white m-0">Saldo Almacén</h4>
+            <h4 class="text-white m-0 fw-bold">SALDO ALMACÉN</h4>
         </div>
         <div class="card-body">
             <!-- Formulario de Filtro -->
             <form action="{{ route('saldo') }}" method="GET">
                 @csrf
                 <!-- Fecha Final -->
-                <div class="row g-3">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="flatpickr">
                             <div class="form-floating">
@@ -43,15 +43,17 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- Botón Filtrar -->
                     <div class="col-md-4 d-flex align-items-center justify-content-around">
                         <button type="submit" class="btn btn-primary btn-labeled">
-                            <span class="btn-label"><i class="bi bi-filter-square-fill"></i></span>Filtrar
+                            <span class="btn-label"><i class="bi bi-search"></i></span>Buscar
                         </button>
-                        <a href="{{ route('saldo.imprimir', ['fecha_fin' => request('fecha_fin'), 'categoria_id' => request('categoria_id')]) }}"
-                            target="_blank" class="btn btn-labeled btn-danger">
-                            <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Imprimir
-                        </a>
+                        @if ($resultados['total_general']->total_cantidad_actual ?? 0 > 0)
+                            <a id="imprimirButton"
+                                href="{{ route('saldo.imprimir', ['fecha_fin' => request('fecha_fin'), 'categoria_id' => request('categoria_id')]) }}"
+                                target="_blank" class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Imprimir
+                            </a>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -59,7 +61,7 @@
             <!-- Resultados -->
             <div class="table-responsive overflow-auto mt-3">
                 <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-secondary">
+                    <thead>
                         <tr class="text-center align-middle">
                             <th>Código</th>
                             <th>Producto</th>
@@ -139,20 +141,21 @@
                         @endif
                     @endif
                     </tbody>
-                    <tfoot>
-                        <tr class="fw-bold">
-                            <th colspan="6" class="text-center">TOTAL GENERAL</th>
-                            <th class="text-end pe-4">{{ $resultados['total_general']->total_cantidad_actual ?? '0' }} </th>
-                            <th class="text-end pe-4">Bs: {{ number_format($resultados['total_general']->total_valor_actual ?? 0, 2) }}</th>
-                        </tr>
-                    </tfoot>
+                    @if (isset($resultados['detalles']) && count($resultados['detalles']) > 0)
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <th colspan="6" class="text-center">TOTAL GENERAL</th>
+                                <th class="text-end pe-4">{{ $resultados['total_general']->total_cantidad_actual ?? '0' }} </th>
+                                <th class="text-end pe-4">Bs: {{ number_format($resultados['total_general']->total_valor_actual ?? 0, 2) }}</th>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
     </section>
 @endsection
 @push('scripts')
-    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             flatpickr("#dateFechaFin", {
@@ -161,6 +164,7 @@
                 minDate: "2025-01-01",
                 maxDate: "today" // Disable future dates
             });
+
             @if (request()->has('fecha_fin') && (!isset($resultados) || count($resultados['detalles']) === 0))
                 Swal.fire({
                     icon: 'info',

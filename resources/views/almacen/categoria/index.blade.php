@@ -6,7 +6,7 @@
     <section class="card shadow-lg w-100">
         <div class="card-header bg-gradient-green">
             <div class="d-flex flex-row justify-content-between">
-                <h4 class="text-white my-auto">LISTADO DE CATEGORÍAS</h4>
+                <h4 class="text-white my-auto fw-bold">LISTADO DE CATEGORÍAS</h4>
                 <form action="{{ route('categorias.index') }}" method="get">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="card-body">
-            <a href="{{ route('categorias.create') }}" class="btn btn-labeled btn-success">
-                <span class="btn-label"><i class="bi bi-plus-circle-fill"></i></span>Crear Categoría
+            <a href="{{ route('categorias.create') }}" class="btn btn-labeled btn-success fw-bold">
+                <span class="btn-label"><i class="bi bi-plus-lg"></i></span>Crear Categoría
             </a>
             <div class="table-responsive mt-3">
                 <table class="table table-hover table-bordered align-middle">
@@ -112,5 +112,4 @@
                 });
         }
     </script>
-    <script src="{{ asset('js/notifications.js') }}"></script>
 @endpush
