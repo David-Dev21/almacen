@@ -55,44 +55,12 @@
                 <div class="mt-3 d-flex justify-content-between">
                     <a href="{{ route('proveedores.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</a>
-                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <button type="button" class="btn btn-success btn-labeled"
+                        onclick="confirmSubmit('proveedorForm', { 'Razón Social': 'txtRazonSocial', 'N° de Nit': 'numberNit', 'Nombre Proveedor': 'txtNombre', 'Teléfono': 'numberTelefono', 'Dirección': 'txtDireccion' })">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
             </form>
         </div>
     </section>
-
-    @push('scripts')
-        <script>
-            function confirmSubmit() {
-                const razonSocial = document.getElementById('txtRazonSocial').value;
-                const nit = document.getElementById('numberNit').value;
-                const nombre = document.getElementById('txtNombre').value;
-                const direccion = document.getElementById('txtDireccion').value;
-                const telefono = document.getElementById('numberTelefono').value;
-
-                Swal.fire({
-                    title: '¿Está seguro de guardar?',
-                    html: `<p><strong>Razón Social:</strong> ${razonSocial}</p>
-                           <p><strong>Nro. de Nit:</strong> ${nit}</p>
-                           <p><strong>Nombre Proveedor:</strong> ${nombre}</p>
-                           <p><strong>Dirección:</strong> ${direccion}</p>
-                           <p><strong>Teléfono:</strong> ${telefono}</p>`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#157347',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, guardar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('proveedorForm').submit();
-                    }
-                });
-            }
-        </script>
-    @endpush
 @endsection

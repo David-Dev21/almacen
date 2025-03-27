@@ -65,7 +65,8 @@
                     <a href="{{ route('productos.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar
                     </a>
-                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
+                    <button type="button" class="btn btn-success btn-labeled"
+                        onclick="confirmSubmit('productoForm', { 'Categoría': 'selectCategoria', 'Código': 'txtCodigo', 'Descripción': 'txtDescripcion', 'Unidad': 'selectUnidad' })">
                         <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
                     </button>
                 </div>
@@ -118,34 +119,6 @@
                     }
                 });
             });
-
-            function confirmSubmit() {
-                const codigo = document.getElementById('txtCodigo').value;
-                const descripcion = document.getElementById('txtDescripcion').value;
-                const categoria = document.getElementById('selectCategoria').selectedOptions[0].text;
-                const unidad = document.getElementById('selectUnidad').selectedOptions[0].text;
-
-                Swal.fire({
-                    title: '¿Está seguro de actualizar?',
-                    html: `<p><strong>Código:</strong> ${codigo}</p>
-                           <p><strong>Descripción:</strong> ${descripcion}</p>
-                           <p><strong>Categoría:</strong> ${categoria}</p>
-                           <p><strong>Unidad:</strong> ${unidad}</p>`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#157347',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, guardar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('productoForm').submit();
-                    }
-                });
-            }
         </script>
     @endpush
 @endsection

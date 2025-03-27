@@ -52,7 +52,7 @@
                 </div>
             </form>
             <div class="table-responsive overflow-auto mt-3">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover table-bordered align-middle">
                     <thead>
                         <tr class="text-center align-middle">
                             <th rowspan="2">Código</th>
@@ -79,12 +79,12 @@
                         @if (isset($productos) && count($productos) > 0)
                             @foreach ($productos as $item)
                                 <tr>
-                                    <td>
+                                    <td class="ps-2">
                                         <p class="my-1">{{ $item->Codigo }}</p>
                                     </td>
-                                    <td>{{ $item->Producto }}</td>
-                                    <td>{{ $item->Lote }}</td>
-                                    <td>{{ $item->Fecha_Movimiento }}</td>
+                                    <td class="ps-2">{{ $item->Producto }}</td>
+                                    <td class="ps-2">{{ $item->Lote }}</td>
+                                    <td class="ps-2">{{ $item->Fecha_Movimiento }}</td>
                                     <td class="text-end pe-2">{{ $item->Saldo_Inicial }}</td>
                                     <td class="text-end pe-2">{{ $item->Costo_Inicial }}</td>
                                     <td class="text-end pe-2">{{ $item->Ingresos_Cantidad }}</td>
@@ -131,8 +131,11 @@
                     icon: 'info',
                     title: 'Sin productos',
                     text: 'No se encontraron movimientos para el rango de fechas seleccionado.',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false,
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#0b5ed7'
                 });
             @endif
         });

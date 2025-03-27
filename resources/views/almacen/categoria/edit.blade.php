@@ -32,37 +32,12 @@
                 <div class="mt-3 d-flex justify-content-between">
                     <a href="{{ route('categorias.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</a>
-                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <button type="button" class="btn btn-success btn-labeled"
+                        onclick="confirmSubmit('categoriaForm', { 'Código': 'txtCodigo', 'Descripción': 'txtDescripcion' })">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
             </form>
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script>
-        function confirmSubmit() {
-            const codigo = document.getElementById('txtCodigo').value;
-            const descripcion = document.getElementById('txtDescripcion').value;
-
-            Swal.fire({
-                title: '¿Está seguro de guardar?',
-                html: `<p><strong>Código:</strong> ${codigo}</p><p><strong>Descripción:</strong> ${descripcion}</p>`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#157347',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, guardar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('categoriaForm').submit();
-                }
-            });
-        }
-    </script>
-@endpush

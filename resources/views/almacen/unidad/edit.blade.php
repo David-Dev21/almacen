@@ -48,42 +48,12 @@
                 <div class="mt-3 d-flex justify-content-between">
                     <a href="{{ route('unidades.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</a>
-                    <button type="button" class="btn btn-success btn-labeled" onclick="confirmSubmit()">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <button type="button" class="btn btn-success btn-labeled"
+                        onclick="confirmSubmit('unidadForm', { 'Nombre Unidad': 'txtNombre', 'Jefe': 'txtJefe', 'Teléfono': 'numbertelefono', 'Dirección': 'txtDireccion' })">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
             </form>
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script>
-        function confirmSubmit() {
-            const nombre = document.getElementById('txtNombre').value;
-            const jefe = document.getElementById('txtJefe').value;
-            const direccion = document.getElementById('txtDireccion').value;
-            const telefono = document.getElementById('numbertelefono').value;
-
-            Swal.fire({
-                title: '¿Está seguro de actualizar?',
-                html: `<p><strong>Nombre de la Unidad:</strong> ${nombre}</p>
-                       <p><strong>Jefe:</strong> ${jefe}</p>
-                       <p><strong>Dirección:</strong> ${direccion}</p>
-                       <p><strong>Teléfono:</strong> ${telefono}</p>`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#157347',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, actualizar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('unidadForm').submit();
-                }
-            });
-        }
-    </script>
-@endpush

@@ -64,11 +64,14 @@ class LoginController extends Controller
                 ->withInput($request->only('ci', 'remember'));
         }
 
-        if (!Auth::attempt($request->only('ci', 'password'))) {
+        $remember = $request->has('remember');
+
+        if (!Auth::attempt($request->only('ci', 'password'), $remember)) {
             return redirect()->back()
                 ->withErrors(['password' => 'El usuario o la contraseña son incorrectos.'])
                 ->withInput($request->only('ci', 'remember'));
         }
+
         $request->session()->put('welcomeShown', false);
 
         return $this->sendLoginResponse($request);

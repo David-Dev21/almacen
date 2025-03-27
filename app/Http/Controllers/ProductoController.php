@@ -12,21 +12,10 @@ class ProductoController extends Controller
 {
     public function __construct() {}
 
-    public function index(Request $request)
+    public function index()
     {
-        // Obtener y limpiar el texto de búsqueda
-        $buscar = trim($request->get('buscar'));
-        // Consulta para recuperar productos junto con sus categorías
-        $productos = Producto::with('categoria') // Ensure category is loaded
-            ->where(function ($query) use ($buscar) {
-                $query->where('descripcion', 'LIKE', '%' . $buscar . '%')
-                    ->orWhere('codigo', 'LIKE', '%' . $buscar . '%');
-            })
-            ->orderBy('id_producto', 'desc')
-            ->paginate(10);
-
-        $categorias = Categoria::where('estado', '=', '1')->get();
-        return view('almacen.producto.index', compact('productos', 'buscar', 'categorias'));
+        $productos = Producto::with('categoria')->get();
+        return view('almacen.producto.index', compact('productos'));
     }
 
     // Método para mostrar el formulario de creación de productos

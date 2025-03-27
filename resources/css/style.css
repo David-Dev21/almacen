@@ -19,12 +19,12 @@ table {
 table th {
     background-color: rgba(212, 228, 217, 1) !important;
     color: rgba(77, 106, 71, 1) !important;
+    text-align: center !important;
 }
 
 table td {
-    line-height: 1;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding: 0 !important;
+    font-size: 0.8rem !important;
 }
 
 .btn-small {
@@ -104,9 +104,9 @@ select.form-select:focus {
 }
 
 .bg-green-hover:hover {
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    border-left: 4px solid rgba(236, 243, 223, 1) !important;
-    border-radius: 4px !important;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-left: 4px solid rgba(236, 243, 223, 1);
+    border-radius: 4px;
 }
 
 .btn-label {

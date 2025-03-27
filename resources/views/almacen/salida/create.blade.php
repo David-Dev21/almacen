@@ -23,7 +23,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-6 col-md-3">
                         <label for="numberHoraRuta">N° de Hoja de Ruta: <span class="text-danger">*</span></label>
                         <input type="number" class="form-control @error('n_hoja_ruta') is-invalid @enderror" name="n_hoja_ruta" id="numberHoraRuta"
                             value="{{ old('n_hoja_ruta') }}">
@@ -31,7 +31,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-6 col-md-3">
                         <label for="numberPedido">N° de Pedido: <span class="text-danger">*</span></label>
                         <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido" value="{{ old('n_pedido') }}"
                             id="numberPedido">
@@ -51,15 +51,16 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-4 col-md-2">
                         <label for="numberCantidad">Cantidad: <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="cantidad" id="numberCantidad" min="1">
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-4 col-md-2">
                         <label for="numberStock">Stock:</label>
-                        <input type="number" class="form-control" name="cantidad" id="numberStock" min="1" readonly>
+                        <input type="number" class="form-control bg-success-subtle text-success-emphasis" name="cantidad" id="numberStock" min="1"
+                            readonly>
                     </div>
-                    <div class="form-group col-md-2 d-flex justify-content-end">
+                    <div class="form-group col-4 col-md-2 d-flex justify-content-end">
                         <button type="button" id="btnAgregar" class="btn btn-primary btn-labeled mt-auto">
                             <span class="btn-label"><i class="bi bi-cart-plus-fill"></i></span>Agregar</button>
                     </div>
@@ -86,24 +87,24 @@
                                             <button type="button" class="btn btn-danger btn-small" onclick="eliminar({{ $index }})"><i
                                                     class="bi bi-x-circle-fill"></i>Quitar</button>
                                         </td>
-                                        <td>
+                                        <td class="ps-2">
                                             <input type="hidden" name="id_producto[]"
                                                 value="{{ $producto['id_producto'] }}">{{ $producto['producto'] }}
                                         </td>
-                                        <td>
+                                        <td class="ps-2">
                                             <input type="hidden" name="unidad[]" value="{{ $producto['unidad'] }}">{{ $producto['unidad'] }}
                                         </td>
-                                        <td>
+                                        <td class="ps-4">
                                             <input type="hidden" name="lote[]" value="{{ $producto['lote'] }}">{{ $producto['lote'] }}
                                         </td>
-                                        <td class="text-end">
+                                        <td class="text-end pe-2">
                                             <input type="hidden" name="cantidad[]" value="{{ $producto['cantidad'] }}">{{ $producto['cantidad'] }}
                                         </td>
-                                        <td class="text-end">
+                                        <td class="text-end pe-2">
                                             <input type="hidden" name="costo_u[]" value="{{ number_format($producto['costo_u'], 2, '.', '') }}">
                                             {{ number_format($producto['costo_u'], 2, '.', '') }}
                                         </td>
-                                        <td class="text-end">
+                                        <td class="text-end pe-2">
                                             {{ number_format($producto['cantidad'] * $producto['costo_u'], 2, '.', '') }}
                                         </td>
                                     </tr>
@@ -113,13 +114,13 @@
                         <tfoot id="tableFooter">
                             <tr>
                                 <th colspan="4" class="text-center">TOTAL GENERAL</th>
-                                <th class="text-end">
+                                <th class="text-end pe-2">
                                     <span id="totalCantidad">0</span>
                                 </th>
-                                <th class="text-end">
+                                <th class="text-end pe-2">
                                     <span id="totalCostoUnidad">Bs. 0.00</span>
                                 </th>
-                                <th class="text-end">
+                                <th class="text-end ps-2">
                                     <span id="totalCosto">Bs. 0.00</span>
                                 </th>
                             </tr>
@@ -127,10 +128,18 @@
                     </table>
                 </div>
                 <div class="mt-auto d-flex justify-content-between">
-                    <a href="{{ route('salidas.index') }}" class="btn btn-danger btn-labeled"">
+                    <a href="{{ route('salidas.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</a>
-                    <button type="button" class="btn btn-success btn-labeled" id="btnGuardar" onclick="confirmSubmit()">
-                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar</button>
+                    <button type="button" id="btnGuardar" class="btn btn-success btn-labeled d-none"
+                        onclick="confirmSubmit('salidaForm', { 
+                            'Unidad': 'document.getElementById(\'selectUnidad\').options[document.getElementById(\'selectUnidad\').selectedIndex].text', 
+                            'N° de Hoja de Ruta': 'numberHoraRuta', 
+                            'N° de Pedido': 'numberPedido',
+                            'Total de Productos': 'document.getElementById(\'totalCantidad\').innerText',
+                            'Costo Total': 'document.getElementById(\'totalCosto\').innerText'
+                        })">
+                        <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
+                    </button>
                 </div>
             </div>
         </form>
@@ -139,54 +148,48 @@
         <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
         <script>
             $(document).ready(function() {
-                // Inicializa Tom Select para el campo "Unidad"
-                const selectUnidad = new TomSelect('#selectUnidad', {
-                    create: false,
-                    render: {
-                        no_results: function(data) {
-                            return '<div class="no-results">No se encontraron resultados</div>';
-                        }
-                    }
-                });
-
-                const selectProducto = new TomSelect('#selectProducto', {
-                    create: false,
-                    render: {
-                        no_results: function(data) {
-                            return '<div class="no-results">No se encontraron resultados</div>';
-                        }
-                    }
-                });
-
-                $('#btnAgregar').click(function() {
-                    agregar();
-                });
-                $('#selectProducto').on('change', mostrarValores);
-
-                if ($('#tableBodyDetalles tr').length > 0) {
-                    recalcularTotal();
-                    evaluar();
-                }
+                initializeSelects();
+                bindEventListeners();
+                if ($('#tableBodyDetalles tr').length > 0) recalcularTotal();
+                evaluar();
             });
 
-            var cont = 0;
-            var total = 0;
-            var subTotal = [];
+            const subTotal = [];
+            let total = 0;
 
-            $('#btnGuardar').hide();
-            $('#tableFooter').hide();
-            $('#selectProducto').on('change', mostrarValores);
+            function initializeSelects() {
+                new TomSelect('#selectUnidad', {
+                    create: false,
+                    render: {
+                        no_results: () => '<div class="no-results">No se encontraron resultados</div>'
+                    }
+                });
+                new TomSelect('#selectProducto', {
+                    create: false,
+                    render: {
+                        no_results: () => '<div class="no-results">No se encontraron resultados</div>'
+                    }
+                });
+            }
+
+            function bindEventListeners() {
+                $('#btnAgregar').click(agregar);
+                $('#selectProducto').on('change', mostrarValores);
+                $(document).on('click', '.btn-danger', function() {
+                    const index = $(this).data('index');
+                    eliminar(index);
+                });
+            }
 
             function mostrarValores() {
-                var selectedOption = $('#selectProducto option:selected');
-                var stock = selectedOption.data('stock');
-                var idProducto = $('#selectProducto').val();
-
+                const selectedOption = $('#selectProducto option:selected');
+                let stock = selectedOption.data('stock');
+                const idProducto = $('#selectProducto').val();
 
                 $('#tableBodyDetalles tr').each(function() {
-                    var idProductoFila = $(this).find('input[name="id_producto[]"]').val();
+                    const idProductoFila = $(this).find('input[name="id_producto[]"]').val();
                     if (idProductoFila == idProducto) {
-                        var cantidadFila = parseFloat($(this).find('input[name="cantidad[]"]').val());
+                        const cantidadFila = parseFloat($(this).find('input[name="cantidad[]"]').val());
                         stock -= cantidadFila;
                     }
                 });
@@ -196,76 +199,39 @@
             }
 
             function agregar() {
-                var idProducto = $('#selectProducto').val();
-                var producto = $('#selectProducto option:selected').text();
-                var cantidad = parseFloat($('#numberCantidad').val());
-                var stock = parseFloat($('#numberStock').val());
-                var unidad = $('#selectProducto option:selected').data('unidad');
+                const idProducto = $('#selectProducto').val();
+                const producto = $('#selectProducto option:selected').text();
+                const cantidad = parseFloat($('#numberCantidad').val());
+                const stock = parseFloat($('#numberStock').val());
+                const unidad = $('#selectProducto option:selected').data('unidad');
 
-                if (idProducto == '') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Debe seleccionar un producto.'
-                    });
-                    return;
-                }
+                if (!validateInputs(idProducto, cantidad, stock)) return;
 
-                if (isNaN(cantidad) || cantidad <= 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Debe ingresar una cantidad válida.'
-                    });
-                    return;
-                }
-
-                if (cantidad > stock) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'La cantidad ingresada no puede ser mayor que el stock disponible.'
-                    });
-                    return;
-                }
-
-                // Obtener los lotes disponibles del producto seleccionado
-                $.get('/productos/' + idProducto + '/lotes', function(data) {
-                    var cantidad_restante = cantidad;
-                    var lotesHtml = '';
-                    var subTotalProducto = 0;
+                $.get(`/productos/${idProducto}/lotes`, function(data) {
+                    let cantidadRestante = cantidad;
+                    let lotesHtml = '';
 
                     data.forEach(function(lote) {
-                        if (cantidad_restante <= 0) {
-                            return;
-                        }
+                        if (cantidadRestante <= 0) return;
 
-                        var cantidad_a_deducir = Math.min(cantidad_restante, lote.cantidad_disponible);
-                        subTotalProducto += cantidad_a_deducir * lote.costo_u;
-                        lotesHtml += '<tr id="filaSalida' + cont + '">' +
-                            '<td class="text-center">' +
-                            '<button type="button" class="btn btn-danger btn-small" onclick="eliminar(' + cont +
-                            ')"><i class="bi bi-x-circle-fill"></i>Quitar</button>' +
-                            '</td>' +
-                            '<td>' +
-                            '<input type="hidden" name="id_producto[]" value="' + idProducto + '">' + producto +
-                            '</td>' +
-                            '<td>' +
-                            '<input type="hidden" name="unidad[]" value="' + unidad + '">' + unidad +
-                            '</td>' +
-                            '<td>' +
-                            '<input type="hidden" name="lote[]" value="' + lote.lote + '">' + lote.lote +
-                            '</td>' +
-                            '<td class="text-end">' +
-                            '<input type="hidden" name="cantidad[]" value="' + cantidad_a_deducir + '">' + cantidad_a_deducir +
-                            '</td>' +
-                            '<td class="text-end">' +
-                            '<input type="hidden" name="costo_u[]" value="' + lote.costo_u + '">' + lote.costo_u +
-                            '</td>' +
-                            '<td class="text-end">' +
-                            (cantidad_a_deducir * lote.costo_u).toFixed(2) +
-                            '</td>' +
-                            '</tr>';
+                        const cantidadADeducir = Math.min(cantidadRestante, lote.cantidad_disponible);
+                        const subTotalProducto = cantidadADeducir * lote.costo_u;
 
-                        cantidad_restante -= cantidad_a_deducir;
-                        cont++;
+                        lotesHtml += `
+                            <tr id="filaSalida${subTotal.length}">
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-danger btn-small" data-index="${subTotal.length}"><i class="bi bi-x-circle-fill"></i> Quitar</button>
+                                </td>
+                                <td class="ps-2"><input type="hidden" name="id_producto[]" value="${idProducto}">${producto}</td>
+                                <td class="ps-2"><input type="hidden" name="unidad[]" value="${unidad}">${unidad}</td>
+                                <td class="ps-4"><input type="hidden" name="lote[]" value="${lote.lote}">${lote.lote}</td>
+                                <td class="text-end pe-2"><input type="hidden" name="cantidad[]" value="${cantidadADeducir}">${cantidadADeducir}</td>
+                                <td class="text-end pe-2"><input type="hidden" name="costo_u[]" value="${lote.costo_u}">${lote.costo_u}</td>
+                                <td class="text-end pe-2">${subTotalProducto.toFixed(2)}</td>
+                            </tr>`;
+                        subTotal.push(subTotalProducto);
+                        total += subTotalProducto;
+                        cantidadRestante -= cantidadADeducir;
                     });
 
                     $('#tableBodyDetalles').append(lotesHtml);
@@ -275,144 +241,62 @@
                 });
             }
 
-            function evaluar() {
-                if (total > 0) {
-                    $('#btnGuardar').show();
-                    $('#tableFooter').show();
-                } else {
-                    $('#btnGuardar').hide();
-                    $('#tableFooter').hide();
-                }
+            function validateInputs(idProducto, cantidad, stock) {
+                if (!idProducto) return showAlert('Debe seleccionar un producto.');
+                if (isNaN(cantidad) || cantidad <= 0) return showAlert('Debe ingresar una cantidad válida.');
+                if (cantidad > stock) return showAlert('La cantidad ingresada no puede ser mayor que el stock disponible.');
+                return true;
+            }
+
+            function showAlert(message) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: message,
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false,
+                    confirmButtonText: 'Aceptar'
+                });
             }
 
             function limpiar() {
-                $('#numberCantidad').val("");
-                $('#numberStock').val("");
-                const selectProductoInstance = document.querySelector('#selectProducto').tomselect;
-                selectProductoInstance.clear();
+                $('#numberCantidad').val('');
+                $('#numberStock').val('');
+                document.querySelector('#selectProducto').tomselect.clear();
             }
 
-
             function eliminar(index) {
-                $('#filaSalida' + index).remove();
+                $(`#filaSalida${index}`).remove();
                 recalcularTotal();
-                limpiar();
                 evaluar();
             }
 
             function recalcularTotal() {
                 total = 0;
-                var totalCantidad = 0;
-                var totalCostoUnidad = 0;
+                let totalCantidad = 0;
 
                 $('#tableBodyDetalles tr').each(function() {
-                    var cantidad = parseFloat($(this).find('td:eq(4)').text());
-                    var costoUnidad = parseFloat($(this).find('td:eq(5)').text());
-                    var costoTotal = parseFloat($(this).find('td:eq(6)').text());
+                    const cantidad = parseFloat($(this).find('td:eq(4)').text());
+                    const costoTotal = parseFloat($(this).find('td:eq(6)').text());
 
                     totalCantidad += cantidad;
-                    totalCostoUnidad += costoUnidad;
                     total += costoTotal;
                 });
 
-                $('#totalCantidad').html(totalCantidad); // Formatea totalCantidad a 0.00
-                $('#totalCostoUnidad').html('Bs. ' + totalCostoUnidad.toFixed(2)); // Formatea totalCostoUnidad a 0.00
-                $('#totalCosto').html('Bs. ' + total.toFixed(2)); // Formatea total a 0.00
+                $('#totalCantidad').html(totalCantidad);
+                $('#totalCosto').html(`Bs. ${total.toFixed(2)}`);
             }
 
-            function confirmSubmit() {
-                const unidad = document.getElementById('selectUnidad').selectedOptions[0].text;
-                const hojaRuta = document.getElementById('numberHoraRuta').value;
-                const pedido = document.getElementById('numberPedido').value;
-                const totalCantidad = document.getElementById('totalCantidad').innerText;
-                const totalGeneral = document.getElementById('totalCosto').innerText;
-
-                Swal.fire({
-                    title: '¿Está seguro de guardar?',
-                    html: `<p><strong>Unidad:</strong> ${unidad}</p>
-                           <p><strong>N° de Hoja de Ruta:</strong> ${hojaRuta}</p>
-                           <p><strong>N° de Pedido:</strong> ${pedido}</p>
-                           <p><strong>Total de Productos:</strong> ${totalCantidad}</p>
-                           <p><strong>Total General:</strong> ${totalGeneral}</p>`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#157347',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, guardar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('salidaForm').submit();
-                    }
-                });
-            }
-        </script>
-        <script>
-            // Variable para rastrear si hay cambios sin guardar
-            let hasUnsavedChanges = true;
-
-            // Función para mostrar la alerta personalizada
-            function showCustomAlert(event, action) {
-                event.preventDefault(); // Prevenir la acción predeterminada
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: 'Tienes cambios sin guardar. Si continuas, perderás estos cambios.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#157347',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, continuar',
-                    cancelButtonText: 'Cancelar',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        hasUnsavedChanges = false; // Desactivar la protección
-                        if (action === 'reload') {
-                            location.reload(); // Forzar la recarga
-                        } else if (action === 'close') {
-                            window.close(); // Cerrar la pestaña
-                        }
-                    }
-                });
-            }
-
-            // Intercepta la tecla F5 o Ctrl+R para recargar la página
-            document.addEventListener('keydown', function(event) {
-                if (hasUnsavedChanges && (event.key === 'F5' || (event.ctrlKey && event.key === 'r'))) {
-                    showCustomAlert(event, 'reload');
+            function evaluar() {
+                if (total > 0) {
+                    $('#tableFooter').show();
+                    $('#btnGuardar').removeClass('d-none');
+                } else {
+                    $('#tableFooter').hide();
+                    $('#btnGuardar').addClass('d-none');
                 }
-            });
-
-            // Intercepta clics en enlaces (`<a>`) o botones que puedan causar navegación
-            document.addEventListener('click', function(event) {
-                if (hasUnsavedChanges && event.target.tagName === 'A') {
-                    event.preventDefault(); // Prevenir la navegación
-
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'Tienes cambios sin guardar. Si sales, perderás estos cambios.',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#157347',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, salir',
-                        cancelButtonText: 'Cancelar',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            hasUnsavedChanges = false; // Desactivar la protección
-                            window.location.href = event.target.href; // Continuar con la navegación
-                        }
-                    });
-                }
-            });
-
-            // Detectar cambios en el formulario (opcional)
-            document.addEventListener('input', function() {
-                hasUnsavedChanges = true; // Marcar como cambios sin guardar
-            });
+            }
         </script>
     @endpush
 @endsection

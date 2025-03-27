@@ -170,7 +170,11 @@
                     icon: 'info',
                     title: 'Sin resultados',
                     text: 'No se encontraron saldos para la fecha seleccionada.',
-                    confirmButtonColor: '#0b5ed7'
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false,
+                    confirmButtonText: 'Aceptar',
                 });
             @endif
         });

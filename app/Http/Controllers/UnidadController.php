@@ -11,13 +11,10 @@ class UnidadController extends Controller
 {
     public function __construct() {}
 
-    public function index(Request $request)
+    public function index()
     {
-        $buscar = trim($request->get('buscar'));
-        $unidades = Unidad::where('nombre', 'LIKE', '%' . $buscar . '%')
-            ->orderBy('id_unidad', 'desc')
-            ->paginate(10);
-        return view('almacen.unidad.index', compact('unidades', 'buscar'));
+        $unidades = Unidad::all();
+        return view('almacen.unidad.index', compact('unidades'));
     }
 
     public function create()

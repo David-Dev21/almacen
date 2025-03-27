@@ -11,13 +11,10 @@ class ProveedorController extends Controller
 {
     public function __construct() {}
 
-    public function index(Request $request)
+    public function index()
     {
-        $buscar = trim($request->get('buscar'));
-        $proveedores = Proveedor::where('nombre', 'LIKE', '%' . $buscar . '%')
-            ->orderBy('id_proveedor', 'desc')
-            ->paginate(10);
-        return view('almacen.proveedor.index', compact('proveedores', 'buscar'));
+        $proveedores = Proveedor::all();
+        return view('almacen.proveedor.index', compact('proveedores'));
     }
 
     public function create()

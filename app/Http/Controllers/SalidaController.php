@@ -17,16 +17,10 @@ class SalidaController extends Controller
 {
     public function __construct() {}
 
-    public function index(Request $request)
+    public function index()
     {
-        $buscar = trim($request->get('buscar'));
-        $salidas = DB::table('vista_salidas')
-            ->where(function ($query) use ($buscar) {
-                $query->where('n_hoja_ruta', 'LIKE', '%' . $buscar . '%')
-                    ->orWhere('n_pedido', 'LIKE', '%' . $buscar . '%');
-            })
-            ->paginate(10);
-        return view('almacen.salida.index', compact('salidas', 'buscar'));
+        $salidas = DB::table('vista_salidas')->get();
+        return view('almacen.salida.index', compact('salidas'));
     }
 
     public function create(Request $request)

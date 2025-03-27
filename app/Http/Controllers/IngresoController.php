@@ -22,19 +22,10 @@ class IngresoController extends Controller
     public function __construct() {}
 
     //
-    public function index(Request $request)
+    public function index()
     {
-        $buscar = trim($request->get('buscar'));
-
-        // Utilizando la vista creada en la base de datos
-        $ingresos = DB::table('vista_ingresos')
-            ->where(function ($query) use ($buscar) {
-                $query->where('n_factura', 'LIKE', '%' . $buscar . '%')
-                    ->orWhere('n_pedido', 'LIKE', '%' . $buscar . '%');
-            })
-            ->paginate(10);
-
-        return view('almacen.ingreso.index', compact('ingresos', 'buscar'));
+        $ingresos = DB::table('vista_ingresos')->get();
+        return view('almacen.ingreso.index', compact('ingresos'));
     }
 
     public function create()

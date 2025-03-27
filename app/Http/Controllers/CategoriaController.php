@@ -11,16 +11,10 @@ class CategoriaController extends Controller
 {
     public function __construct() {}
 
-    public function index(Request $request)
+    public function index()
     {
-        $buscar = trim($request->get('buscar'));
-        $categorias = Categoria::where(function ($query) use ($buscar) {
-            $query->where('descripcion', 'LIKE', '%' . $buscar . '%')
-                ->orWhere('codigo', 'LIKE', '%' . $buscar . '%');
-        })
-            ->orderBy('id_categoria', 'desc')
-            ->paginate(10);
-        return view('almacen.categoria.index', compact('categorias', 'buscar'));
+        $categorias = Categoria::all();
+        return view('almacen.categoria.index', compact('categorias'));
     }
 
     public function create()
@@ -61,7 +55,6 @@ class CategoriaController extends Controller
             return redirect()->route('categorias.index')->with(['error' => 'Error al actualizar la categoría']);
         }
     }
-
 
     public function toggleEstado(Request $request, $id)
     {
