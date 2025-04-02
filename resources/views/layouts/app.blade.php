@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('img/logo.ico') }}" type="image/x-icon">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Almacén</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -25,8 +25,20 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <footer class="text-center bg-green-medium fixed-bottom">
+        <span class="text-muted">&copy; 2025 | Desarrollado por
+            <a href="https://www.linkedin.com/in/david-mamani-a3b745352/" target="_blank" class="link">
+                RubenDavidMA
+            </a>
+            <a href="https://github.com/David-Dev21" target="_blank" class="link">
+                <i class="bi bi-github"></i>
+            </a>
+            <a href="https://wa.me/79550230" target="_blank" class="link">
+                <i class="bi bi-whatsapp"></i>
+            </a>
+        </span>
+    </footer>
 </body>
 
 </html>

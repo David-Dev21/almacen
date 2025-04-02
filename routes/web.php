@@ -13,32 +13,32 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReporteController;
 
 Route::get('/', function () {
-    return redirect('/login'); // Redirige directamente al formulario de login
+    return redirect('/login');
 });
 
 // Categorias
-Route::resource('almacen/categorias', CategoriaController::class)->middleware('auth');
+Route::resource('almacen/categorias', CategoriaController::class)->except(['destroy', 'show'])->middleware('auth');
 Route::post('/categorias/{id}/toggle', [CategoriaController::class, 'toggleEstado'])->name('categorias.toggle');
 
 // Productos
-Route::resource('almacen/productos', ProductoController::class)->middleware('auth');
+Route::resource('almacen/productos', ProductoController::class)->except(['destroy', 'show'])->middleware('auth');
 Route::post('/productos/{id}/toggle', [ProductoController::class, 'toggleEstado'])->name('productos.toggle');
 Route::get('/productos/{idProducto}/lotes', [SalidaController::class, 'getLotesDisponibles']);
 Route::get('/almacen/productos/generar-codigo/{id_categoria}', [ProductoController::class, 'generarCodigo'])->name('productos.generar-codigo');
 
 // Proveedores
-Route::resource('almacen/proveedores', ProveedorController::class)->middleware('auth');
+Route::resource('almacen/proveedores', ProveedorController::class)->except(['destroy', 'show'])->middleware('auth');
 Route::post('/proveedores/{id}/toggle', [ProveedorController::class, 'toggleEstado'])->name('proveedores.toggle');
 
 // Unidades
-Route::resource('almacen/unidades', UnidadController::class)->middleware('auth');
+Route::resource('almacen/unidades', UnidadController::class)->except(['destroy', 'show'])->middleware('auth');
 Route::post('/unidades/{id}/toggle', [UnidadController::class, 'toggleEstado'])->name('unidades.toggle');
 
 // Ingresos
-Route::resource('almacen/ingresos', IngresoController::class)->middleware('auth');
+Route::resource('almacen/ingresos', IngresoController::class)->except(['destroy', 'update', 'edit'])->middleware('auth');
 
 // Salidas
-Route::resource('almacen/salidas', SalidaController::class)->middleware('auth');
+Route::resource('almacen/salidas', SalidaController::class)->except(['destroy', 'update', 'edit'])->middleware('auth');
 Route::get('/reporte-salida/{id}', [SalidaController::class, 'imprimirSalidaPDF'])->name('reporte-salida')->middleware('auth');
 
 // Usuarios

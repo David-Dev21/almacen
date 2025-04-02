@@ -32,8 +32,10 @@ tooltipTriggerList.forEach((tooltipTriggerEl) => {
 
 window.dataTable = new DataTable('#dataTable', 
   {
-    responsive: true, // Ensure responsive is enabled
+    responsive: true, 
     pagingType: 'simple_numbers',
+    scrollY: '400px', 
+    scrollCollapse: true, 
     language: {
       // Traducción al español
       "sProcessing":     "Procesando...",

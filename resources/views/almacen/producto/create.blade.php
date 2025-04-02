@@ -102,7 +102,7 @@
                 $('#selectCategoria').on('change', function() {
                     const categoriaId = this.value;
                     if (categoriaId) {
-                        console.log(`Fetching code for category ID: ${categoriaId}`);
+                        // console.log(`Fetching code for category ID: ${categoriaId}`);
                         fetch(`/almacen/productos/generar-codigo/${categoriaId}`)
                             .then(response => {
                                 if (!response.ok) {

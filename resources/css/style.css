@@ -131,7 +131,7 @@ select.form-select:focus {
     );
 }
 .bg-green {
-    background-color: rgba(77, 106, 71, 1);
+    background-color: rgba(77, 106, 71, 1) !important;
 }
 
 .bg-green-medium {

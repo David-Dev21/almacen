@@ -275,16 +275,20 @@
             function recalcularTotal() {
                 total = 0;
                 let totalCantidad = 0;
+                let totalCostoUnidad = 0;
 
                 $('#tableBodyDetalles tr').each(function() {
                     const cantidad = parseFloat($(this).find('td:eq(4)').text());
+                    const costoUnidad = parseFloat($(this).find('td:eq(5)').text());
                     const costoTotal = parseFloat($(this).find('td:eq(6)').text());
 
                     totalCantidad += cantidad;
+                    totalCostoUnidad += costoUnidad;
                     total += costoTotal;
                 });
 
                 $('#totalCantidad').html(totalCantidad);
+                $('#totalCostoUnidad').html(`Bs. ${totalCostoUnidad.toFixed(2)}`);
                 $('#totalCosto').html(`Bs. ${total.toFixed(2)}`);
             }
 
