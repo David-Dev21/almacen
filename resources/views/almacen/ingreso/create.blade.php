@@ -11,10 +11,12 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="selectProveedor">Proveedor:</label>
-                        <select class="form-control @error('id_proveedor') is-invalid @enderror" name="id_proveedor" id="selectProveedor">
+                        <select class="form-control @error('id_proveedor') is-invalid @enderror" name="id_proveedor"
+                            id="selectProveedor">
                             <option value=""></option>
                             @foreach ($proveedores as $item)
-                                <option value="{{ $item->id_proveedor }}" {{ old('id_proveedor') == $item->id_proveedor ? 'selected' : '' }}>
+                                <option value="{{ $item->id_proveedor }}"
+                                    {{ old('id_proveedor') == $item->id_proveedor ? 'selected' : '' }}>
                                     {{ $item->nombre }}</option>
                             @endforeach
                         </select>
@@ -24,23 +26,24 @@
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberFactura">Nº de Factura:</label>
-                        <input type="number" class="form-control @error('n_factura') is-invalid @enderror" name="n_factura" id="numberFactura"
-                            value="{{ old('n_factura') }}">
+                        <input type="number" class="form-control @error('n_factura') is-invalid @enderror" name="n_factura"
+                            id="numberFactura" value="{{ old('n_factura') }}">
                         @error('n_factura')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberPedido">Nº de Pedido</label>
-                        <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido" id="numberPedido"
-                            value="{{ old('n_pedido') }}">
+                        <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
+                            id="numberPedido" value="{{ old('n_pedido') }}">
                         @error('n_pedido')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="txtLote">Lote:</label>
-                        <input type="text" class="form-control" name="lote" id="txtLote" value="{{ $siguienteLote }}" readonly>
+                        <input type="text" class="form-control" name="lote" id="txtLote"
+                            value="{{ $siguienteLote }}" readonly>
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +52,8 @@
                         <select class="form-control" name="id_producto" id="selectProducto">
                             <option value=""></option>
                             @foreach ($productos as $item)
-                                <option value="{{ $item->id_producto }}" data-unidad="{{ $item->unidad }}">{{ $item->descripcion }}</option>
+                                <option value="{{ $item->id_producto }}" data-unidad="{{ $item->unidad }}">
+                                    {{ $item->descripcion }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -59,7 +63,8 @@
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberCostoU">Costo por Unidad:</label>
-                        <input type="number" class="form-control" name="costo_u" id="numberCostoU" min="0.00" step="0.01">
+                        <input type="number" class="form-control" name="costo_u" id="numberCostoU" min="0.00"
+                            step="0.01">
                     </div>
                     <div class="form-group col-4 col-md-2 d-flex justify-content-end">
                         <button type="button" id="btnAgregar" class="btn btn-primary btn-labeled mt-auto">
@@ -84,24 +89,29 @@
                                 @foreach ($productosOld as $index => $producto)
                                     <tr id="filaIngreso{{ $index }}">
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-danger btn-small" onclick="eliminar({{ $index }})"><i
-                                                    class="bi bi-x-circle-fill"></i> Quitar</button>
+                                            <button type="button" class="btn btn-danger btn-small"
+                                                onclick="eliminar({{ $index }})"><i class="bi bi-x-circle-fill"></i>
+                                                Quitar</button>
                                         </td>
                                         <td class="ps-2">
                                             <input type="hidden" name="id_producto[]"
                                                 value="{{ $producto['id_producto'] }}">{{ $producto['producto'] }}
                                         </td>
                                         <td class="ps-2">
-                                            <input type="hidden" name="unidad[]" value="{{ $producto['unidad'] }}">{{ $producto['unidad'] }}
+                                            <input type="hidden" name="unidad[]"
+                                                value="{{ $producto['unidad'] }}">{{ $producto['unidad'] }}
                                         </td>
                                         <td class="ps-4">
-                                            <input type="hidden" name="lote[]" value="{{ $producto['lote'] }}">{{ $producto['lote'] }}
+                                            <input type="hidden" name="lote[]"
+                                                value="{{ $producto['lote'] }}">{{ $producto['lote'] }}
                                         </td>
                                         <td class="text-end pe-2">
-                                            <input type="hidden" name="cantidad[]" value="{{ $producto['cantidad'] }}">{{ $producto['cantidad'] }}
+                                            <input type="hidden" name="cantidad[]"
+                                                value="{{ $producto['cantidad'] }}">{{ $producto['cantidad'] }}
                                         </td>
                                         <td class="text-end pe-2">
-                                            <input type="hidden" name="costo_u[]" value="{{ number_format($producto['costo_u'], 2, '.', '') }}">
+                                            <input type="hidden" name="costo_u[]"
+                                                value="{{ number_format($producto['costo_u'], 2, '.', '') }}">
                                             {{ number_format($producto['costo_u'], 2, '.', '') }}
                                         </td>
                                         <td class="text-end pe-2">
@@ -145,10 +155,15 @@
                 </div>
             </div>
         </form>
-    </section>
-    @push('scripts')
+    </section> @push('scripts')
         <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
         <script>
+            /**
+             * Inicialización del documento cuando está listo
+             * Configura los selectores, enlaza eventos y calcula totales iniciales
+             * 
+             * @event document.ready
+             */
             $(document).ready(function() {
                 initializeSelects();
                 bindEventListeners();
@@ -156,9 +171,25 @@
                 evaluar();
             });
 
+            /**
+             * Arreglo para almacenar los subtotales de cada línea de producto
+             * @type {Array<number>}
+             */
             const subTotal = [];
+
+            /**
+             * Variable para el total general del ingreso
+             * @type {number}
+             */
             let total = 0;
 
+            /**
+             * Inicializa los selectores con TomSelect para mejorar la experiencia de usuario
+             * Configura los selectores de proveedor y producto con búsqueda mejorada
+             * 
+             * @function
+             * @returns {void}
+             */
             function initializeSelects() {
                 new TomSelect('#selectProveedor', {
                     create: false,
@@ -174,6 +205,14 @@
                 });
             }
 
+            /**
+             * Enlaza todos los event listeners necesarios para la funcionalidad del formulario
+             * - Botón agregar producto
+             * - Botones de eliminar producto
+             * 
+             * @function
+             * @returns {void}
+             */
             function bindEventListeners() {
                 $('#btnAgregar').click(agregar);
                 $(document).on('click', '.btn-danger', function() {
@@ -182,6 +221,13 @@
                 });
             }
 
+            /**
+             * Agrega un producto a la lista de ingreso
+             * Calcula el subtotal y agrega una nueva fila a la tabla
+             * 
+             * @function
+             * @returns {void}
+             */
             function agregar() {
                 const idProducto = $('#selectProducto').val();
                 const producto = $('#selectProducto option:selected').text();
@@ -215,6 +261,15 @@
                 evaluar();
             }
 
+            /**
+             * Valida los inputs del formulario antes de agregar un producto
+             * 
+             * @function
+             * @param {string} idProducto - ID del producto seleccionado
+             * @param {number} cantidad - Cantidad del producto a ingresar
+             * @param {number} costo_u - Costo unitario del producto
+             * @returns {boolean} - True si los inputs son válidos, false en caso contrario
+             */
             function validateInputs(idProducto, cantidad, costo_u) {
                 if (!idProducto) return showAlert('Debe seleccionar un producto.');
                 if (isNaN(cantidad) || cantidad <= 0) return showAlert('Debe ingresar una cantidad válida.');
@@ -222,6 +277,13 @@
                 return true;
             }
 
+            /**
+             * Muestra una alerta personalizada usando SweetAlert2
+             * 
+             * @function
+             * @param {string} message - Mensaje a mostrar en la alerta
+             * @returns {boolean} - Siempre retorna false para usar en validaciones
+             */
             function showAlert(message) {
                 Swal.fire({
                     icon: 'warning',
@@ -232,20 +294,41 @@
                     buttonsStyling: false,
                     confirmButtonText: 'Aceptar'
                 });
+                return false;
             }
 
+            /**
+             * Limpia los campos del formulario después de agregar un producto
+             * 
+             * @function
+             * @returns {void}
+             */
             function limpiar() {
                 $('#numberCantidad').val('');
                 $('#numberCostoU').val('');
                 document.querySelector('#selectProducto').tomselect.clear();
             }
 
+            /**
+             * Elimina un producto de la lista de ingreso
+             * 
+             * @function
+             * @param {number} index - Índice del producto a eliminar
+             * @returns {void}
+             */
             function eliminar(index) {
                 $(`#filaIngreso${index}`).remove();
                 recalcularTotal();
                 evaluar();
             }
 
+            /**
+             * Recalcula los totales del ingreso
+             * Actualiza el total de cantidad, costo unitario y costo total
+             * 
+             * @function
+             * @returns {void}
+             */
             function recalcularTotal() {
                 total = 0;
                 let totalCantidad = 0,
@@ -266,6 +349,13 @@
                 $('#totalCosto').html(`Bs. ${total.toFixed(2)}`);
             }
 
+            /**
+             * Evalúa si hay productos en la lista para mostrar u ocultar elementos
+             * Muestra/oculta el footer de la tabla y el botón de guardar
+             * 
+             * @function
+             * @returns {void}
+             */
             function evaluar() {
                 if (total > 0) {
                     $('#tableFooter').show();

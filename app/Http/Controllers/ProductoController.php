@@ -8,24 +8,49 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Controlador para la gestión de productos.
+ * 
+ * Este controlador maneja las operaciones CRUD para productos,
+ * incluyendo la generación automática de códigos y cambios de estado.
+ * 
+ * @package App\Http\Controllers
+ */
 class ProductoController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
 
+    /**
+     * Muestra una lista de todos los productos.
+     *
+     * @return \Illuminate\View\View  Vista con lista de productos
+     */
     public function index()
     {
         $productos = Producto::with('categoria')->get();
         return view('almacen.producto.index', compact('productos'));
     }
 
-    // Método para mostrar el formulario de creación de productos
+    /**
+     * Muestra el formulario para crear un nuevo producto.
+     *
+     * @return \Illuminate\View\View  Vista con formulario de creación
+     */
     public function create()
     {
         $categorias = Categoria::where('estado', '=', '1')->get();
         return view('almacen.producto.create', compact('categorias'));
     }
 
-    // Método para guardar un nuevo producto
+    /**
+     * Almacena un nuevo producto en la base de datos.
+     *
+     * @param  ProductoFormRequest  $request  Solicitud HTTP validada
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function store(ProductoFormRequest $request)
     {
         try {
@@ -45,7 +70,12 @@ class ProductoController extends Controller
         }
     }
 
-    // Método para mostrar el formulario de edición de productos
+    /**
+     * Muestra el formulario para editar un producto específico.
+     *
+     * @param  int  $id  Identificador del producto
+     * @return \Illuminate\View\View  Vista con formulario de edición
+     */
     public function edit($id)
     {
         $categorias = Categoria::where('estado', '=', '1')->get();
@@ -53,7 +83,13 @@ class ProductoController extends Controller
         return view('almacen.producto.edit', compact('producto', 'categorias'));
     }
 
-    // Método para actualizar un producto existente
+    /**
+     * Actualiza la información de un producto existente.
+     *
+     * @param  ProductoFormRequest  $request  Solicitud HTTP validada
+     * @param  string  $id  Identificador del producto
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function update(ProductoFormRequest $request, string $id)
     {
         try {
@@ -74,6 +110,12 @@ class ProductoController extends Controller
         }
     }
 
+    /**
+     * Genera automáticamente un código único para un nuevo producto basado en su categoría.
+     *
+     * @param  int  $id_categoria  Identificador de la categoría
+     * @return \Illuminate\Http\JsonResponse  Respuesta JSON con el código generado
+     */
     public function generarCodigo($id_categoria)
     {
         // Encontrar la categoría por ID
@@ -109,6 +151,13 @@ class ProductoController extends Controller
         return response()->json(['codigo' => $codigo]);
     }
 
+    /**
+     * Cambia el estado de un producto (activo/inactivo).
+     *
+     * @param  Request  $request  Solicitud HTTP con el nuevo estado
+     * @param  int  $id  Identificador del producto
+     * @return \Illuminate\Http\JsonResponse  Respuesta JSON con resultado de la operación
+     */
     public function toggleEstado(Request $request, $id)
     {
         try {

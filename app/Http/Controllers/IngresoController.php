@@ -14,20 +14,40 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
-
-
+/**
+ * Controlador para la gestión de ingresos de productos al almacén.
+ * 
+ * Este controlador maneja las operaciones relacionadas con el registro
+ * de ingresos de productos, incluyendo sus detalles y cálculos de totales.
+ * 
+ * @package App\Http\Controllers
+ */
 class IngresoController extends Controller
 {
-    //
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
 
-    //
+    /**
+     * Muestra una lista de todos los ingresos registrados.
+     *
+     * @return \Illuminate\View\View  Vista con lista de ingresos
+     */
     public function index()
     {
         $ingresos = DB::table('vista_ingresos')->get();
         return view('almacen.ingreso.index', compact('ingresos'));
     }
 
+    /**
+     * Muestra el formulario para crear un nuevo ingreso.
+     * 
+     * Genera automáticamente el siguiente número de lote y prepara
+     * los datos necesarios para el formulario.
+     *
+     * @return \Illuminate\View\View  Vista con formulario de creación
+     */
     public function create()
     {
         // Obtener el siguiente número de lote basado en el último id_ingreso
@@ -58,6 +78,12 @@ class IngresoController extends Controller
         return view('almacen.ingreso.create', compact("proveedores", "productos", "siguienteLote", "productosOld"));
     }
 
+    /**
+     * Almacena un nuevo ingreso y sus detalles en la base de datos.
+     *
+     * @param  IngresoFormRequest  $request  Solicitud HTTP validada
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function store(IngresoFormRequest $request)
     {
         try {
@@ -115,7 +141,12 @@ class IngresoController extends Controller
     }
 
 
-    //
+    /**
+     * Muestra los detalles de un ingreso específico.
+     *
+     * @param  int  $id  Identificador del ingreso
+     * @return \Illuminate\View\View  Vista con detalles del ingreso
+     */
     public function show($id)
     {
         // Obtener los detalles del ingreso desde la vista

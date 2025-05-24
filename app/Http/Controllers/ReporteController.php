@@ -7,10 +7,29 @@ use Barryvdh\DomPDF\Facade\Pdf; // Importar DomPDF
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador para la generación de reportes del sistema.
+ * 
+ * Este controlador maneja la generación de diferentes tipos de reportes
+ * relacionados con el movimiento de productos y saldos de almacén,
+ * tanto en formato web como en PDF.
+ * 
+ * @package App\Http\Controllers
+ */
 class ReporteController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
-
+    /**
+     * Muestra el reporte de movimientos de almacén entre fechas.
+     * 
+     * Si se reciben fechas por GET, ejecuta la consulta y muestra los resultados.
+     * 
+     * @param  Request  $request  Solicitud HTTP con parámetros de fechas
+     * @return \Illuminate\View\View  Vista con resultados del reporte
+     */
     public function movimientoAlmacen(Request $request)
     {
         $resultados = null;
@@ -39,8 +58,12 @@ class ReporteController extends Controller
 
         return view('almacen.reporte.movimiento', compact('productos', 'totalGeneral'));
     }
-
-
+    /**
+     * Genera un PDF con el reporte de movimientos entre fechas.
+     * 
+     * @param  Request  $request  Solicitud HTTP con parámetros de fechas
+     * @return \Illuminate\Http\Response  Respuesta con el PDF generado
+     */
     public function imprimirMovimientoPDF(Request $request)
     {
         $request->validate([
@@ -89,7 +112,15 @@ class ReporteController extends Controller
         // Mostrar el PDF en el navegador
         return $pdf->stream('reporte_movimiento_' . $fecha_inicio . '_al_' . $fecha_fin . '.pdf');
     }
-
+    /**
+     * Muestra el reporte de saldo de almacén a una fecha determinada.
+     * 
+     * Si se recibe fecha por GET, ejecuta la consulta y muestra los resultados.
+     * Se puede filtrar opcionalmente por categoría.
+     * 
+     * @param  Request  $request  Solicitud HTTP con parámetros de fecha y categoría
+     * @return \Illuminate\View\View  Vista con resultados del reporte
+     */
     public function saldoAlmacen(Request $request)
     {
         $resultados = [];
@@ -121,8 +152,12 @@ class ReporteController extends Controller
         return view('almacen.reporte.saldo', compact('resultados', 'categorias'));
     }
 
-
-
+    /**
+     * Genera un PDF con el reporte de saldo de almacén a una fecha determinada.
+     * 
+     * @param  Request  $request  Solicitud HTTP con parámetros de fecha y categoría
+     * @return \Illuminate\Http\Response  Respuesta con el PDF generado
+     */
     public function imprimirSaldoPDF(Request $request)
     {
         $request->validate([

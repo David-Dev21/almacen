@@ -14,32 +14,33 @@
                 @method('PUT')
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="txtNombre">Nombre Unidad: <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" id="txtNombre"
-                            value="{{ $unidad->nombre }}">
+                        <label for="txtNombre">Nombre Unidad:</label>
+                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                            id="txtNombre" value="{{ $unidad->nombre }}">
                         @error('nombre')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-sm-7">
                         <label for="txtJefe">Jefe: <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('jefe') is-invalid @enderror" name="jefe" id="txtJefe"
-                            value="{{ $unidad->jefe }}">
+                        <input type="text" class="form-control @error('jefe') is-invalid @enderror" name="jefe"
+                            id="txtJefe" value="{{ $unidad->jefe }}">
                         @error('jefe')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-sm-5">
                         <label for="numbertelefono">Teléfono:</label>
-                        <input class="form-control @error('telefono') is-invalid @enderror" type="number" name="telefono" id="numbertelefono"
-                            value="{{ $unidad->telefono }}">
+                        <input class="form-control @error('telefono') is-invalid @enderror" type="number" name="telefono"
+                            id="numbertelefono" value="{{ $unidad->telefono }}">
                         @error('telefono')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-sm-12">
                         <label for="txtDireccion">Dirección: <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('direccion') is-invalid @enderror" type="text" rows="3" name="direccion" id="txtDireccion">{{ $unidad->direccion }}</textarea>
+                        <textarea class="form-control @error('direccion') is-invalid @enderror" type="text" rows="3" name="direccion"
+                            id="txtDireccion">{{ $unidad->direccion }}</textarea>
                         @error('direccion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

@@ -13,16 +13,42 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+/**
+ * Controlador para la gestión de salidas de productos del almacén.
+ * 
+ * Este controlador maneja las operaciones relacionadas con el registro
+ * de salidas de productos, incluyendo sus detalles, generación de reportes
+ * y actualización de inventario.
+ * 
+ * @package App\Http\Controllers
+ */
 class SalidaController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
 
+    /**
+     * Muestra una lista de todas las salidas registradas.
+     *
+     * @return \Illuminate\View\View  Vista con lista de salidas
+     */
     public function index()
     {
         $salidas = DB::table('vista_salidas')->get();
         return view('almacen.salida.index', compact('salidas'));
     }
 
+    /**
+     * Muestra el formulario para crear una nueva salida.
+     * 
+     * Prepara los datos necesarios para el formulario, incluyendo
+     * unidades y productos con stock disponible.
+     *
+     * @param  Request  $request  Solicitud HTTP
+     * @return \Illuminate\View\View  Vista con formulario de creación
+     */
     public function create(Request $request)
     {
         $unidades = Unidad::all()->where('estado', '=', '1');
@@ -49,6 +75,15 @@ class SalidaController extends Controller
         return view('almacen.salida.create', compact("unidades", "productos", "productosOld"));
     }
 
+    /**
+     * Almacena una nueva salida y sus detalles en la base de datos.
+     * 
+     * Actualiza también el inventario disminuyendo las cantidades disponibles
+     * de los productos seleccionados.
+     *
+     * @param  SalidaFormRequest  $request  Solicitud HTTP validada
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function store(SalidaFormRequest $request)
     {
         try {
@@ -109,7 +144,12 @@ class SalidaController extends Controller
         }
     }
 
-    //
+    /**
+     * Muestra los detalles de una salida específica.
+     *
+     * @param  int  $id  Identificador de la salida
+     * @return \Illuminate\View\View  Vista con detalles de la salida
+     */
     public function show($id)
     {
         // Obtener los detalles del salida desde la vista
@@ -123,6 +163,15 @@ class SalidaController extends Controller
         return view('almacen.salida.show', compact("salida", "detalles"));
     }
 
+    /**
+     * Obtiene los lotes disponibles para un producto específico.
+     * 
+     * Retorna un JSON con los lotes que tienen cantidad disponible
+     * para el producto solicitado.
+     *
+     * @param  int  $idProducto  Identificador del producto
+     * @return \Illuminate\Http\JsonResponse  Respuesta JSON con lotes disponibles
+     */
     public function getLotesDisponibles($idProducto)
     {
         $lotes = DB::table('detalle_ingresos')
@@ -137,6 +186,16 @@ class SalidaController extends Controller
     }
 
 
+    /**
+     * Genera un PDF con los detalles de una salida específica.
+     * 
+     * El PDF incluye información de la salida, detalles por categoría
+     * y opcionalmente puede mostrar los costos.
+     *
+     * @param  Request  $request  Solicitud HTTP con opciones de visualización
+     * @param  int  $id  Identificador de la salida
+     * @return \Illuminate\Http\Response  Respuesta con el PDF generado
+     */
     public function imprimirSalidaPDF(Request $request, $id)
     {
         $salida = DB::table('vista_salidas')

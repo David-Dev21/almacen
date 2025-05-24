@@ -3,6 +3,20 @@
     <li class="breadcrumb-item active">Movimiento Almacén</li>
 @endsection
 @section('contenido')
+    {{-- 
+    /**
+     * Vista para el reporte de Movimientos de Almacén
+     * 
+     * Esta vista muestra los movimientos de productos en almacén en un rango de fechas.
+     * Incluye saldos iniciales, ingresos, salidas y saldos finales de cada producto.
+     * Permite generar un reporte en PDF con los resultados.
+     * 
+     * La estructura incluye:
+     * - Filtros de rango de fechas (inicio y fin)
+     * - Tabla de resultados con movimientos por producto y lote
+     * - Total general de todos los movimientos
+     */
+    --}}
     <section class="card shadow-lg w-100 d-flex flex-column">
         <div class="card-header bg-gradient-green">
             <h4 class="text-white my-auto fw-bold">MOVIMIENTO DE ALMACÉN</h4>
@@ -15,8 +29,9 @@
                     <div class="col-md-4">
                         <div class="flatpickr">
                             <div class="form-floating">
-                                <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="dateFechaInicio"
-                                    name="fecha_inicio" placeholder="" value="{{ old('fecha_inicio', request('fecha_inicio')) }}" data-input>
+                                <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror"
+                                    id="dateFechaInicio" name="fecha_inicio" placeholder=""
+                                    value="{{ old('fecha_inicio', request('fecha_inicio')) }}" data-input>
                                 <label for="dateFechaInicio">Fecha Inicio</label>
                                 @error('fecha_inicio')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -29,8 +44,9 @@
                     <div class="col-md-4">
                         <div class="flatpickr">
                             <div class="form-floating">
-                                <input type="date" class="form-control @error('fecha_fin') is-invalid @enderror" id="dateFechaFin" name="fecha_fin"
-                                    placeholder="" value="{{ old('fecha_fin', request('fecha_fin')) }}" data-input>
+                                <input type="date" class="form-control @error('fecha_fin') is-invalid @enderror"
+                                    id="dateFechaFin" name="fecha_fin" placeholder=""
+                                    value="{{ old('fecha_fin', request('fecha_fin')) }}" data-input>
                                 <label for="dateFechaFin">Fecha Fin</label>
                                 @error('fecha_fin')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -52,6 +68,24 @@
                 </div>
             </form>
             <div class="table-responsive overflow-auto mt-3">
+                {{-- 
+                /**
+                 * Tabla de resultados de movimientos de almacén
+                 * 
+                 * Muestra los movimientos de productos en el rango de fechas seleccionado:
+                 * - Saldo inicial al inicio del período
+                 * - Ingresos durante el período
+                 * - Salidas durante el período
+                 * - Saldo final al cierre del período
+                 * 
+                 * La tabla incluye:
+                 * - Código de producto
+                 * - Nombre del producto
+                 * - Número de lote
+                 * - Fecha de movimiento
+                 * - Cantidades y valores para cada tipo de movimiento
+                 */
+                --}}
                 <table class="table table-hover table-bordered align-middle">
                     <thead>
                         <tr class="text-center align-middle">
@@ -119,23 +153,38 @@
 @endsection
 @push('scripts')
     <script>
+        /**
+         * Inicialización del documento cuando está listo
+         * Configura los selectores de fecha y muestra alertas si es necesario
+         * 
+         * @event document.DOMContentLoaded
+         */
         document.addEventListener('DOMContentLoaded', function() {
+            /**
+             * Inicializa los selectores de fecha con flatpickr
+             * Configura el formato de fecha, idioma y restricciones de rango
+             */
             flatpickr("#dateFechaInicio, #dateFechaFin", {
-                dateFormat: "Y-m-d",
-                locale: "es",
-                maxDate: "today",
-                minDate: "2025-01-01"
+                dateFormat: "Y-m-d", // Formato año-mes-día
+                locale: "es", // Idioma en español
+                maxDate: "today", // Fecha máxima: hoy (deshabilita fechas futuras)
+                minDate: "2025-01-01" // Fecha mínima permitida
             });
+
+            /**
+             * Muestra una alerta cuando se ha realizado una búsqueda pero no hay resultados
+             * Utiliza SweetAlert2 para mostrar un mensaje informativo al usuario
+             */
             @if (request()->has('fecha_inicio') && request()->has('fecha_fin') && (!isset($productos) || count($productos) === 0))
                 Swal.fire({
-                    icon: 'info',
-                    title: 'Sin productos',
-                    text: 'No se encontraron movimientos para el rango de fechas seleccionado.',
+                    icon: 'info', // Icono de información
+                    title: 'Sin productos', // Título de la alerta
+                    text: 'No se encontraron movimientos para el rango de fechas seleccionado.', // Mensaje detallado
                     customClass: {
-                        confirmButton: 'btn btn-primary'
+                        confirmButton: 'btn btn-primary' // Clase CSS para el botón
                     },
-                    buttonsStyling: false,
-                    confirmButtonText: 'Aceptar',
+                    buttonsStyling: false, // Deshabilita estilos predeterminados
+                    confirmButtonText: 'Aceptar', // Texto del botón
                 });
             @endif
         });

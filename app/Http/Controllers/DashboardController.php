@@ -9,8 +9,24 @@ use App\Models\Categoria;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador para el panel de control (dashboard) del sistema.
+ * 
+ * Este controlador maneja la visualización de estadísticas y resúmenes
+ * sobre los productos, ingresos y salidas del almacén.
+ * 
+ * @package App\Http\Controllers
+ */
 class DashboardController extends Controller
 {
+    /**
+     * Muestra el panel de control con estadísticas del sistema.
+     * 
+     * Incluye totales de productos, ingresos y salidas, así como
+     * distribución de productos por categoría y tendencias mensuales.
+     *
+     * @return \Illuminate\View\View  Vista del panel de control
+     */
     public function index()
     {
         // Fetch data from the database

@@ -22,7 +22,6 @@ class UnidadFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'jefe' => 'required|string|max:30',
             'nombre' => 'required|string|max:50',
             'direccion' => 'required|string|max:100',
             'telefono' => 'nullable|string|max:20',
@@ -31,7 +30,6 @@ class UnidadFormRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'jefe.required' => 'El campo jefe es obligatorio.',
             'jefe.string' => 'El jefe debe ser una cadena de texto.',
             'jefe.max' => 'El jefe no puede tener más de 30 caracteres.',
             'nombre.required' => 'El campo nombre de unidad es obligatorio.',

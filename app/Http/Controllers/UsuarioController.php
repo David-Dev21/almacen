@@ -10,10 +10,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controlador para la gestión de usuarios del sistema.
+ * 
+ * Este controlador maneja las operaciones CRUD para usuarios, 
+ * así como la actualización de contraseñas.
+ * 
+ * @package App\Http\Controllers
+ */
 class UsuarioController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
 
+    /**
+     * Muestra una lista paginada de todos los usuarios.
+     *
+     * @param  Request  $request  Solicitud HTTP con parámetros de búsqueda
+     * @return \Illuminate\View\View  Vista con lista de usuarios
+     */
     public function index(Request $request)
     {
         $buscar = trim($request->get('buscar'));
@@ -24,11 +41,22 @@ class UsuarioController extends Controller
         return view('almacen.usuario.index', compact('usuarios', 'buscar'));
     }
 
+    /**
+     * Muestra el formulario para crear un nuevo usuario.
+     *
+     * @return \Illuminate\View\View  Vista con formulario de creación
+     */
     public function create()
     {
         return view('almacen.usuario.create');
     }
 
+    /**
+     * Almacena un nuevo usuario en la base de datos.
+     *
+     * @param  UsuarioFormRequest  $request  Solicitud HTTP validada
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function store(UsuarioFormRequest $request)
     {
         try {
@@ -41,12 +69,25 @@ class UsuarioController extends Controller
         }
     }
 
+    /**
+     * Muestra el formulario para editar un usuario específico.
+     *
+     * @param  int  $id  Identificador del usuario
+     * @return \Illuminate\View\View  Vista con formulario de edición
+     */
     public function edit($id)
     {
         $usuario = User::findOrFail($id);
         return view('almacen.usuario.edit', compact('usuario'));
     }
 
+    /**
+     * Actualiza la información de un usuario específico.
+     *
+     * @param  UsuarioFormRequest  $request  Solicitud HTTP validada
+     * @param  int  $id  Identificador del usuario
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function update(UsuarioFormRequest $request, $id)
     {
         try {
@@ -60,6 +101,12 @@ class UsuarioController extends Controller
         }
     }
 
+    /**
+     * Desactiva un usuario (soft delete).
+     *
+     * @param  int  $id  Identificador del usuario
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function destroy($id)
     {
         try {
@@ -73,11 +120,22 @@ class UsuarioController extends Controller
         }
     }
 
+    /**
+     * Muestra el formulario para cambiar la contraseña del usuario.
+     *
+     * @return \Illuminate\View\View  Vista con formulario para cambio de contraseña
+     */
     public function showChangePasswordForm()
     {
         return view('usuarios.change-password');
     }
 
+    /**
+     * Actualiza la contraseña del usuario autenticado.
+     *
+     * @param  Request  $request  Solicitud HTTP con las contraseñas
+     * @return \Illuminate\Http\RedirectResponse  Redirección con mensaje de éxito o error
+     */
     public function updatePassword(Request $request)
     {
         // Validar los datos

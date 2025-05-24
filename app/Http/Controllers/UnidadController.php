@@ -7,8 +7,19 @@ use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Controlador para la gestión de unidades de medida.
+ * 
+ * Este controlador maneja las operaciones CRUD para unidades de medida,
+ * incluyendo la activación/desactivación de las mismas.
+ * 
+ * @package App\Http\Controllers
+ */
 class UnidadController extends Controller
 {
+    /**
+     * Constructor del controlador.
+     */
     public function __construct() {}
 
     public function index()

@@ -1,66 +1,182 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Gestión de Almacén
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📋 Descripción del Proyecto
 
-## About Laravel
+Sistema de Gestión de Almacén desarrollado para la administración eficiente de inventario, entradas y salidas de productos. Esta aplicación permite el registro, control y seguimiento de todos los movimientos de productos en el almacén, generando reportes detallados para la toma de decisiones.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### ✨ Características principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   📦 **Gestión de productos** - Registro y administración de productos por categorías
+-   📊 **Control de inventario** - Seguimiento de stock en tiempo real por lotes
+-   🏢 **Administración de proveedores** - Registro de proveedores para ingresos de productos
+-   🏬 **Gestión de unidades** - Control de las unidades que solicitan productos
+-   📥 **Ingresos de productos** - Registro de entradas con detalles por lote y costo
+-   📤 **Salidas de productos** - Registro de salidas con método FIFO (primero en entrar, primero en salir)
+-   📝 **Reportes** - Generación de reportes de saldos y movimientos en PDF
+-   📈 **Panel de control** - Dashboard con estadísticas y métricas clave
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔧 Requisitos del Sistema
 
-## Learning Laravel
+-   PHP >= 8.0
+-   Composer
+-   MySQL >= 5.7
+-   Node.js y NPM
+-   Extensiones PHP:
+    -   BCMath
+    -   Ctype
+    -   Fileinfo
+    -   JSON
+    -   Mbstring
+    -   OpenSSL
+    -   PDO
+    -   Tokenizer
+    -   XML
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Instalación en Entorno de Desarrollo
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Siga estos pasos para instalar y configurar el proyecto en un entorno de desarrollo local:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone el repositorio:
 
-## Laravel Sponsors
+```bash
+git clone [url-del-repositorio]
+cd almacen
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Instale las dependencias de PHP con Composer:
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+3. Instale las dependencias de JavaScript:
 
-## Contributing
+```bash
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Compile los assets:
 
-## Code of Conduct
+```bash
+npm run build
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Copie el archivo de configuración y configure sus variables de entorno:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Genere una clave de aplicación:
 
-## License
+```bash
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. Configure la conexión a la base de datos en el archivo `.env`
+
+8. **Opción A**: Ejecute las migraciones y seeders:
+
+```bash
+php artisan migrate --seed
+```
+
+> El usuario creado por defecto con el seeder es:
+>
+> -   **Usuario:** `admin`
+> -   **Contraseña:** `12345678`
+
+9. **Opción B**: Importe la base de datos desde los archivos SQL:
+
+```bash
+# Crear la base de datos primero
+mysql -u [usuario] -p -e "CREATE DATABASE IF NOT EXISTS [nombre_base_datos];"
+
+# Importar el esquema principal
+mysql -u [usuario] -p [nombre_base_datos] < database/sql/sistema_inventario.sql
+
+# Importar los índices adicionales
+mysql -u [usuario] -p [nombre_base_datos] < database/sql/indices_sistema_inventario.sql
+```
+
+10. Inicie el servidor de desarrollo:
+
+```bash
+php artisan serve
+```
+
+11. Acceda a la aplicación en: `http://localhost:8000`
+
+## 🌐 Despliegue en Producción
+
+Para desplegar en un entorno de producción, siga estos pasos adicionales:
+
+1. Configure su servidor web (Apache/Nginx) apuntando al directorio `public/` como raíz del sitio.
+
+2. Asegúrese de que los siguientes directorios tengan permisos de escritura:
+
+    - `storage/`
+    - `bootstrap/cache/`
+
+3. Configure el archivo `.env` para producción:
+
+    - Establezca `APP_ENV=production`
+    - Establezca `APP_DEBUG=false`
+    - Configure una `APP_KEY` segura
+    - Configure las credenciales de base de datos
+
+4. Optimice la aplicación para producción:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+5. Configure un programador de tareas (Cron) si es necesario:
+
+```
+* * * * * cd /ruta-a-su-proyecto && php artisan schedule:run >> /dev/null 2>&1
+```
+
+## 📊 Estructura de la Base de Datos
+
+El sistema utiliza las siguientes tablas principales:
+
+| Tabla                   | Descripción                       |
+| ----------------------- | --------------------------------- |
+| 👤 **users**            | Usuarios del sistema              |
+| 📑 **categorias**       | Categorías de productos           |
+| 📦 **productos**        | Productos en inventario           |
+| 🏢 **proveedores**      | Proveedores de productos          |
+| 🏬 **unidades**         | Unidades que solicitan productos  |
+| 📥 **ingresos**         | Registro de entradas de productos |
+| 📄 **detalle_ingresos** | Detalle de productos ingresados   |
+| 📤 **salidas**          | Registro de salidas de productos  |
+| 📄 **detalle_salidas**  | Detalle de productos retirados    |
+
+## 🖥️ Uso del Sistema
+
+1. **Inicio de sesión** - Acceda con sus credenciales
+2. **Dashboard** - Visualice estadísticas generales
+3. **Gestión de productos** - Administre el catálogo de productos
+4. **Registro de ingresos** - Registre nuevas entradas de productos
+5. **Registro de salidas** - Registre las salidas de productos
+6. **Reportes** - Genere informes de saldos y movimientos
+
+## 🛠️ Mantenimiento
+
+-   💾 Realice respaldos regulares de la base de datos
+-   📋 Verifique y limpie los archivos de logs periódicamente:
+    ```bash
+    php artisan log:clear
+    ```
+-   🔄 Actualice regularmente las dependencias:
+    ```bash
+    composer update
+    npm update
+    ```
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo [LICENCIA MIT](https://choosealicense.com/licenses/mit/)

@@ -123,7 +123,8 @@
             <!-- Content -->
             <main class="d-flex flex-column bg-green-medium col-lg-10 offset-lg-2">
                 <nav class="d-flex bg-green-light rounded shadow-lg sticky-top mb-1">
-                    <button class="btn bg-green text-white d-lg-none d-block" data-bs-toggle="offcanvas" data-bs-target="#offCanvasMenu">
+                    <button class="btn bg-green text-white d-lg-none d-block" data-bs-toggle="offcanvas"
+                        data-bs-target="#offCanvasMenu">
                         <i class="bi bi-list"></i></button>
                     <ol class="breadcrumb ps-1 my-auto fw-bold fs-6">
                         <li class="breadcrumb-item">
@@ -133,16 +134,18 @@
                         @yield('breadcrumb')
                     </ol>
                     <div class="dropdown ms-auto">
-                        <button class="btn dropdown-toggle w-100 fw-bold" id="userDropdown" data-bs-toggle="dropdown">
+                        <button class="btn dropdown-toggle w-100 fw-bold" id="userDropdown"
+                            data-bs-toggle="dropdown">
                             {{ Auth::user()->ci }}
                         </button>
                         <ul class="dropdown-menu">
                             <li>
                                 <span class="dropdown-item">{{ Auth::user()->name }}</span>
                             </li>
-                            {{-- <li><a class="dropdown-item" href="{{ route('usuarios.change-password') }}">Cambiar Contraseña</a></li>
-                            <li> --}}
-                            <hr class="dropdown-divider">
+                            <li><a class="dropdown-item" href="{{ route('usuarios.change-password') }}">Cambiar
+                                    Contraseña</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
