@@ -38,7 +38,8 @@
                                 </button>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('categorias.edit', $item->id_categoria) }}" class="btn btn-labeled btn-warning btn-small">
+                                <a href="{{ route('categorias.edit', $item->id_categoria) }}"
+                                    class="btn btn-labeled btn-warning btn-small">
                                     <span class="btn-label"><i class="bi bi-pen-fill"></i></span>Editar
                                 </a>
                             </td>

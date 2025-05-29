@@ -22,6 +22,7 @@ class UnidadFormRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'jefe' => 'nullable|string|max:30',
             'nombre' => 'required|string|max:50',
             'direccion' => 'required|string|max:100',
             'telefono' => 'nullable|string|max:20',

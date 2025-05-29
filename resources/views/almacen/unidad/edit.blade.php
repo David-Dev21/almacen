@@ -22,7 +22,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-sm-7">
-                        <label for="txtJefe">Jefe: <span class="text-danger">*</span></label>
+                        <label for="txtJefe">Jefe: </label>
                         <input type="text" class="form-control @error('jefe') is-invalid @enderror" name="jefe"
                             id="txtJefe" value="{{ $unidad->jefe }}">
                         @error('jefe')

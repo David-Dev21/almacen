@@ -11,24 +11,26 @@ import Chart from 'chart.js/auto';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import { Spanish } from "flatpickr/dist/l10n/es.js"; 
-import { Tooltip } from 'bootstrap';
-import 'datatables.net-bs5';
+//import { Tooltip } from 'bootstrap';
+
+import DataTable from 'datatables.net-bs5'; // núcleo con estilos Bootstrap 5
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
-import DataTable from 'datatables.net-bs5'
-import 'datatables.net-responsive-bs5';
+
+import 'datatables.net-responsive-bs5'; // complemento responsive
 import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 
-window.DataTable = DataTable;
+
+
 window.flatpickr = flatpickr;
 flatpickr.localize(Spanish);
 window.Chart = Chart;
 window.Swal = Swal;
 window.TomSelect = TomSelect;
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-tooltipTriggerList.forEach((tooltipTriggerEl) => {
-  new Tooltip(tooltipTriggerEl);
-});
+// const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+// tooltipTriggerList.forEach((tooltipTriggerEl) => {
+//   new Tooltip(tooltipTriggerEl);
+// });
 
 window.dataTable = new DataTable('#dataTable', 
   {
