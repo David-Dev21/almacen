@@ -22,7 +22,7 @@ class ProductoFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => 'required|string|max:30|unique:productos,codigo,' . $this->route('producto') . ',id_producto',
+            'codigo' => 'required|string|max:255|unique:productos,codigo,' . $this->route('producto') . ',id_producto',
             'descripcion' => 'required|string|max:255',
             'unidad' => 'required',
             'id_categoria' => 'required|exists:categorias,id_categoria',
@@ -34,7 +34,7 @@ class ProductoFormRequest extends FormRequest
         return [
             'codigo.required' => 'El campo código es obligatorio.',
             'codigo.string' => 'El código debe ser una cadena de texto.',
-            'codigo.max' => 'El código no puede tener más de 30 caracteres.',
+            'codigo.max' => 'El código no puede tener más de 255 caracteres.',
             'codigo.unique' => 'El código ya existe en la base de datos.',
             'descripcion.required' => 'El campo descripción es obligatorio.',
             'descripcion.string' => 'La descripción debe ser una cadena de texto.',

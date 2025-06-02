@@ -29,7 +29,7 @@ class SalidaFormRequest extends FormRequest
             'n_hoja_ruta' => [
                 'required',
                 'string',
-                'max:30',
+                'max:255',
                 Rule::unique('salidas')
                     ->where('id_unidad', $this->input('id_unidad'))
                     ->ignore($this->route('salidas.edit')) // Ignora el ID si se está editando
@@ -37,7 +37,7 @@ class SalidaFormRequest extends FormRequest
             'n_pedido' => [
                 'required',
                 'string',
-                'max:30',
+                'max:255',
                 Rule::unique('salidas')
                     ->where('id_unidad', $this->input('id_unidad'))
                     ->ignore($this->route('salidas.edit')) // Ignora el ID si se está editando
@@ -52,11 +52,11 @@ class SalidaFormRequest extends FormRequest
             // Mensajes personalizados para Salidas
             'n_hoja_ruta.required' => 'El número de hoja de ruta es obligatorio.',
             'n_hoja_ruta.string' => 'El número de hoja de ruta debe ser una cadena de texto.',
-            'n_hoja_ruta.max' => 'El número de hoja de ruta no puede tener más de 30 caracteres.',
+            'n_hoja_ruta.max' => 'El número de hoja de ruta no puede tener más de 255 caracteres.',
             'n_hoja_ruta.unique' => 'El número de hoja de ruta ya existe para esta unidad.',
             'n_pedido.required' => 'El número de pedido es obligatorio.',
             'n_pedido.string' => 'El número de pedido debe ser una cadena de texto.',
-            'n_pedido.max' => 'El número de pedido no puede tener más de 30 caracteres.',
+            'n_pedido.max' => 'El número de pedido no puede tener más de 255 caracteres.',
             'n_pedido.unique' => 'El número de pedido ya existe para esta unidad.',
             'id_unidad.required' => 'La unidad es obligatoria.',
             'id_unidad.exists' => 'La unidad seleccionada no es válida.',

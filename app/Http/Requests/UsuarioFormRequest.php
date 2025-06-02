@@ -23,8 +23,8 @@ class UsuarioFormRequest extends FormRequest
     {
         $id_usuario = $this->route('usuario') ?? 'NULL';
         return [
-            'name' => 'required|string|max:50',
-            'ci' => 'required|string|max:20|unique:users,ci,' . $id_usuario . ',id',
+            'name' => 'required|string|max:255',
+            'ci' => 'required|string|max:255|unique:users,ci,' . $id_usuario . ',id',
         ];
     }
 
@@ -33,10 +33,10 @@ class UsuarioFormRequest extends FormRequest
         return [
             'name.required' => 'El campo nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto.',
-            'name.max' => 'El nombre no puede tener más de 50 caracteres.',
+            'name.max' => 'El nombre no puede tener más de 255 caracteres.',
             'ci.required' => 'El campo CI es obligatorio.',
             'ci.string' => 'El CI debe ser una cadena de texto.',
-            'ci.max' => 'El CI no puede tener más de 20 caracteres.',
+            'ci.max' => 'El CI no puede tener más de 255 caracteres.',
             'ci.unique' => 'El CI ya existe en la base de datos.',
         ];
     }
