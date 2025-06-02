@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('unidades', function (Blueprint $table) {
             $table->increments('id_unidad');
-            $table->string('jefe', 30)->nullable();
-            $table->string('nombre', 50)->notNull();
+            $table->string('nombre', 50);
             $table->string('direccion', 100)->nullable();
-            $table->string('telefono', 20)->nullable();
-            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
+            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)');
             $table->timestamps();
         });
     }

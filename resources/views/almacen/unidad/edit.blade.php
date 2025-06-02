@@ -14,31 +14,15 @@
                 @method('PUT')
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="txtNombre">Nombre Unidad:</label>
+                        <label for="txtNombre">Nombre Unidad:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                             id="txtNombre" value="{{ $unidad->nombre }}">
                         @error('nombre')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group col-sm-7">
-                        <label for="txtJefe">Jefe: </label>
-                        <input type="text" class="form-control @error('jefe') is-invalid @enderror" name="jefe"
-                            id="txtJefe" value="{{ $unidad->jefe }}">
-                        @error('jefe')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group col-sm-5">
-                        <label for="numbertelefono">Teléfono:</label>
-                        <input class="form-control @error('telefono') is-invalid @enderror" type="number" name="telefono"
-                            id="numbertelefono" value="{{ $unidad->telefono }}">
-                        @error('telefono')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
                     <div class="form-group col-sm-12">
-                        <label for="txtDireccion">Dirección: <span class="text-danger">*</span></label>
+                        <label for="txtDireccion">Dirección:</label>
                         <textarea class="form-control @error('direccion') is-invalid @enderror" type="text" rows="3" name="direccion"
                             id="txtDireccion">{{ $unidad->direccion }}</textarea>
                         @error('direccion')
@@ -50,7 +34,7 @@
                     <a href="{{ route('unidades.index') }}" class="btn btn-danger btn-labeled">
                         <span class="btn-label"><i class="bi bi-x-circle-fill"></i></span>Cancelar</a>
                     <button type="button" class="btn btn-success btn-labeled"
-                        onclick="confirmSubmit('unidadForm', { 'Nombre Unidad': 'txtNombre', 'Jefe': 'txtJefe', 'Teléfono': 'numbertelefono', 'Dirección': 'txtDireccion' })">
+                        onclick="confirmSubmit('unidadForm', { 'Nombre Unidad': 'txtNombre', 'Dirección': 'txtDireccion' })">
                         <span class="btn-label"><i class="bi bi-floppy2-fill"></i></span>Guardar
                     </button>
                 </div>

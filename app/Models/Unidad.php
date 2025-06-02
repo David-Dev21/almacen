@@ -30,18 +30,7 @@ class Unidad extends Model
     protected $table = 'unidades';
     protected $primaryKey = 'id_unidad';
 
-    protected $fillable = ['jefe', 'nombre', 'direccion', 'telefono', 'estado'];
-
-    /**
-     * Convierte automáticamente el nombre del jefe a mayúsculas.
-     *
-     * @param  string  $value  Valor del nombre del jefe
-     * @return void
-     */
-    public function setJefeAttribute($value)
-    {
-        $this->attributes['jefe'] = strtoupper($value);
-    }
+    protected $fillable = ['nombre', 'direccion', 'estado'];
 
     /**
      * Convierte automáticamente el nombre de la unidad a mayúsculas.

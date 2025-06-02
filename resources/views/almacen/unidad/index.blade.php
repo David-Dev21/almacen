@@ -17,10 +17,8 @@
                 <thead>
                     <tr class="text-center">
                         <th>#</th>
-                        <th>Jefe</th>
-                        <th>Nombre</th>
+                        <th>Unidad</th>
                         <th>Dirección</th>
-                        <th>teléfono</th>
                         <th>Estado</th>
                         <th>Opciones</th>
                     </tr>
@@ -29,10 +27,8 @@
                     @foreach ($unidades as $item)
                         <tr>
                             <td class="text-center">{{ $item->id_unidad }}</td>
-                            <td class="ps-2">{{ $item->jefe }}</td>
                             <td class="ps-2">{{ $item->nombre }}</td>
                             <td class="ps-2">{{ $item->direccion }}</td>
-                            <td class="ps-2">{{ $item->telefono }}</td>
                             <td class="text-center">
                                 <button class="btn"
                                     onclick="confirmToggleEstado({{ $item->id_unidad }}, {{ $item->estado }}, '{{ $item->nombre }}', '{{ route('unidades.toggle', ['id' => $item->id_unidad]) }}')">
@@ -42,7 +38,8 @@
                                 </button>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('unidades.edit', $item->id_unidad) }}" class="btn btn-labeled btn-warning btn-small">
+                                <a href="{{ route('unidades.edit', $item->id_unidad) }}"
+                                    class="btn btn-labeled btn-warning btn-small">
                                     <span class="btn-label"><i class="bi bi-pen-fill"></i></span>Editar
                                 </a>
                             </td>

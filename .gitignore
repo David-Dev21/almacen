@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+pnpm-workspace.yaml
 .env
 .env.backup
 .env.production
