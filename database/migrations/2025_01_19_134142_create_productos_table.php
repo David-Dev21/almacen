@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id_producto');
-            $table->string('codigo', 50)->unique()->notNullable();
-            $table->string('descripcion', 255)->notNullable();
-            $table->integer('stock')->default(0)->check('stock >= 0')->notNullable();
-            $table->string('unidad', 20)->notNullable();
-            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
+            $table->string('codigo')->unique();
+            $table->string('descripcion')->nullable();
+            $table->integer('stock')->default(0)->check('stock >= 0');
+            $table->string('unidad');
+            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)');
             $table->unsignedInteger('id_categoria');
             $table->timestamps();
             $table->foreign('id_categoria')->references('id_categoria')

@@ -34,7 +34,7 @@
                             <td class="ps-2">{{ $item->nombre }}</td>
                             <td class="pe-2">{{ $item->nit }}</td>
                             <td class="ps-2">{{ $item->direccion }}</td>
-                            <td class="ps-2">{{ $item->telefono }}</td>
+                            <td class="pe-2">{{ $item->telefono }}</td>
                             <td class="text-center">
                                 <button class="btn"
                                     onclick="confirmToggleEstado({{ $item->id_proveedor }}, {{ $item->estado }}, '{{ $item->nombre }}', '{{ route('proveedores.toggle', ['id' => $item->id_proveedor]) }}')">
@@ -44,7 +44,8 @@
                                 </button>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('proveedores.edit', $item->id_proveedor) }}" class="btn btn-labeled btn-warning btn-small">
+                                <a href="{{ route('proveedores.edit', $item->id_proveedor) }}"
+                                    class="btn btn-labeled btn-warning btn-small">
                                     <span class="btn-label"><i class="bi bi-pen-fill"></i></span>Editar
                                 </a>
                             </td>

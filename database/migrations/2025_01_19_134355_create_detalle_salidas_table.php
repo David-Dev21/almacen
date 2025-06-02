@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalle_salidas', function (Blueprint $table) {
-            $table->string('lote', 20)->notNullable();
-            $table->integer('cantidad')->check('cantidad  >= 0')->notNullable();
-            $table->decimal('costo_u', 10, 2)->check('costo_u >= 0')->notNullable();
+            $table->string('lote');
+            $table->integer('cantidad')->check('cantidad  >= 0');
+            $table->decimal('costo_u', 10, 2)->check('costo_u >= 0');
             $table->unsignedInteger('id_salida');
             $table->unsignedInteger('id_producto');
             $table->timestamps();

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('unidades', function (Blueprint $table) {
             $table->increments('id_unidad');
-            $table->string('nombre', 50);
-            $table->string('direccion', 100)->nullable();
+            $table->string('nombre');
+            $table->string('direccion')->nullable();
             $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)');
             $table->timestamps();
         });

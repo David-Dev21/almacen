@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->increments('id_categoria');
-            $table->string('codigo', 50)->notNull();
-            $table->string('descripcion', 255)->nullable();
-            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
+            $table->string('codigo');
+            $table->string('descripcion')->nullable();
+            $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)');
             $table->timestamps();
         });
     }

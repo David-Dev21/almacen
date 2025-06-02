@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->increments('id_proveedor');
-            $table->string('razon_social', 30)->nullable();
-            $table->string('nombre', 30)->notNull();
-            $table->string('nit', 30)->unique()->nullable();
-            $table->string('direccion', 100)->nullable();
-            $table->string('telefono', 20)->nullable();
+            $table->string('razon_social')->nullable();
+            $table->string('nombre');
+            $table->string('nit')->unique()->nullable();
+            $table->string('direccion')->nullable();
+            $table->string('telefono')->nullable();
             $table->tinyInteger('estado')->default(1)->check('estado IN (0, 1)')->notNullable();
             $table->timestamps();
         });

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalle_ingresos', function (Blueprint $table) {
-            $table->string('lote', 20)->notNullable();
-            $table->integer('cantidad_original')->check('cantidad_original >= 0')->notNullable();
-            $table->integer('cantidad_disponible')->check('cantidad_disponible >= 0')->notNullable();
-            $table->decimal('costo_u', 10, 2)->check('costo_u >= 0')->notNullable();
+            $table->string('lote');
+            $table->integer('cantidad_original')->check('cantidad_original >= 0');
+            $table->integer('cantidad_disponible')->check('cantidad_disponible >= 0');
+            $table->decimal('costo_u', 10, 2)->check('costo_u >= 0');
             $table->unsignedInteger('id_ingreso');
             $table->unsignedInteger('id_producto');
             $table->timestamps();

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('salidas', function (Blueprint $table) {
             $table->increments('id_salida');
-            $table->string('n_hoja_ruta', 30)->notNullable();
-            $table->string('n_pedido', 30)->notNullable();
-            $table->timestamp('fecha_hora')->notNullable();
-            $table->decimal('total', 10, 2)->check('total >= 0')->notNullable();
-            $table->enum('estado', ['completado', 'cancelado', 'pendiente'])->notNullable();
+            $table->string('n_hoja_ruta');
+            $table->string('n_pedido');
+            $table->timestamp('fecha_hora');
+            $table->decimal('total', 10, 2)->check('total >= 0');
+            $table->enum('estado', ['completado', 'cancelado', 'pendiente']);
             $table->unsignedInteger('id_unidad');
             $table->unsignedInteger('id_usuario');
             $table->timestamps();
