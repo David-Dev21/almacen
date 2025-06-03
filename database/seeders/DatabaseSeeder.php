@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // Crear un usuario específico
         DB::table('users')->insert([
-            'name' => 'Usuario Admin',
+            'name' => 'Admin',
             'ci' => 'Admin',
             'password' => Hash::make('12345678'),
             'created_at' => now(),

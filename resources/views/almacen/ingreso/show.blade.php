@@ -19,7 +19,7 @@
                         <strong>Nº Factura:</strong><span class="ms-2">{{ $ingreso->n_factura }}</span>
                     </div>
                     <div class="d-flex">
-                        <strong>Nº Pedido:</strong><span class="ms-2">99999</span>
+                        <strong>Nº Pedido:</strong><span class="ms-2">{{ $ingreso->n_pedido }}</span>
                     </div>
                 </div>
                 <div class="col-md-5">

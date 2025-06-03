@@ -14,10 +14,12 @@
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="selectCategoria">Categoría:</label>
-                        <select class="form-control @error('id_categoria') is-invalid @enderror" name="id_categoria" id="selectCategoria">
+                        <select class="form-control @error('id_categoria') is-invalid @enderror" name="id_categoria"
+                            id="selectCategoria">
                             <option value=""></option>
                             @foreach ($categorias as $cat)
-                                <option value="{{ $cat->id_categoria }}" {{ old('id_categoria') == $cat->id_categoria ? 'selected' : '' }}>
+                                <option value="{{ $cat->id_categoria }}"
+                                    {{ old('id_categoria') == $cat->id_categoria ? 'selected' : '' }}>
                                     {{ $cat->descripcion }}
                                 </option>
                             @endforeach
@@ -28,8 +30,8 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="txtCodigo">Código:</label>
-                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="txtCodigo"
-                            value="{{ old('codigo') }}" readonly>
+                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo"
+                            id="txtCodigo" value="{{ old('codigo') }}" readonly>
                         @error('codigo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -38,7 +40,8 @@
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="txtDescripcion">Descripción:</label>
-                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion" rows="3">{{ old('descripcion') }}</textarea>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion"
+                            rows="3">{{ old('descripcion') }}</textarea>
                         @error('descripcion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -120,5 +123,6 @@
                 });
             });
         </script>
+        <script src="{{ asset('js/unsaved.js') }}"></script>
     @endpush
 @endsection

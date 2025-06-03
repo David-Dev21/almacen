@@ -42,3 +42,7 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/unsaved.js') }}"></script>
+@endpush

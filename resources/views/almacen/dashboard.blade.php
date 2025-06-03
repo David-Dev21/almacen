@@ -121,7 +121,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             @if (session('welcomeShown') === false)
                 Swal.fire({
-                    title: 'Bienvenido al Sistema de Almacén',
+                    title: 'Bienvenido al Sistema de Control de Inventario',
                     text: '{{ Auth::user()->name }}',
                     icon: 'success',
                     confirmButtonText: 'Aceptar',

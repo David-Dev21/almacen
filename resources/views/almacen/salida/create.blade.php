@@ -399,5 +399,6 @@
                 }
             }
         </script>
+        <script src="{{ asset('js/unsaved.js') }}"></script>
     @endpush
 @endsection

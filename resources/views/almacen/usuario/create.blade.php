@@ -14,14 +14,16 @@
                 <div class="row">
                     <div class="form-group col-7">
                         <label for="txtNombre">Nombre del usuario: </label>
-                        <input type="text" class="form-control" name="name" id="txtNombre" value="{{ old('name') }}">
+                        <input type="text" class="form-control" name="name" id="txtNombre"
+                            value="{{ old('name') }}">
                         @if ($errors->has('name'))
                             <div class="text-danger">{{ $errors->first('name') }}</div>
                         @endif
                     </div>
                     <div class="form-group col-5">
                         <label for="txtCi">CI: </label>
-                        <input type="text" class="form-control" name="ci" id="txtCi" value="{{ old('ci') }}">
+                        <input type="text" class="form-control" name="ci" id="txtCi"
+                            value="{{ old('ci') }}">
                         @if ($errors->has('ci'))
                             <div class="text-danger">{{ $errors->first('ci') }}</div>
                         @endif
@@ -37,3 +39,7 @@
         </form>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/unsaved.js') }}"></script>
+@endpush

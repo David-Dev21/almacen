@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import "./notifications.js";
 import "./confirmations.js";
-import "./unsaved.js";
 import Swal from 'sweetalert2';
 import TomSelect from 'tom-select';
 import 'tom-select/dist/css/tom-select.css'; 
@@ -36,7 +35,6 @@ window.dataTable = new DataTable('#dataTable',
   {
     responsive: true, 
     pagingType: 'simple_numbers',
-    scrollY: '400px', 
     scrollCollapse: true, 
     language: {
       // Traducción al español

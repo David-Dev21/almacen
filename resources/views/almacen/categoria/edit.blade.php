@@ -15,15 +15,16 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="txtCodigo">Código:</label>
-                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="txtCodigo"
-                            value="{{ $categoria->codigo }}" readonly>
+                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo"
+                            id="txtCodigo" value="{{ $categoria->codigo }}" readonly>
                         @error('codigo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group col-md-12">
                         <label for="txtDescripcion">Descripción</label>
-                        <textarea class="form-control @error('descripcion') is-invalid @enderror" type="text" rows="3" name="descripcion" id="txtDescripcion">{{ $categoria->descripcion }}</textarea>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" type="text" rows="3"
+                            name="descripcion" id="txtDescripcion">{{ $categoria->descripcion }}</textarea>
                         @error('descripcion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -41,3 +42,7 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/unsaved.js') }}"></script>
+@endpush

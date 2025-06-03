@@ -15,8 +15,10 @@
         <div class="row h-100">
             <div class="col-md-6 bg-green">
                 <div class="d-flex flex-column h-100 justify-content-center align-items-center">
-                    <h1 class="text-green-light fw-bold mb-md-5">Bienvenido al Sistema de Almacén</h1>
-                    <img class="img-fluid w-50 rounded-circle d-none d-md-block" src="{{ asset('img/logo-policia.jpg') }}" alt="inicio">
+                    <h1 class="text-green-light fw-bold mb-md-5 text-center">Bienvenido al Sistema de <br> Control de
+                        Inventario</h1>
+                    <img class="img-fluid w-50 rounded-circle d-none d-md-block"
+                        src="{{ asset('img/logo-policia.jpg') }}" alt="inicio">
                 </div>
             </div>
             <div class="col-md-6 bg-green-light">
