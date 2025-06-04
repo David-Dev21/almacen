@@ -12,8 +12,12 @@ html {
 }
 
 table {
-    border-radius: 0.5rem;
-    overflow: hidden;
+    border-radius: 0.3rem ;
+    overflow: hidden !important;
+}
+
+thead , tfoot {
+    border: 1px solid rgba(77, 106, 71, 0.5) !important;
 }
 
 table th {

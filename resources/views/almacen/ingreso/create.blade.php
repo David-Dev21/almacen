@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="selectProveedor">Proveedor:</label>
+                        <label for="selectProveedor">Proveedor: <span class="text-danger">*</span></label>
                         <select class="form-control @error('id_proveedor') is-invalid @enderror" name="id_proveedor"
                             id="selectProveedor">
                             <option value=""></option>
@@ -25,7 +25,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
-                        <label for="numberFactura">Nº de Factura:</label>
+                        <label for="numberFactura">Nº de Factura: <span class="text-danger">*</span></label>
                         <input type="number" class="form-control @error('n_factura') is-invalid @enderror" name="n_factura"
                             id="numberFactura" value="{{ old('n_factura') }}">
                         @error('n_factura')
@@ -33,7 +33,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
-                        <label for="numberPedido">Nº de Pedido</label>
+                        <label for="numberPedido">Nº de Pedido: <span class="text-danger">*</span></label>
                         <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
                             id="numberPedido" value="{{ old('n_pedido') }}">
                         @error('n_pedido')
@@ -63,8 +63,11 @@
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberCostoU">Costo por Unidad:</label>
-                        <input type="number" class="form-control" name="costo_u" id="numberCostoU" min="0.00"
-                            step="0.01">
+                        <div class="input-group">
+                            <span class="input-group-text">Bs.</span>
+                            <input type="number" class="form-control" name="costo_u" id="numberCostoU" min="0.00"
+                                step="0.01">
+                        </div>
                     </div>
                     <div class="form-group col-4 col-md-2 d-flex justify-content-end">
                         <button type="button" id="btnAgregar" class="btn btn-primary btn-labeled mt-auto">

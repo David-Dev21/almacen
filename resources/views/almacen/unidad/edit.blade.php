@@ -14,7 +14,7 @@
                 @method('PUT')
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="txtNombre">Nombre Unidad:<span class="text-danger">*</span></label>
+                        <label for="txtNombre">Nombre Unidad: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                             id="txtNombre" value="{{ $unidad->nombre }}">
                         @error('nombre')

@@ -13,7 +13,7 @@
                 @csrf
                 <div class="row">
                     <div class="form-group col-7">
-                        <label for="txtNombre">Nombre del usuario: </label>
+                        <label for="txtNombre">Nombre del usuario: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="name" id="txtNombre"
                             value="{{ old('name') }}">
                         @if ($errors->has('name'))
@@ -21,7 +21,7 @@
                         @endif
                     </div>
                     <div class="form-group col-5">
-                        <label for="txtCi">CI: </label>
+                        <label for="txtCi">CI: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="ci" id="txtCi"
                             value="{{ old('ci') }}">
                         @if ($errors->has('ci'))

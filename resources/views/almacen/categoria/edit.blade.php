@@ -14,7 +14,7 @@
                 @method('PUT')
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="txtCodigo">Código:</label>
+                        <label for="txtCodigo">Código: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo"
                             id="txtCodigo" value="{{ $categoria->codigo }}" readonly>
                         @error('codigo')
@@ -22,7 +22,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="txtDescripcion">Descripción</label>
+                        <label for="txtDescripcion">Descripción: <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('descripcion') is-invalid @enderror" type="text" rows="3"
                             name="descripcion" id="txtDescripcion">{{ $categoria->descripcion }}</textarea>
                         @error('descripcion')

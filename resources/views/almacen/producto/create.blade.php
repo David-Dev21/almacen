@@ -13,7 +13,7 @@
                 @csrf
                 <div class="row">
                     <div class="form-group col-md-8">
-                        <label for="selectCategoria">Categoría:</label>
+                        <label for="selectCategoria">Categoría: <span class="text-danger">*</span></label>
                         <select class="form-control @error('id_categoria') is-invalid @enderror" name="id_categoria"
                             id="selectCategoria">
                             <option value=""></option>
@@ -29,7 +29,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="txtCodigo">Código:</label>
+                        <label for="txtCodigo">Código: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo"
                             id="txtCodigo" value="{{ old('codigo') }}" readonly>
                         @error('codigo')
@@ -39,7 +39,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="txtDescripcion">Descripción:</label>
+                        <label for="txtDescripcion">Descripción: <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion"
                             rows="3">{{ old('descripcion') }}</textarea>
                         @error('descripcion')
@@ -47,7 +47,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="selectUnidad">Unidad:</label>
+                        <label for="selectUnidad">Unidad: <span class="text-danger">*</span></label>
                         <select class="form-control @error('unidad') is-invalid @enderror" name="unidad" id="selectUnidad">
                             <option value=""></option>
                             <option value="Pieza" {{ old('unidad') == 'Pieza' ? 'selected' : '' }}>PIEZA</option>

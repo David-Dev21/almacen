@@ -13,7 +13,7 @@
                 @csrf
                 <div class="row">
                     <div class="form-group col-6 col-md-3 my-auto">
-                        <label for="txtCodigo">Código:</label>
+                        <label for="txtCodigo">Código: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo"
                             id="txtCodigo" value="{{ old('codigo') }}" autocomplete="off" placeholder="ME">
                         @error('codigo')
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="txtDescripcion">Descripción:</label>
+                        <label for="txtDescripcion">Descripción: <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" id="txtDescripcion"
                             rows="3" placeholder="Material de Escritorio">{{ old('descripcion') }}</textarea>
                         @error('descripcion')
