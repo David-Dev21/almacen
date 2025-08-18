@@ -6,7 +6,17 @@
 @section('contenido')
     <section class="card shadow-lg w-100">
         <div class="card-header bg-gradient-green">
-            <h5 class="text-white my-auto fw-bold">DETALLES DEL INGRESO</h5>
+            <div class="row">
+                <div class="col-8">
+                    <h5 class="text-white my-auto fw-bold">DETALLES DEL INGRESO</h5>
+                </div>
+                <div class="col-4 d-flex justify-content-end">
+                    <a href="{{ route('reporte-ingreso', $ingreso->id_ingreso) }}" target="_blank"
+                        class="btn btn-labeled btn-danger my-auto">
+                        <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Generar PDF
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- Cuerpo del card -->
         <div class="card-body d-flex flex-column">

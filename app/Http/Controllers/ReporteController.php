@@ -108,6 +108,17 @@ class ReporteController extends Controller
             ->setOption('margin-right', 10) // Margen derecho en mm
             ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
             ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
+        // Añadir número de página de forma fiable usando canvas de Dompdf (landscape)
+        $pdf->output();
+        $domPdf = $pdf->getDomPDF();
+        $canvas = $domPdf->get_canvas();
+        try {
+            $font = $domPdf->getFontMetrics()->get_font('Helvetica', 'normal');
+        } catch (\Exception $e) {
+            $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
+        }
+        // Para landscape (letter 792x612 pts) posicionar en la esquina inferior derecha
+        $canvas->page_text(760, 580, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Mostrar el PDF en el navegador
         return $pdf->stream('reporte_movimiento_' . $fecha_inicio . '_al_' . $fecha_fin . '.pdf');
@@ -200,6 +211,17 @@ class ReporteController extends Controller
             ->setOption('margin-right', 10) // Margen derecho en mm
             ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
             ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
+        // Añadir número de página de forma fiable usando canvas de Dompdf (portrait)
+        $pdf->output();
+        $domPdf = $pdf->getDomPDF();
+        $canvas = $domPdf->get_canvas();
+        try {
+            $font = $domPdf->getFontMetrics()->get_font('Helvetica', 'normal');
+        } catch (\Exception $e) {
+            $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
+        }
+        // Para portrait (letter 612x792 pts) posición inferior derecha similar a otros reportes
+        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Mostrar el PDF en el navegador
         return $pdf->stream('reporte_saldo_al_' . $fecha_fin . '.pdf');

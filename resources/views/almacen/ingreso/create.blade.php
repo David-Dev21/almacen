@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberFactura">Nº de Factura: <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('n_factura') is-invalid @enderror" name="n_factura"
+                        <input type="text" class="form-control @error('n_factura') is-invalid @enderror" name="n_factura"
                             id="numberFactura" value="{{ old('n_factura') }}">
                         @error('n_factura')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group col-4 col-md-2">
                         <label for="numberPedido">Nº de Pedido: <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
+                        <input type="text" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
                             id="numberPedido" value="{{ old('n_pedido') }}">
                         @error('n_pedido')
                             <div class="invalid-feedback">{{ $message }}</div>

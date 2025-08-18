@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /**
  * Controlador para la gestión de ingresos de productos al almacén.
@@ -158,5 +159,58 @@ class IngresoController extends Controller
 
         // Devolver la vista con los datos del ingreso y los detalles
         return view('almacen.ingreso.show', compact("ingreso", "detalles"));
+    }
+
+    /**
+     * Genera un PDF con los detalles de un ingreso específico.
+     * 
+     * El PDF incluye información del ingreso, detalles por categoría
+     * y siempre muestra los costos (valorado).
+     *
+     * @param  int  $id  Identificador del ingreso
+     * @return \Illuminate\Http\Response  Respuesta con el PDF generado
+     */
+    public function imprimirIngresoPDF($id)
+    {
+        $ingreso = DB::table('vista_ingresos')
+            ->where('id_ingreso', '=', $id)
+            ->first();
+
+        $detalles = collect(DB::select('CALL obtenerDetalleIngreso(?)', [$id]));
+        $categorias = $detalles->pluck('categoria')->unique();
+        $logoPath = public_path('img/logo-para-pdf.jpg');
+        $data = [
+            'logoPath' => $logoPath,
+            'fecha' => Carbon::parse($ingreso->fecha_hora)->format('d/m/Y'),
+            'ingreso' => $ingreso,
+            'detalles' => $detalles,
+            'categorias' => $categorias,
+        ];
+
+        $pdf = Pdf::loadView('almacen.reporte.ingreso_pdf', $data);
+
+        $pdf->setPaper('letter', 'portrait')
+            ->setOption('enable-local-file-access', true);
+
+        // Añadir número de página de forma fiable usando el canvas interno de Dompdf
+        // Dompdf requiere generar el output antes de obtener el canvas en algunas versiones
+        $pdf->output();
+        $domPdf = $pdf->getDomPDF();
+        $canvas = $domPdf->get_canvas();
+        // Intentamos Helvetica, si no está disponible usamos DejaVu Sans (más completo para acentos)
+        try {
+            $font = $domPdf->getFontMetrics()->get_font('Helvetica', 'normal');
+        } catch (\Exception $e) {
+            $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
+        }
+        // Coordenadas X,Y desde la esquina superior izquierda en puntos (letter: 612x792)
+        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
+
+        // Generar nombre del archivo con fecha e ID
+    $fechaArchivo = Carbon::parse($ingreso->fecha_hora)->format('Ymd');
+    $nombreArchivo = "ingreso_{$fechaArchivo}_{$id}.pdf";
+
+        // Mostrar el PDF en el navegador
+        return $pdf->stream($nombreArchivo);
     }
 }

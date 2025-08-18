@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group col-6 col-md-3">
                         <label for="numberHoraRuta">N° de Hoja de Ruta: <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('n_hoja_ruta') is-invalid @enderror"
+                        <input type="text" class="form-control @error('n_hoja_ruta') is-invalid @enderror"
                             name="n_hoja_ruta" id="numberHoraRuta" value="{{ old('n_hoja_ruta') }}">
                         @error('n_hoja_ruta')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group col-6 col-md-3">
                         <label for="numberPedido">N° de Pedido: <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
+                        <input type="text" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
                             value="{{ old('n_pedido') }}" id="numberPedido">
                         @error('n_pedido')
                             <div class="invalid-feedback">{{ $message }}</div>

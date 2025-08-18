@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Salida</title>
+    <title>Reporte de Ingreso</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,7 +92,7 @@
                 <p> POLICIA BOLIVIANA <br> COMANDO DEPARTAMENTAL <br> LA PAZ - BOLIVIA </p>
             </td>
             <td width="60%">
-                <h2>ENTREGA DE PRODUCTOS</h2>
+                <h2>RECEPCIÓN DE PRODUCTOS</h2>
                 <span>Montos expresados en Bolivianos</span>
             </td>
             <td width="20%">
@@ -108,37 +108,37 @@
         <tr>
             <th>Entidad:</th>
             <td>COMANDO DEPARTAMENTAL LA PAZ</td>
-            <th>Destino:</th>
-            <td>{{ $salida->nombre_unidad }}</td>
+            <th>Proveedor:</th>
+            <td>{{ $ingreso->nombre_proveedor }}</td>
         </tr>
         <tr>
             <th>Fondo:</th>
             <td>Tesoro General de la Nación</td>
             <th>Tipo:</th>
-            <td>Egreso (Pedido)</td>
+            <td>Ingreso (Compra)</td>
 
         </tr>
         <tr>
             <th>Almacén:</th>
             <td>ALMACÉN COMANDO DEPARTAMENTAL</td>
-            <th>Nº Pedido:</th>
-            <td>{{ $salida->n_pedido }}</td>
+            <th>Nº Factura:</th>
+            <td>{{ $ingreso->n_factura }}</td>
         </tr>
         <tr>
-            <th>Nº Egreso:</th>
-            <td>{{ $salida->id_salida }}</td>
+            <th>Nº Ingreso:</th>
+            <td>{{ $ingreso->id_ingreso }}</td>
             <th>Fecha:</th>
             <td>{{ $fecha }}</td>
         </tr>
         <tr>
             <th>Glosa:</th>
             <td colspan="3">
-                ENTREGA DE
+                RECEPCIÓN DE
                 @foreach ($categorias as $categoria)
                     {{ $loop->first ? '' : ', ' }}{{ $categoria }}
                 @endforeach
-                SEGÚN STOCK DE ALMACENES. SE FIRMA EL PRESENTE ACTA EN CONSTANCIA DE LA
-                ENTREGA, EN CUMPLIMIENTO DE LA HOJA DE RUTA {{ $salida->n_hoja_ruta }}
+                SEGÚN FACTURA Nº {{ $ingreso->n_factura }} Y PEDIDO Nº {{ $ingreso->n_pedido }}. 
+                SE FIRMA EL PRESENTE ACTA EN CONSTANCIA DE LA RECEPCIÓN CONFORME A ESPECIFICACIONES TÉCNICAS.
             </td>
         </tr>
     </table>
@@ -151,16 +151,15 @@
                 <th>Unidad</th>
                 <th>Lote</th>
                 <th>Cantidad</th>
-                @if ($mostrarCostos)
-                    <th>Costo <br> Unitario</th>
-                    <th>Costo <br> Total</th>
-                @endif
+                <th>Costo <br> Unitario</th>
+                <th>Costo <br> Total</th>
             </tr>
         </thead>
         <tbody>
             @php
                 $categoriaActual = null;
-                $totalCantidad = 0;
+                $totalCantidadOriginal = 0;
+                $totalCantidadDisponible = 0;
                 $totalCostoUnitario = 0;
                 $totalCostoTotal = 0;
             @endphp
@@ -173,11 +172,7 @@
                     @endphp
                     <tr>
                         <td><strong>{{ $codigoCategoria }}</strong></td>
-                        <td colspan="4"><strong>{{ $categoriaActual }}</strong></td>
-                        @if ($mostrarCostos)
-                            <td></td>
-                            <td></td>
-                        @endif
+                        <td colspan="6"><strong>{{ $categoriaActual }}</strong></td>
                     </tr>
                 @endif
                 <tr>
@@ -185,36 +180,33 @@
                     <td>{{ $item->producto }}</td>
                     <td>{{ $item->unidad }}</td>
                     <td>{{ $item->lote }}</td>
-                    <td class="text-right">{{ $item->cantidad }}</td>
-                    @if ($mostrarCostos)
-                        <td class="text-right">{{ number_format($item->costo_u, 2) }}</td>
-                        <td class="text-right">{{ number_format($item->cantidad * $item->costo_u, 2) }}</td>
-                    @endif
+                    <td class="text-right">{{ $item->cantidad_original }}</td>
+                    <td class="text-right">{{ number_format($item->costo_u, 2) }}</td>
+                    <td class="text-right">{{ number_format($item->cantidad_original * $item->costo_u, 2) }}</td>
                 </tr>
                 @php
-                    $totalCantidad += $item->cantidad;
+                    $totalCantidadOriginal += $item->cantidad_original;
+                    $totalCantidadDisponible += $item->cantidad_disponible;
                     $totalCostoUnitario += $item->costo_u;
-                    $totalCostoTotal += $item->cantidad * $item->costo_u;
+                    $totalCostoTotal += $item->cantidad_original * $item->costo_u;
                 @endphp
             @endforeach
         </tbody>
         <tfoot class="table">
             <tr>
                 <th colspan="4">TOTAL GENERAL</th>
-                <th class="text-right">{{ $totalCantidad }}</th>
-                @if ($mostrarCostos)
-                    <th class="text-right">{{ number_format($totalCostoUnitario, 2) }}</th>
-                    <th class="text-right">{{ number_format($totalCostoTotal, 2) }}</th>
-                @endif
+                <th class="text-right">{{ $totalCantidadOriginal }}</th>
+                <th class="text-right">{{ number_format($totalCostoUnitario, 2) }}</th>
+                <th class="text-right">{{ number_format($totalCostoTotal, 2) }}</th>
             </tr>
         </tfoot>
     </table>
 
     <!-- signature block: allow it to flow onto the previous page if there is space -->
-    <table class="signature">
+    <table class="signature" style="width:100%;">
         <tr>
-            <td>Entrege Conforme</td>
-            <td>Recibi Conforme</td>
+            <td>Proveedor</td>
+            <td>Recibí Conforme</td>
             <td>Vo.Bo.</td>
             <td>Jefe Administrativo</td>
         </tr>

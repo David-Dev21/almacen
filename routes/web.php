@@ -36,6 +36,7 @@ Route::post('/unidades/{id}/toggle', [UnidadController::class, 'toggleEstado'])-
 
 // Ingresos
 Route::resource('almacen/ingresos', IngresoController::class)->except(['destroy', 'update', 'edit'])->middleware('auth');
+Route::get('/reporte-ingreso/{id}', [IngresoController::class, 'imprimirIngresoPDF'])->name('reporte-ingreso')->middleware('auth');
 
 // Salidas
 Route::resource('almacen/salidas', SalidaController::class)->except(['destroy', 'update', 'edit'])->middleware('auth');

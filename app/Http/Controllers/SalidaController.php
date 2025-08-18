@@ -217,14 +217,33 @@ class SalidaController extends Controller
         $pdf = Pdf::loadView('almacen.reporte.salida_pdf', $data);
 
         $pdf->setPaper('letter', 'portrait')
-            ->setOption('margin-top', 0) // Margen superior en mm
-            ->setOption('margin-bottom', 10) // Margen inferior en mm
-            ->setOption('margin-left', 10) // Margen izquierdo en mm
-            ->setOption('margin-right', 10) // Margen derecho en mm
-            ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
-            ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
+            ->setOption('enable-local-file-access', true);
+
+    $salida = Salida::findOrFail($id);
+    $detalles = DetalleSalida::where('salida_id', $id)->get();
+
+    $pdf = PDF::loadView('almacen.reporte.salida_pdf', compact('salida', 'detalles'));
+
+    // add page numbers on every page using canvas (more reliable)
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        try {
+            $font = $dom_pdf->getFontMetrics()->get_font('Helvetica', 'normal');
+        } catch (\Exception $e) {
+            $font = $dom_pdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
+        }
+        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
+
+    $fileName = 'salida_' . date('Ymd') . '_' . $salida->id . '.pdf';
+    return $pdf->stream($fileName);
+
+        // Generar nombre del archivo con fecha e ID
+        $fechaArchivo = Carbon::parse($salida->fecha_hora)->format('Y-m-d');
+        $tipoSalida = $request->input('mostrarCostos', false) ? 'valorada' : 'sin_valorar';
+        $nombreArchivo = "salida_{$fechaArchivo}_{$id}_{$tipoSalida}.pdf";
 
         // Mostrar el PDF en el navegador
-        return $pdf->stream('reporte_salida_' . $id . '.pdf');
+        return $pdf->stream($nombreArchivo);
     }
 }
