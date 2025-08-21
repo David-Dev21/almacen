@@ -61,7 +61,7 @@
 
         .signature {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 80px;
             page-break-inside: avoid;
         }
 
@@ -205,9 +205,8 @@
     <!-- signature block: allow it to flow onto the previous page if there is space -->
     <table class="signature" style="width:100%;">
         <tr>
-            <td>Proveedor</td>
-            <td>Recibí Conforme</td>
-            <td>Vo.Bo.</td>
+            <td>Encargado de Almacén</td>
+            <td>Jefe Financiero</td>
             <td>Jefe Administrativo</td>
         </tr>
     </table>

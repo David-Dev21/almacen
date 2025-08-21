@@ -10,18 +10,12 @@
                 <div class="col-8">
                     <h5 class="text-white my-auto fw-bold">DETALLES DEL INGRESO</h5>
                 </div>
-                <div class="col-4 d-flex justify-content-end">
-                    <a href="{{ route('reporte-ingreso', $ingreso->id_ingreso) }}" target="_blank"
-                        class="btn btn-labeled btn-danger my-auto">
-                        <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Generar PDF
-                    </a>
-                </div>
             </div>
         </div>
         <!-- Cuerpo del card -->
         <div class="card-body d-flex flex-column">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="d-flex">
                         <strong>Proveedor:</strong><span class="ms-2">{{ $ingreso->nombre_proveedor }}</span>
                     </div>
@@ -32,7 +26,7 @@
                         <strong>Nº Pedido:</strong><span class="ms-2">{{ $ingreso->n_pedido }}</span>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="d-flex">
                         <strong>Nº Ingreso:</strong><span class="ms-2">{{ $ingreso->id_ingreso }}</span>
                     </div>
@@ -42,6 +36,12 @@
                     <div class="d-flex">
                         <strong>Fecha:</strong><span class="ms-2">{{ $ingreso->fecha_hora }}</span>
                     </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-between">
+                    <a href="{{ route('reporte-ingreso', $ingreso->id_ingreso) }}" target="_blank"
+                        class="btn btn-labeled btn-danger my-auto">
+                        <span class="btn-label"><i class="bi bi-file-pdf-fill"></i></span>Generar PDF
+                    </a>
                 </div>
             </div>
             <!-- Tabla Responsiva -->
