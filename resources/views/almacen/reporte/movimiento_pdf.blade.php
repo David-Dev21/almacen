@@ -5,36 +5,41 @@
     <meta charset="UTF-8">
     <title>Reporte de Movimientos</title>
     <style>
+        /* Force paper size to 13in x 8.5in (oficio landscape) */
+        @page { size: 13in 8.5in; margin: 10mm; }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 10pt;
             line-height: 1.4;
+            margin: 0; /* let @page margins apply */
+            padding: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .header img {
-            width: 50px;
+            width: 42px;
             height: auto;
         }
 
         .table td {
-            font-size: 8pt;
+            font-size: 7pt;
             border: solid 1px black;
             text-align: left;
-            padding-left: 10px;
+            padding: 4px 6px;
         }
 
         .table th {
             background-color: #f2f2f2;
             text-align: center;
-            font-size: 8pt;
+            font-size: 7pt;
             border: solid 1px black;
-
+            padding: 4px 6px;
         }
 
         .text-center-top {
@@ -45,17 +50,19 @@
         .subtitle th,
         .subtitle td {
             text-align: left;
-            font-size: 8pt;
+            font-size: 7pt;
             vertical-align: top;
+            padding: 3px 6px;
         }
 
         .subtitle th {
-            width: 15%;
+            width: 12%;
         }
 
         p {
-            font-size: 5pt;
+            font-size: 5.5pt;
             line-height: 1;
+            margin: 2px 0;
         }
 
         .signature {
@@ -70,17 +77,28 @@
             vertical-align: top;
         }
 
-        .page-number:before {
-            content: "Página " counter(page);
-        }
 
         h2 {
             margin: 0;
+            font-size: 12pt;
         }
 
         .text-right {
             text-align: right !important;
-            padding-right: 10px;
+            padding-right: 5px;
+        }
+
+        /* Header layout tuned for landscape */
+        .header td:first-child {
+            width: 14%;
+        }
+
+        .header td:nth-child(2) {
+            width: 72%;
+        }
+
+        .header td:last-child {
+            width: 14%;
         }
     </style>
 </head>
@@ -97,10 +115,9 @@
                 <span>Montos expresados en Bolivianos</span><br>
                 <span> Del: {{ $fecha_inicio }} Al: {{ $fecha_fin }}</span>
             </td>
-            <td width="20%"> <!-- Pie de página -->
+            <td width="20%">
                 <div class="footer">
-                    <span class="page-number"></span>
-                </div>
+                
             </td>
         </tr>
     </table>

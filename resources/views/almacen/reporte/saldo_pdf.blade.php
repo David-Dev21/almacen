@@ -23,7 +23,7 @@
         }
 
         .table td {
-            font-size: 8pt;
+            font-size: 7pt;
             border: solid 1px black;
             text-align: left;
             padding-left: 10px;
@@ -70,17 +70,13 @@
             vertical-align: top;
         }
 
-        .page-number:before {
-            content: "Página " counter(page);
-        }
-
         h2 {
             margin: 0;
         }
 
         .text-right {
             text-align: right !important;
-            padding-right: 10px;
+            padding-right: 8px;
         }
     </style>
 </head>
@@ -97,10 +93,7 @@
                 <span>Montos expresados en Bolivianos</span><br>
                 <span> Al: {{ $fecha_fin }}</span>
             </td>
-            <td width="20%"> <!-- Pie de página -->
-                <div class="footer">
-                    <span class="page-number"></span>
-                </div>
+            <td width="20%">
             </td>
         </tr>
     </table>
@@ -126,9 +119,10 @@
                 <th>Unidad</th>
                 <th>Lote</th>
                 <th>Cantidad</th>
+                <th>Costo<br>Unitario</th>
                 <th>Valor</th>
-                <th>Cantidad <br> Total</th>
-                <th>Valor <br> Total</th>
+                <th>Cantidad<br>Total</th>
+                <th>Valor<br>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -154,7 +148,7 @@
                     @endphp
                     <tr>
                         <td><strong>{{ $codigoCategoria ? $codigoCategoria->codigo_categoria : '' }}</strong></td>
-                        <td colspan="5"><strong>{{ $categoriaActual }}</strong></td>
+                        <td colspan="6"><strong>{{ $categoriaActual }}</strong></td>
                         <td class="text-right"><strong>{{ $totalCategoria ? $totalCategoria->total_cantidad_actual : '0' }}</strong></td>
                         <td class="text-right"><strong>{{ $totalCategoria ? $totalCategoria->total_valor_actual : '0.00' }}</strong></td>
                     </tr>
@@ -171,6 +165,7 @@
                     <td>{{ $detalle->unidad }}</td>
                     <td>{{ $detalle->lote }}</td>
                     <td class="text-right">{{ $detalle->cantidad_actual }}</td>
+                    <td class="text-right">{{ $detalle->costo_u }}</td>
                     <td class="text-right">{{ $detalle->costo_total_lote }}</td>
 
                     @if ($esPrimeraFilaProducto)
@@ -186,7 +181,7 @@
         </tbody>
         <tfoot class="table">
             <tr>
-                <th colspan="6">TOTAL GENERAL</th>
+                <th colspan="7">TOTAL GENERAL</th>
                 <th class="text-right">{{ $resultados['total_general']->total_cantidad_actual }}</th>
                 <th class="text-right">{{ number_format($resultados['total_general']->total_valor_actual, 2) }}</th>
             </tr>

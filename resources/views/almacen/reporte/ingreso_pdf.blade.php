@@ -15,7 +15,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .header img {
@@ -63,14 +63,6 @@
             text-align: center;
             margin-top: 80px;
             page-break-inside: avoid;
-        }
-
-        .page-counter {
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            font-size: 10pt;
-            font-weight: bold;
         }
 
         h2 {

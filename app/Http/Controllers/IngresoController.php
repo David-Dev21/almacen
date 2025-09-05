@@ -189,7 +189,8 @@ class IngresoController extends Controller
 
         $pdf = Pdf::loadView('almacen.reporte.ingreso_pdf', $data);
 
-        $pdf->setPaper('letter', 'portrait')
+        // Tamaño oficio: 8.5 x 13 pulgadas = 612 x 936 puntos
+        $pdf->setPaper([0, 0, 612, 936], 'portrait')
             ->setOption('enable-local-file-access', true);
 
         // Añadir número de página de forma fiable usando el canvas interno de Dompdf
@@ -203,8 +204,8 @@ class IngresoController extends Controller
         } catch (\Exception $e) {
             $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
         }
-        // Coordenadas X,Y desde la esquina superior izquierda en puntos (letter: 612x792)
-        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
+        // Coordenadas X,Y desde la esquina superior izquierda en puntos (oficio: 612x936)
+        $canvas->page_text(524, 910, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Generar nombre del archivo con fecha e ID
     $fechaArchivo = Carbon::parse($ingreso->fecha_hora)->format('Ymd');

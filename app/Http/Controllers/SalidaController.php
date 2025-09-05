@@ -216,15 +216,11 @@ class SalidaController extends Controller
 
         $pdf = Pdf::loadView('almacen.reporte.salida_pdf', $data);
 
-        $pdf->setPaper('letter', 'portrait')
+        // Tamaño oficio: 8.5 x 13 pulgadas = 612 x 936 puntos
+        $pdf->setPaper([0, 0, 612, 936], 'portrait')
             ->setOption('enable-local-file-access', true);
 
-    $salida = Salida::findOrFail($id);
-    $detalles = DetalleSalida::where('salida_id', $id)->get();
-
-    $pdf = PDF::loadView('almacen.reporte.salida_pdf', compact('salida', 'detalles'));
-
-    // add page numbers on every page using canvas (more reliable)
+        // add page numbers on every page using canvas (more reliable)
         $pdf->output();
         $dom_pdf = $pdf->getDomPDF();
         $canvas = $dom_pdf->get_canvas();
@@ -233,10 +229,7 @@ class SalidaController extends Controller
         } catch (\Exception $e) {
             $font = $dom_pdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
         }
-        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
-
-    $fileName = 'salida_' . date('Ymd') . '_' . $salida->id . '.pdf';
-    return $pdf->stream($fileName);
+        $canvas->page_text(524, 910, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Generar nombre del archivo con fecha e ID
         $fechaArchivo = Carbon::parse($salida->fecha_hora)->format('Y-m-d');

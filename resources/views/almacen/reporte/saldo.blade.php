@@ -102,9 +102,10 @@
                             <th>Unidad</th>
                             <th>Lote</th>
                             <th>Cantidad</th>
+                            <th>Costo<br>Unitario</th>
                             <th>Valor</th>
-                            <th>Cantidad <br> Total</th>
-                            <th>Valor <br> Total</th>
+                            <th>Cantidad<br>Total</th>
+                            <th>Valor<br>Total</th>
                         </tr>
                     </thead>
                     @if (isset($resultados))
@@ -165,7 +166,7 @@
                                             <p class="my-1">
                                                 {{ $codigoCategoria ? $codigoCategoria->codigo_categoria : '' }}</p>
                                         </td>
-                                        <td colspan="5" class="ps-2">{{ $categoriaActual }}</td>
+                                        <td colspan="6" class="ps-2">{{ $categoriaActual }}</td>
                                         <td class="text-end pe-4">
                                             {{ $totalCategoria ? $totalCategoria->total_cantidad_actual : '0' }}
                                         </td>
@@ -197,6 +198,7 @@
                                     <td class="ps-4">{{ $detalle->unidad }}</td>
                                     <td class="ps-4">{{ $detalle->lote }}</td>
                                     <td class="text-end pe-4">{{ $detalle->cantidad_actual }}</td>
+                                    <td class="text-end pe-4">{{ $detalle->costo_u }}</td>
                                     <td class="text-end pe-4">{{ $detalle->costo_total_lote }}</td>
 
                                     @if ($esPrimeraFilaProducto)
@@ -217,7 +219,7 @@
                     @if (isset($resultados['detalles']) && count($resultados['detalles']) > 0)
                         <tfoot>
                             <tr class="fw-bold">
-                                <th colspan="6" class="text-center">TOTAL GENERAL</th>
+                                <th colspan="7" class="text-center">TOTAL GENERAL</th>
                                 <th class="text-end pe-4">{{ $resultados['total_general']->total_cantidad_actual ?? '0' }}
                                 </th>
                                 <th class="text-end pe-4">Bs:

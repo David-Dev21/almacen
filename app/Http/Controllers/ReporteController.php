@@ -101,11 +101,12 @@ class ReporteController extends Controller
         $pdf = Pdf::loadView('almacen.reporte.movimiento_pdf', $data);
 
         // Configurar el tamaño del papel y la orientación
-        $pdf->setPaper('letter', 'landscape')
+        // Tamaño oficio landscape: 13 x 8.5 pulgadas = 936 x 612 puntos
+        $pdf->setPaper([0, 0, 936, 612], 'landscape')
             ->setOption('margin-top', 0) // Margen superior en mm
             ->setOption('margin-bottom', 10) // Margen inferior en mm
-            ->setOption('margin-left', 10) // Margen izquierdo en mm
-            ->setOption('margin-right', 10) // Margen derecho en mm
+            ->setOption('margin-left', 5) // Margen izquierdo en mm
+            ->setOption('margin-right', 5) // Margen derecho en mm
             ->setOption('footer-center', '[page]') // Pie de página centrado con número de página
             ->setOption('footer-font-size', '9'); // Tamaño de fuente del pie de página
         // Añadir número de página de forma fiable usando canvas de Dompdf (landscape)
@@ -117,8 +118,9 @@ class ReporteController extends Controller
         } catch (\Exception $e) {
             $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
         }
-        // Para landscape (letter 792x612 pts) posicionar en la esquina inferior derecha
-        $canvas->page_text(760, 580, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
+    // Para landscape oficio (936x612 pts) posicionar en la esquina inferior derecha
+    // Ajustamos las coordenadas para respetar los márgenes y evitar recortes
+    $canvas->page_text(852, 582, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Mostrar el PDF en el navegador
         return $pdf->stream('reporte_movimiento_' . $fecha_inicio . '_al_' . $fecha_fin . '.pdf');
@@ -204,7 +206,8 @@ class ReporteController extends Controller
         // Generar el PDF
         $pdf = Pdf::loadView('almacen.reporte.saldo_pdf', $data);
 
-        $pdf->setPaper('letter', 'portrait')
+        // Tamaño oficio: 8.5 x 13 pulgadas = 612 x 936 puntos
+        $pdf->setPaper([0, 0, 612, 936], 'portrait')
             ->setOption('margin-top', 0) // Margen superior en mm
             ->setOption('margin-bottom', 10) // Margen inferior en mm
             ->setOption('margin-left', 10) // Margen izquierdo en mm
@@ -220,8 +223,8 @@ class ReporteController extends Controller
         } catch (\Exception $e) {
             $font = $domPdf->getFontMetrics()->get_font('DejaVuSans', 'normal');
         }
-        // Para portrait (letter 612x792 pts) posición inferior derecha similar a otros reportes
-        $canvas->page_text(520, 770, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
+        // Para portrait oficio (612x936 pts) posición inferior derecha
+        $canvas->page_text(520, 910, "Página {PAGE_NUM} de {PAGE_COUNT}", $font, 9, array(0,0,0));
 
         // Mostrar el PDF en el navegador
         return $pdf->stream('reporte_saldo_al_' . $fecha_fin . '.pdf');
