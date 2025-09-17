@@ -33,7 +33,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
-                        <label for="numberPedido">Nº de Pedido: <span class="text-danger">*</span></label>
+                        <label for="numberPedido">Nota de Remisión: <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('n_pedido') is-invalid @enderror" name="n_pedido"
                             id="numberPedido" value="{{ old('n_pedido') }}">
                         @error('n_pedido')

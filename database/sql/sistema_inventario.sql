@@ -24,6 +24,7 @@ CREATE OR REPLACE VIEW vista_ingresos AS
 SELECT
 	i.id_ingreso, 
 	p.nombre AS nombre_proveedor,
+    p.razon_social
     u.name AS nombre_usuario,
     i.n_factura,
     i.n_pedido,

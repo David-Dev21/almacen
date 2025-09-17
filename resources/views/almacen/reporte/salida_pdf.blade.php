@@ -215,7 +215,7 @@
         <tr>
             <td>Entrege Conforme</td>
             <td>Recibi Conforme</td>
-            <td>Vo.Bo.</td>
+            <td>Jefe Financiero</td>
             <td>Jefe Administrativo</td>
         </tr>
     </table>

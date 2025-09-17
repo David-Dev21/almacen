@@ -129,7 +129,7 @@
                 @foreach ($categorias as $categoria)
                     {{ $loop->first ? '' : ', ' }}{{ $categoria }}
                 @endforeach
-                SEGÚN FACTURA Nº {{ $ingreso->n_factura }} Y PEDIDO Nº {{ $ingreso->n_pedido }}. 
+                SEGÚN FACTURA Nº {{ $ingreso->n_factura }} DE "{{$ingreso->razon_social}}" Y NOTA DE REMISIÓN Nº {{ $ingreso->n_pedido }}. 
                 SE FIRMA EL PRESENTE ACTA EN CONSTANCIA DE LA RECEPCIÓN CONFORME A ESPECIFICACIONES TÉCNICAS.
             </td>
         </tr>
@@ -197,6 +197,7 @@
     <!-- signature block: allow it to flow onto the previous page if there is space -->
     <table class="signature" style="width:100%;">
         <tr>
+            <td>Encargado Adquisiciones</td>
             <td>Encargado de Almacén</td>
             <td>Jefe Financiero</td>
             <td>Jefe Administrativo</td>

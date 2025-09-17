@@ -20,10 +20,13 @@
                         <strong>Proveedor:</strong><span class="ms-2">{{ $ingreso->nombre_proveedor }}</span>
                     </div>
                     <div class="d-flex">
+                        <strong>Empresa:</strong><span class="ms-2">{{ $ingreso->razon_social }}</span>
+                    </div>
+                    <div class="d-flex">
                         <strong>Nº Factura:</strong><span class="ms-2">{{ $ingreso->n_factura }}</span>
                     </div>
                     <div class="d-flex">
-                        <strong>Nº Pedido:</strong><span class="ms-2">{{ $ingreso->n_pedido }}</span>
+                        <strong>Nota de Remisión:</strong><span class="ms-2">{{ $ingreso->n_pedido }}</span>
                     </div>
                 </div>
                 <div class="col-md-4">
