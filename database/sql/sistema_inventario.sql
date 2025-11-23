@@ -123,8 +123,8 @@ DELIMITER ;
 -- Retorna: Lista de productos, categorías, cantidades y costos de la salida
 -- Uso: Generar reportes detallados de salidas específicas
 -- ---------------------------------------------------------------------
-DELIMITER $$
 DROP PROCEDURE IF EXISTS obtenerDetalleSalida$$
+
 CREATE PROCEDURE obtenerDetalleSalida(IN id_salida INT)
 BEGIN
     SELECT 
@@ -142,10 +142,9 @@ BEGIN
         ON d.id_producto = p.id_producto
     INNER JOIN categorias AS c 
         ON p.id_categoria = c.id_categoria
-    WHERE d.id_salida = id_salida;
+    WHERE d.id_salida = id_salida
+    ORDER BY c.descripcion, p.descripcion, d.lote;
 END$$
-
-DELIMITER ;
 
 -- ---------------------------------------------------------------------
 -- PROCEDIMIENTO: obtenerDetalleIngreso
@@ -155,8 +154,8 @@ DELIMITER ;
 -- Retorna: Lista de productos, categorías, cantidades originales/disponibles y costos
 -- Uso: Generar reportes detallados de ingresos específicos
 -- ---------------------------------------------------------------------
-DELIMITER $$
 DROP PROCEDURE IF EXISTS obtenerDetalleIngreso$$
+
 CREATE PROCEDURE obtenerDetalleIngreso(IN id_ingreso INT)
 BEGIN
     SELECT 
@@ -175,10 +174,9 @@ BEGIN
         ON d.id_producto = p.id_producto
     INNER JOIN categorias AS c 
         ON p.id_categoria = c.id_categoria
-    WHERE d.id_ingreso = id_ingreso;
+    WHERE d.id_ingreso = id_ingreso
+    ORDER BY c.descripcion, p.descripcion, d.lote;
 END$$
-
-DELIMITER ;
 
 -- ---------------------------------------------------------------------
 -- PROCEDIMIENTO: obtenerMovimientos
