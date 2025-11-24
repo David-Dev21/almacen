@@ -28,6 +28,9 @@
                     <div class="d-flex">
                         <strong>Nota de Remisión:</strong><span class="ms-2">{{ $ingreso->n_pedido }}</span>
                     </div>
+                    <div class="d-flex">
+                        <strong>N° Acta Entrega:</strong><span class="ms-2">{{ $ingreso->n_entrega }}</span>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex">

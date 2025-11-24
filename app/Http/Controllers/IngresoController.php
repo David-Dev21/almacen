@@ -98,6 +98,7 @@ class IngresoController extends Controller
             $ingreso->id_usuario = Auth::id(); // Obtener el ID del usuario autenticado
             $ingreso->n_factura = $validated['n_factura'];
             $ingreso->n_pedido = $validated['n_pedido'];
+            $ingreso->n_entrega = $validated['n_entrega'];
             $ingreso->fecha_hora = Carbon::now('America/La_Paz')->toDateTimeString();
             $ingreso->total = 0; // Inicializa total a 0, lo calculamos después
             $ingreso->save();

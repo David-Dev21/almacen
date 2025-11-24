@@ -38,6 +38,14 @@ class IngresoFormRequest extends FormRequest
                     ->where('id_proveedor', $this->input('id_proveedor'))
                     ->ignore($this->route('ingresos.edit')) // Ignora el ID si se está editando
             ],
+            'n_entrega' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('ingresos')
+                    ->where('id_proveedor', $this->input('id_proveedor'))
+                    ->ignore($this->route('ingresos.edit')) // Ignora el ID si se está editando
+            ],
             'id_proveedor' => ['required', 'exists:proveedores,id_proveedor'],
         ];
     }
@@ -56,7 +64,11 @@ class IngresoFormRequest extends FormRequest
             'n_pedido.required' => 'El número de pedido es obligatorio.',
             'n_pedido.string' => 'El número de pedido debe ser una cadena de texto.',
             'n_pedido.max' => 'El número de pedido no puede tener más de 255 caracteres.',
-            'n_pedido.unique' => 'El número de pedido ya existe para esta unidad.',
+            'n_pedido.unique' => 'El número de pedido ya existe para este proveedor.',
+            'n_entrega.required' => 'El número de entrega es obligatorio.',
+            'n_entrega.string' => 'El número de entrega debe ser una cadena de texto.',
+            'n_entrega.max' => 'El número de entrega no puede tener más de 255 caracteres.',
+            'n_entrega.unique' => 'El número de entrega ya existe para este proveedor.',
         ];
     }
 }

@@ -41,6 +41,14 @@
                         @enderror
                     </div>
                     <div class="form-group col-4 col-md-2">
+                        <label for="numberEntrega">N° Acta Entrega: <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('n_entrega') is-invalid @enderror" name="n_entrega"
+                            id="numberEntrega" value="{{ old('n_entrega') }}">
+                        @error('n_entrega')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group col-4 col-md-2">
                         <label for="txtLote">Lote:</label>
                         <input type="text" class="form-control" name="lote" id="txtLote"
                             value="{{ $siguienteLote }}" readonly>
@@ -148,7 +156,8 @@
                         onclick="confirmSubmit('ingresoForm', { 
                             'Proveedor': 'document.getElementById(\'selectProveedor\').options[document.getElementById(\'selectProveedor\').selectedIndex].text', 
                             'Nº de Factura': 'numberFactura', 
-                            'Nº de Pedido': 'numberPedido', 
+                            'Nº de Pedido': 'numberPedido',
+                            'Nº de Entrega': 'numberEntrega', 
                             'Lote': 'txtLote',
                             'Total de Productos': 'document.getElementById(\'totalCantidad\').innerText',
                             'Costo Total': 'document.getElementById(\'totalCosto\').innerText'

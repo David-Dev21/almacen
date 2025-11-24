@@ -18,8 +18,9 @@
                     <tr class="text-center">
                         <th>#</th>
                         <th>Proveedor</th>
-                        <th># Factura</th>
-                        <th># Pedido</th>
+                        <th>N° Factura</th>
+                        <th>Nota de Remisión</th>
+                        <th>N° Acta Entrega</th>
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Opciones</th>
@@ -32,6 +33,7 @@
                             <td class="ps-2">{{ $item->nombre_proveedor }}</td>
                             <td class="text-end pe-2">{{ $item->n_factura }}</td>
                             <td class="text-end pe-2">{{ $item->n_pedido }}</td>
+                            <td class="text-end pe-2">{{ $item->n_entrega }}</td>
                             <td class="text-end pe-2">{{ $item->fecha_hora }}</td>
                             <td class="text-end pe-2">{{ $item->total }}</td>
                             <td class="text-center">

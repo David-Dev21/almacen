@@ -34,7 +34,7 @@ class Ingreso extends Model
     protected $table = 'ingresos';
     protected $primaryKey = 'id_ingreso';
 
-    protected $fillable = ['n_factura', 'n_pedido', 'fecha_hora', 'total', 'id_proveedor', 'id_usuario'];
+    protected $fillable = ['n_factura', 'n_pedido', 'n_entrega', 'fecha_hora', 'total', 'id_proveedor', 'id_usuario'];
 
     /**
      * Relación con el proveedor asociado a este ingreso.

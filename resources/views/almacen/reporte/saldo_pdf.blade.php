@@ -37,6 +37,14 @@
 
         }
 
+        .table tbody tr {
+            page-break-inside: avoid;
+        }
+
+        .producto-row-continue {
+            page-break-before: avoid !important;
+        }
+
         .text-center-top {
             text-align: center;
             vertical-align: top;
@@ -107,7 +115,7 @@
         <tr>
         <tr>
             <th>Fondo:</th>
-            <td>Tesoro General de la Nación</td>
+            <td>TESORO GENERAL DE LA NACIÓN</td>
         </tr>
     </table>
 
@@ -159,7 +167,7 @@
                     $totalProductoActual = $totalProducto[$detalle->codigo_producto] ?? null;
                 @endphp
 
-                <tr>
+                <tr class="{{ !$esPrimeraFilaProducto ? 'producto-row-continue' : '' }}">
                     <td>{{ $detalle->codigo_producto }}</td>
                     <td>{{ $detalle->producto }}</td>
                     <td>{{ $detalle->unidad }}</td>

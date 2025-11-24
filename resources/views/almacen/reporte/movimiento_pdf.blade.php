@@ -130,7 +130,7 @@
             <td>{{ $fecha_impresion }}</td>
         <tr>
             <th>Fondo:</th>
-            <td>Tesoro General de la Nación</td>
+            <td>TESORO GENERAL DE LA NACIÓN</td>
         <tr>
 
         </tr>
