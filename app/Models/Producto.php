@@ -43,7 +43,7 @@ class Producto extends Model
      */
     public function setCodigoAttribute($value)
     {
-        $this->attributes['codigo'] = strtoupper($value);
+        $this->attributes['codigo'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
@@ -54,7 +54,7 @@ class Producto extends Model
      */
     public function setDescripcionAttribute($value)
     {
-        $this->attributes['descripcion'] = strtoupper($value);
+        $this->attributes['descripcion'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
@@ -65,7 +65,7 @@ class Producto extends Model
      */
     public function setUnidadAttribute($value)
     {
-        $this->attributes['unidad'] = strtoupper($value);
+        $this->attributes['unidad'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**

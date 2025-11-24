@@ -40,7 +40,7 @@ class Unidad extends Model
      */
     public function setNombreAttribute($value)
     {
-        $this->attributes['nombre'] = strtoupper($value);
+        $this->attributes['nombre'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
@@ -51,7 +51,7 @@ class Unidad extends Model
      */
     public function setDireccionAttribute($value)
     {
-        $this->attributes['direccion'] = strtoupper($value);
+        $this->attributes['direccion'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**

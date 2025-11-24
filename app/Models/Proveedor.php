@@ -41,7 +41,7 @@ class Proveedor extends Model
      */
     public function setRazonSocialAttribute($value)
     {
-        $this->attributes['razon_social'] = strtoupper($value);
+        $this->attributes['razon_social'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
@@ -52,7 +52,7 @@ class Proveedor extends Model
      */
     public function setNombreAttribute($value)
     {
-        $this->attributes['nombre'] = strtoupper($value);
+        $this->attributes['nombre'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
@@ -63,7 +63,7 @@ class Proveedor extends Model
      */
     public function setDireccionAttribute($value)
     {
-        $this->attributes['direccion'] = strtoupper($value);
+        $this->attributes['direccion'] = mb_strtoupper($value, 'UTF-8');
     }
 
     /**
