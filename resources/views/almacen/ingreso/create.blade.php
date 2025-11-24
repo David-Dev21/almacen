@@ -9,7 +9,7 @@
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-5">
                         <label for="selectProveedor">Proveedor: <span class="text-danger">*</span></label>
                         <select class="form-control @error('id_proveedor') is-invalid @enderror" name="id_proveedor"
                             id="selectProveedor">
@@ -17,7 +17,7 @@
                             @foreach ($proveedores as $item)
                                 <option value="{{ $item->id_proveedor }}"
                                     {{ old('id_proveedor') == $item->id_proveedor ? 'selected' : '' }}>
-                                    {{ $item->nombre }}</option>
+                                    {{ $item->nombre }} - {{ $item->razon_social }}</option>
                             @endforeach
                         </select>
                         @error('id_proveedor')
@@ -48,7 +48,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group col-4 col-md-2">
+                    <div class="form-group col-4 col-md-1">
                         <label for="txtLote">Lote:</label>
                         <input type="text" class="form-control" name="lote" id="txtLote"
                             value="{{ $siguienteLote }}" readonly>
