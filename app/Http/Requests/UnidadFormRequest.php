@@ -22,8 +22,8 @@ class UnidadFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:50',
-            'direccion' => 'max:100',
+            'nombre' => 'required|string|max:150',
+            'direccion' => 'max:200',
         ];
     }
     public function messages(): array
@@ -31,8 +31,8 @@ class UnidadFormRequest extends FormRequest
         return [
             'nombre.required' => 'El campo nombre de unidad es obligatorio.',
             'nombre.string' => 'El nombre de unidad debe ser una cadena de texto.',
-            'nombre.max' => 'El nombre de unidad no puede tener más de 50 caracteres.',
-            'direccion.max' => 'La dirección no puede tener más de 100 caracteres.',
+            'nombre.max' => 'El nombre de unidad no puede tener más de 150 caracteres.',
+            'direccion.max' => 'La dirección no puede tener más de 200 caracteres.',
         ];
     }
 }
